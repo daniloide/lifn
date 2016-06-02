@@ -604,7 +604,7 @@ db.define_table('TipoDepartamento',
     Field('nombre', type = 'string',
           label = 'Nombre', unique=True, notnull=True),
     Field('region', db.TipoRegion,
-          label = 'Región', unique=True, notnull=True),
+          label = 'Región', unique=False, notnull=True),
     format='%(nombre)s'
 )
 
