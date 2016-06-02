@@ -1,0 +1,43 @@
+{{extend 'layout.html'}}
+{{response.files.insert(0,URL('static','js/jquery.js'))}}
+{{response.files.insert(1,URL('static','css/calendar.css'))}}
+{{response.files.insert(2,URL('static','js/calendar.js'))}}
+{{if logged_in:}}
+    {{=grid}}
+{{else:}}
+    {{session.showFooter = True}}
+    <div style="min-height: 400px;">
+    <p>LIFN es una aplicación web diseñada a medida desarrollada por InGeSur srl a través del Proyecto InBio para la Dirección General Forestal (Ministerio de Ganadería, Agricultura y Pesca de Uruguay) para el ingreso de datos obtenidos en campo del Inventario Forestal Nacional.</p>
+    <p>La intención de la misma es estandarizar y regularizar los datos ingresados en el Inventario Forestal Nacional para que sean ingresados luego en el Sistema de Seguimiento de los Recursos Forestales.</p>
+    <p>Se recomienda la visualización de la aplicación en las últimas versiones de los exploradores Google Chrome y Mozilla Firefox con una resolución superior a 1024 x 768.</p>
+    </div>
+{{pass}}
+<script>
+	$(document).ready(function(){
+        reloadTable('');
+        $("#searching").hide();
+    });
+
+    function reloadTable(search)
+    {
+    	$.ajax({
+              url: "/{{ =request.application }}/default/tablePunto?search="+search,
+              success: function(data) {
+                $("#table").html(data);
+                $("#searching").hide();
+              }
+            });
+    }
+
+    $('#search').keyup(function() {
+    	var search = $("#search").val();
+    	$("#searching").show();
+  		reloadTable(search);
+	});
+
+	$("#resetTable").click(function(){
+		$("#search").val('');
+		reloadTable('');
+	})
+</script>
+

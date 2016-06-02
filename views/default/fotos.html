@@ -1,0 +1,214 @@
+    {{extend 'layout.html'}}
+    <div class="custom-header">
+        <h2>Fotos</h2>
+    </div>
+    {{=form}}
+    <div>&nbsp;</div>
+    <div id="fotosContainer">
+        <div id="fotos">
+        </div>
+    </div>
+    <div class="modified" style="display: none">
+    </div>
+    <div id="dialog" title="Datos de la Imagen" style="display:none;">
+    </div>
+    <script src="{{=URL('static','js/tabsValidation.js')}}">
+    </script>
+    <script>
+        $(document).ready(function(){
+            reloadTable();
+        })
+
+        function reloadTable()
+        {
+            $.ajax({
+                url: "/{{ =request.application }}/default/tableFoto?m="+{{=session.muestreoId}},
+                success: function(data) {
+                    $("#fotos").html(data);
+                }
+            });
+        }
+
+        function createUploader(){
+            var uploader = new qq.FineUploader({
+                element: document.getElementById('fineUploader'),
+                request: {
+                    endpoint: '/{{ =request.application }}/default/saveImage'
+                },
+                multiple: false,
+                allowedExtensions: ['jpg','png', 'gif'],
+                text: {
+                    uploadButton: '<i class="icon-upload icon-white"></i> Subir archivo',
+                    cancelText: ' Cancelar',
+                    failUpload: ' El archivo no se puedo subir',
+                },
+                template: '<div class="qq-uploader">' +
+                '<!-- <pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre> -->' +
+                '<div class="qq-upload-button btn btn-success">{uploadButtonText}</div>' +
+                '<div class="qq-upload-list" style="float:left;"><ul class="qq-upload-list" style="margin-top: 10px; text-align: center;"></ul></div>' +
+                '</div>',
+                debug: true,
+                callbacks: {
+                    onComplete: function (id, fileName, result) {
+                        var fileName = result['fileName'];
+                        if (fileName != ''){
+                            $("#photoFileName").remove();
+                            $(":submit").before('<div id="photoFileName"><input type="text" name="foto" value=' + fileName + ' style="display:none;"></div>');
+                            $.getJSON('/{{ =request.application }}/default/processImage?fileName='+fileName, function(data) {
+                                var texto = 'La imagen no tiene datos de localización';
+                                if (data['res'] != 'None'){
+                                    texto = "Latitud: " + data['lat'] + ", longitud: " + data['lon'];
+                                    $("#Fotos_lat").val(data['lat']);
+                                    $("#Fotos_lon").val(data['lon']);
+                                }
+                                $("#dialog").html(texto);
+                                $("#dialog").show();
+                                $("#dialog").dialog({modal:true, height: 150, width: 415});
+                            }
+                            );
+                        }
+                    }
+                }
+            });
+    }
+    window.onload = createUploader;
+
+</script>
+
+<!-- tableFotos -->
+<link rel="stylesheet" href="{{ =URL('static','js/themes/base/jquery-ui.css') }}" type="text/css" media="screen" />
+<script type="text/javascript" src="{{=URL('static','js/ui/jquery-ui.js')}}"></script>
+<!-- Galleria -->
+<script type="text/javascript" src="{{=URL('static','js/galleria/galleria-1.3.5.min.js')}}"></script>
+<!-- Theme -->
+<script type="text/javascript" src="{{=URL('static','js/galleria/themes/classic/galleria.classic.min.js')}}"></script>
+<link rel="stylesheet" href="{{ =URL('static','js/galleria/themes/classic/galleria.classic.css') }}">
+
+<!-- deleteDialog -->
+<div id="deleteDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">Borrar archivo</h3>
+</div>
+<div class="modal-body">
+<p>
+Esta seguro que desea borrar este archivo?
+</p>
+</div>
+<div class="modal-footer">
+<button class="btn" role="dialog" onclick="deleteDialogCancel();">{{ =T('Cancel') }}</button>
+<button class="btn btn-primary" onclick="deleteDialogConfirm();">{{ =T('Confirm') }}</button>
+</div>
+</div>
+<!-- End deleteDialog -->
+
+<!-- deleteAllDialog -->
+<div id="deleteAllDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">Borrar todos los archivos</h3>
+</div>
+<div class="modal-body">
+<p>
+Esta seguro que desea borrar todos los archivos?
+</p>
+</div>
+<div class="modal-footer">
+<button class="btn" role="dialog" onclick="deleteAllDialogCancel();">{{ =T('Cancel') }}</button>
+<button class="btn btn-primary" onclick="deleteAllDialogConfirm();">{{ =T('Confirm') }}</button>
+</div>
+</div>
+<!-- End deleteAllDialog -->
+
+<style>
+.galleria{
+    width: 700px;
+    height: 500px;
+    background: #000;
+    top:0;
+    left:0;
+}
+</style>
+<style>
+body .modal#slideDialog {
+    width: 700px;
+    height: 500px;
+    /* place center */
+    margin-left:-350px;
+    margin-right:-250px;
+    top: 50%;
+    left: 50%;
+}
+</style>
+
+<!-- slideDialog -->
+<div id="slideDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="galleria">
+    </div>
+</div>
+<!-- End slideDialog -->
+
+
+<script>
+var fotoId=-1;
+var muestreoId=-1;
+
+function deleteFoto(id)
+{
+    fotoId=id;
+    $("#deleteDialog").modal('toggle');
+}
+
+function deleteDialogConfirm() {
+        $.ajax({
+            url: "/{{ =request.application }}/default/deleteFotos?field=id&val="+fotoId,
+            success: function(data) {
+                $("#deleteDialog").modal('toggle');
+                reloadTable();
+            }
+        });
+}
+
+function deleteDialogCancel() {
+    $("#deleteDialog").modal('toggle');
+}
+
+function deleteAllFoto(id)
+{
+    muestreoId=id;
+    $("#deleteAllDialog").modal('toggle');
+}
+
+function deleteAllDialogConfirm() {
+                $.ajax({
+                    url: "/{{ =request.application }}/default/deleteFotos?field=muestreo&val="+muestreoId,
+                    success: function(data) {
+                        $("#deleteAllDialog").modal('toggle');
+                        reloadTable();
+                        }
+                    });
+}
+
+function deleteAllDialogCancel() {
+    $("#deleteAllDialog").modal('toggle');
+}
+
+function viewAllFoto(id)
+{
+    $.ajax({
+        url: "/{{ =request.application }}/files/mImages.json",
+        type: "POST",
+        data: { muestreo:id },
+        dataType: "json",
+        success: function(data) {
+            // manualy load before
+            // Galleria.loadTheme("{{=URL('static','js/galleria/themes/classic/galleria.classic.min.js')}}");
+            Galleria.configure('imageCrop', true);
+            Galleria.configure('transition','fade');
+            Galleria.run('.galleria', { dataSource:data.rows } );
+            $("#slideDialog").modal('toggle');
+        }
+    });
+}
+</script>
+

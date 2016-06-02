@@ -1,0 +1,16 @@
+.. sectionauthor:: Fernando Pacheco <fernando.pacheco@ingesur.com.uy>   
+
+.. _manuales:
+
+*****************************
+Documentación de aplicaciones
+*****************************
+
+Este es el manual del usuario
+
+.. toctree::
+    :maxdepth: 1
+
+    manuals/apps/linfor.rst
+    manuals/apps/lifn.rst
+    manuals/apps/ifn.rst

@@ -1,0 +1,958 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Aplicación IFN &mdash; Documentación de aplicaciones de IFN</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="top" title="Documentación de aplicaciones de IFN" href="../../index.html" />
+    <link rel="up" title="Documentación de aplicaciones" href="../../manual.html" />
+    <link rel="next" title="Preguntas frecuentes" href="../../faq.html" />
+    <link rel="prev" title="Aplicación LIFN" href="lifn.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="../../faq.html" title="Preguntas frecuentes"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="lifn.html" title="Aplicación LIFN"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../../index.html">Documentación de aplicaciones de IFN</a> &raquo;</li>
+          <li><a href="../../manual.html" accesskey="U">Documentación de aplicaciones</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Contenidos</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Aplicación IFN</a><ul>
+<li><a class="reference internal" href="#conceptos-generales">Conceptos generales:</a></li>
+<li><a class="reference internal" href="#ejecucion">Ejecución</a></li>
+<li><a class="reference internal" href="#funcionalidades">Funcionalidades:</a><ul>
+<li><a class="reference internal" href="#carga-de-datos">Carga de Datos:</a></li>
+<li><a class="reference internal" href="#envio-de-datos">Envío de Datos:</a></li>
+<li><a class="reference internal" href="#visualizacion-de-archivos">Visualización de Archivos:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tema anterior</h4>
+  <p class="topless"><a href="lifn.html"
+                        title="Capítulo anterior">Aplicación LIFN</a></p>
+  <h4>Próximo tema</h4>
+  <p class="topless"><a href="../../faq.html"
+                        title="Próximo capítulo">Preguntas frecuentes</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Búsqueda rápida</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="aplicacion-ifn">
+<h1>Aplicación IFN<a class="headerlink" href="#aplicacion-ifn" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="conceptos-generales">
+<h2>Conceptos generales:<a class="headerlink" href="#conceptos-generales" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>IFN es una aplicación multiplataforma de escritorio desarrollada por <a class="reference external" href="http://www.ingesur.com.uy/">InGeSur srl</a>
+a través del <a class="reference external" href="http://www.inbio.org.uy/">Proyecto InBio</a> para el <a class="reference external" href="http://www.mgap.gub.uy/">Dirección General Forestal</a>
+(Ministerio de Ganadería, Agricultura y Pesca de Uruguay) para el proceso, administración y consulta de dato datos obtenidos en campo del Inventario Nacional Forestal.</p>
+<p>Fue desarrollada en <a class="reference external" href="http://www.python.org/">Python</a> utilizando el framework <a class="reference external" href="http://www.web2py.com/">Web2Py</a>-
+y puede ser utilizada en sistemas operativos Windows (XP, Vista y 7), GNU/Linux, Mac OSX, etc. y cualquier explorador moderno.</p>
+<p>La aplicación funciona en modo local (en una sola máquina) o en modo de red (puede ser accedida en red, desde varias máquinas) y
+permite que los usuarios registrados en el sistema (adminsitradores y usuarios) puedan ingresar a través de un navegador web la información obtenida en campo para el Inventario Forestal. Sobre esos datos, se realizan consultas, con salidas a gráfico, tablas y/o mapas. Además, permite la gestión de los envíos de punto de muestreo, y el ingreso de los datos relevados por la aplicación LIFN.</p>
+</div>
+<div class="section" id="ejecucion">
+<h2>Ejecución<a class="headerlink" href="#ejecucion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Para la ejecución de esta aplicación, debe entrar en un explorador web y redirigirlo a la dirección IP y puerto en donde se encuentra la aplicación IFN.
+Su dirección debería tener el siguiente formato:</p>
+<blockquote>
+<div><ul class="simple">
+<li>xxx.xxx.xx.x:xxxx/ifn/</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="funcionalidades">
+<h2>Funcionalidades:<a class="headerlink" href="#funcionalidades" title="Enlazar permanentemente con este título">¶</a></h2>
+<blockquote>
+<div></div></blockquote>
+<p>Para el ingreso del sistema, entrar a la dirección IP y puerto donde se encuentra la aplicación.</p>
+<p>Para ingresar, debe dirigirse a la esquina superior derecha, en donde se encuentra Login y ingresar en la opción de Login que se encuentra en el menú desplegable.</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/login1.png" style="width: 200px; height: 100px;" />
+</div>
+</div></blockquote>
+<p>Al hacer click en la opción de Login, se muestra una ventana con los campos necesarios para realizar el login. El usuario debe completarlos y luego hacer click en el botón Login.</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/loginDatos.png" style="width: 500px; height: 300px;" />
+</div>
+</div></blockquote>
+<p>Si sus datos son correctos, se ingresará al sistema. De lo contrario se le pedirá al usuario que corrija sus datos.</p>
+<blockquote>
+<div></div></blockquote>
+<p>En esta sección se detallan las categorías de consultas posibles, donde se pueden encontrar, como se realizan las consultas y que salidas tienen. Se trata de secciones (Suelo, Fauna, etc.) en donde se pueden realizar distintas consultas sobre los datos relevados por el inventario forestal nacional.</p>
+<p>A continuación se listan todas las categorías existentes con las consultas que pueden realizar cada una, además de los filtros que se pueden aplicar.
+Además de los filtros y agrupaciones posibles para cada una de las categorías, cada categoría cuenta con filtros de datos según año en que se realizó el muestreo, región, departamento y/o subcuenca en donde se encuentra el punto.</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<caption><strong>Bosque Nativo</strong>:</caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Nombre de la Consulta</td>
+<td>Definición</td>
+<td>Agrupado por</td>
+<td>Salidas</td>
+</tr>
+<tr class="row-even"><td>Abundancia Absoluta</td>
+<td>Número de individuos de la especie sobre el número de individuos totales</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-odd"><td>Abundancia Relativa</td>
+<td>Abundancia Absoluta de cierta especie sobre la sumatoria de Abundancias Absolutas de todas las especies, representada en porcentaje</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-even"><td>Frecuencia Absoluta</td>
+<td>Número de Puntos de Muestreo en que aparece cierta especie sobre el número total de puntos de muestreo</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia Relativa</td>
+<td>Frecuencia Absoluta de cierta especie sobre la sumatoria de Frecuencias Absolutas de todas las especies, representada en porcentaje</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-even"><td>Dominancia Absoluta</td>
+<td>Área Basal de la especie sobre la sumatoria de las áreas basales de las especies</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-odd"><td>Dominancia Relativa</td>
+<td>Dominancia Absoluta de cierta especie sobre la sumatoria de Dominancias Absolutas de todas las especies, representada en porcentaje</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-even"><td>Características Cualitativas Según Género y Especie</td>
+<td>Nombre de Género y Especie, altura, DAP promedio, área basal y volumen por altura total de todos los árboles de bosques nativos</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-odd"><td>IVI (Índice de Valor de Importancia)</td>
+<td>Cálculo del IVI (Abundancia Relativa + Frecuencia Relativa + Dominancia Relativa sobre 3) para cada Especie</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-even"><td>Lista de Puntos de Muestreos Nativos</td>
+<td>Listado de los nombres de puntos de muestreos en donde se encuentran bosques nativos</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-odd"><td>Lista de Especies Nativas Encontradas</td>
+<td>Listado de los nombres de las especies encontradas en los puntos</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-even"><td>Lista de Especies Nativas Encontradas Por Punto de Muestreo</td>
+<td>Listado de los nombres de las especies encontradas en los puntos según el punto de muestreo</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-odd"><td>Tabla de Existencias por Árbol</td>
+<td>Nombre del punto de muestreo, número de árbol, especie, DAP promedio, altura, área basal, área basal por hectárea, volúmen total, volúmen total llevado a la hectárea de todos los árboles</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-even"><td>Tabla de Existencias Promedio por Especie</td>
+<td>Especie, DAP promedio, altura, área basal, área basal por hectárea, volúmen total, volúmen total llevado a la hectárea de todos los árboles</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<caption><strong>Bosque Plantado</strong>:</caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Nombre de la Consulta</td>
+<td>Definición</td>
+<td>Agrupado por</td>
+<td>Salidas</td>
+</tr>
+<tr class="row-even"><td>Listado de Nombres de Parcelas con su Espesor</td>
+<td>Listado de todos los arboles mostrando el nombre de su punto, a la parcela que pertenecen, sus DAP y el espesor de corteza</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-odd"><td>Listado de Géneros y Especies Encontradas</td>
+<td>Listado de los géneros y especies encontradas en todos los bosques plantados</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-even"><td>Características Cualitativas</td>
+<td>Nombre del punto, especie, género, rango de edad, raleo, altura de poda, distancia entre filas, distancia entre árboles, adaptación de la especie, régimen, estado general.</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+<tr class="row-odd"><td>Tabla de Existencias</td>
+<td>Consulta que devuelve los valores correspondientes a áreas y volumenes ocupados según los bosques plantados. PARA REALIZAR ESTA CONSULTA SE DEBE SELECCIONAR UN FILTRO</td>
+<td>Según Árbol (cálculo para todos los árboles), Según Parcela (suma agrupando según la parcela en que se encuentren), Según Punto Muestreo (suma los resultados de un punto de muestreo), Expandido a la Hectárea por Parcela (lleva la consulta Según Parcela a la hectárea), Volúmen Total por Hectárea por Punto Muestral (lleva la consulta Según Punto Muestreo a la hectárea). Luego estos pueden ser agrupados por género plantado.</td>
+<td>Excel</td>
+</tr>
+<tr class="row-even"><td>Volúmen Total Promedio por Hectárea Según Género Plantado</td>
+<td>Listado de los géneros y especies encontradas en todos los bosques plantados</td>
+<td>Ninguno</td>
+<td>Excel</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<caption><strong>Forestación, Mantenimiento y Estructura</strong>:</caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Nombre de la Consulta</td>
+<td>Definición</td>
+<td>Agrupado por</td>
+<td>Salidas</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Origen de Plantación</td>
+<td>Es la cantidad de ocurrencias del origen de la plantación</td>
+<td>Según Género Plantado, Según Género y Especie</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Estructura</td>
+<td>Es la cantidad de ocurrencias de la esctructura de la plantación</td>
+<td>Según Género Plantado, Según Género y Especie</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Plan de Manejo</td>
+<td>Es la cantidad de ocurrencias de la plan de manejo en la  plantación</td>
+<td>Según Género Plantado, Según Género y Especie</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Grado de Intervención</td>
+<td>Es la cantidad de ocurrencias del grado de intervención en la  plantación</td>
+<td>Según Género Plantado, Según Género y Especie</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Destino de la Madera</td>
+<td>Es la cantidad de ocurrencias del destino de la madera en la  plantación</td>
+<td>Según Género Plantado, Según Género y Especie</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Manejo Silvicultural INTERMEDIO</td>
+<td>Es la cantidad de ocurrencias del Manejo Silvicultural INTERMEDIO en la  plantación</td>
+<td>Según Género Plantado, Según Género y Especie</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Tecnología de Explotación</td>
+<td>Es la cantidad de ocurrencias de la Tecnología de Explotación en la  plantación</td>
+<td>Según Género Plantado, Según Género y Especie</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<caption><strong>Productos No Madereros</strong>:</caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Nombre de la Consulta</td>
+<td>Definición</td>
+<td>Agrupado por</td>
+<td>Salidas</td>
+</tr>
+<tr class="row-even"><td>Tipo de Ganado</td>
+<td>Es la cantidad de ocurrencias del tipo de ganado en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Intensidad de Pastoreo</td>
+<td>Es la cantidad de ocurrencias de la Intensidad de Pastoreo en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Sistemas de Producción</td>
+<td>Es la cantidad de ocurrencias de los Sistemas de Producción en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Producción Apícola</td>
+<td>Es la cantidad de ocurrencias de la Producción Apícola en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Sombra</td>
+<td>Es la cantidad de ocurrencias de Sombra en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Rompe Vientos</td>
+<td>Es la cantidad de ocurrencias de Rompe Vientos en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Recolección de Hongos</td>
+<td>Es la cantidad de ocurrencias de Recolección de Hongos en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<caption><strong>Suelo</strong>:</caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Nombre de la Consulta</td>
+<td>Definición</td>
+<td>Agrupado por</td>
+<td>Salidas</td>
+</tr>
+<tr class="row-even"><td>Drenaje</td>
+<td>Es la cantidad de ocurrencias del drenaje en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Infiltración</td>
+<td>Es la cantidad de ocurrencias de la infiltración en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Impedimentos</td>
+<td>Es la cantidad de ocurrencias de Impedimentos en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Olor</td>
+<td>Es la cantidad de ocurrencias de Olor en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Humedad</td>
+<td>Es la cantidad de ocurrencias de Humedad en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Pedregosidad</td>
+<td>Es la cantidad de ocurrencias de Pedregosidad en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Micorrizas</td>
+<td>Es la cantidad de ocurrencias de Micorrizas en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia Fauna del Suelo</td>
+<td>Es la cantidad de ocurrencias de Fauna del Suelo en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia Raíces</td>
+<td>Es la cantidad de ocurrencias de Raíces en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia Uso de la Tierra</td>
+<td>Es la cantidad de ocurrencias de Uso de la Tierra en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia Uso previo del suelo</td>
+<td>Es la cantidad de ocurrencias de uso previo del suelo en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia Tipo de Labranza</td>
+<td>Es la cantidad de ocurrencias de tipo de Labranza en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia Grado de Erosión</td>
+<td>Es la cantidad de ocurrencias de Grado de Erosión en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia Tipo erosión</td>
+<td>Es la cantidad de ocurrencias de tipo erosión en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia Profundidad Primer Horizonte</td>
+<td>Es la cantidad de ocurrencias de profundidad Primer Horizonte en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia Profundidad Mantillo</td>
+<td>Es la cantidad de ocurrencias de profundidad Mantillo en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia Profundidad Humus</td>
+<td>Es la cantidad de ocurrencias de profundidad Humus en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia Color</td>
+<td>Es la cantidad de ocurrencias del Color en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia Textura</td>
+<td>Es la cantidad de ocurrencias de la Textura en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia Estructura Suelo</td>
+<td>Es la cantidad de ocurrencias de la estructura Suelo en los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<caption><strong>Fauna</strong>:</caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Nombre de la Consulta</td>
+<td>Definición</td>
+<td>Agrupado por</td>
+<td>Salidas</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Especie</td>
+<td>Es la cantidad de ocurrencias de una especie específica en todos los puntos de muestreo</td>
+<td>Ninguna</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Especie Según Parcela</td>
+<td>Es la cantidad de ocurrencias de una especie específica en cada punto de muestreo</td>
+<td>Ninguna</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Lista de Tipos Encontrados</td>
+<td>Listado de todos los tipos encontrados en los puntos de muestreo</td>
+<td>Ninguna</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Tipo</td>
+<td>Es la cantidad de ocurrencias de un tipo específico en todos los puntos de muestreo</td>
+<td>Ninguna</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Lista de Especies Encontradas</td>
+<td>Listado de todas las especies encontradas en los puntos de muestreo</td>
+<td>Ninguna</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<caption><strong>Cobertura Vegetal</strong>:</caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Nombre de la Consulta</td>
+<td>Definición</td>
+<td>Agrupado por</td>
+<td>Salidas</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Grados de Cobertura de Copas</td>
+<td>Es la cantidad de ocurrencias de Cobertura de Copas en todos los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Grados de Sotobosque</td>
+<td>Es la cantidad de ocurrencias de Sotobosque en todos los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Cobertura Herbácea</td>
+<td>Es la cantidad de ocurrencias de Cobertura Herbácea en todos los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<caption><strong>Agua</strong>:</caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Nombre de la Consulta</td>
+<td>Definición</td>
+<td>Agrupado por</td>
+<td>Salidas</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Tipo de Caudal</td>
+<td>Es la cantidad de ocurrencias de Tipo de Caudal en todos los puntos de muestreo</td>
+<td>Ninguna</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Manejo</td>
+<td>Es la cantidad de ocurrencias del Manejo en todos los puntos de muestreo</td>
+<td>Según Tipo de Caudal</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Agua</td>
+<td>Es la cantidad de ocurrencias del Manejo en todos los puntos de muestreo</td>
+<td>Según Tipo de Caudal, Según Manejo</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Acuacultura</td>
+<td>Es la cantidad de ocurrencias de Acuacultura en todos los puntos de muestreo</td>
+<td>Según Tipo de Caudal</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Grado de Contaminación</td>
+<td>Es la cantidad de ocurrencias del Grado de Contaminación en todos los puntos de muestreo</td>
+<td>Según Tipo de Caudal</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<caption><strong>Generalidades de los Bosques</strong>:</caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Nombre de la Consulta</td>
+<td>Definición</td>
+<td>Agrupado por</td>
+<td>Salidas</td>
+</tr>
+<tr class="row-even"><td>Altura Promedio</td>
+<td>Es el promedio de las alturas a las que se encuentran los puntos de muestreo</td>
+<td>Ninguna</td>
+<td>Ninguna</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Facilidad de Progresión</td>
+<td>Es la cantidad de ocurrencias de la Facilidad de Progresión en todos los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Adaptación</td>
+<td>Es la cantidad de ocurrencias de la Adaptación en todos los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Estado</td>
+<td>Es la cantidad de ocurrencias del Estado en todos los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Poda</td>
+<td>Es la cantidad de ocurrencias de la Poda en todos los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Raleo</td>
+<td>Es la cantidad de ocurrencias del Raleo en todos los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Edad</td>
+<td>Es la cantidad de ocurrencias de la Edad en todos los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Régimen</td>
+<td>Es la cantidad de ocurrencias del Régimen en todos los puntos de muestreo</td>
+<td>Según Género Plantado</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Información general de Parcelas</td>
+<td>Muestra el nombre del punto de muestreo, el género y la especie, latitud, longitud, propietario, predio, departamento y sus observaciones correspondientes</td>
+<td>Ninguna</td>
+<td>Ninguna</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<caption><strong>Relieve</strong>:</caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Nombre de la Consulta</td>
+<td>Definición</td>
+<td>Agrupado por</td>
+<td>Salidas</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Pendiente</td>
+<td>Es la cantidad de ocurrencias del porcentaje de la Pendiente en todos los puntos de muestreo</td>
+<td>Ninguna</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Exposición</td>
+<td>Es la cantidad de ocurrencias de la exposición en todos los puntos de muestreo</td>
+<td>Ninguna</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Forma de Pendiente</td>
+<td>Es la cantidad de ocurrencias de la forma de la pendiente en todos los puntos de muestreo</td>
+<td>Ninguna</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Ubicación</td>
+<td>Es la cantidad de ocurrencias de la ubicación en todos los puntos de muestreo</td>
+<td>Ninguna</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<caption><strong>Problemas Ambientales</strong>:</caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Nombre de la Consulta</td>
+<td>Definición</td>
+<td>Agrupado por</td>
+<td>Salidas</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Pobre Calidad del Agua</td>
+<td>Es la cantidad de ocurrencias de la pobre calidad del Agua en todos los puntos de muestreo</td>
+<td>Según Género Plantado, Según Tipo de Bosque</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Polución del Aire</td>
+<td>Es la cantidad de ocurrencias de la polución del aire en todos los puntos de muestreo</td>
+<td>Según Género Plantado, Según Tipo de Bosque</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Pérdida de Fertilidad</td>
+<td>Es la cantidad de ocurrencias de perdida de fertilidad en todos los puntos de muestreo</td>
+<td>Según Género Plantado, Según Tipo de Bosque</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-odd"><td>Frecuencia de Invasión de Especies</td>
+<td>Es la cantidad de ocurrencias de invasión de especies en todos los puntos de muestreo</td>
+<td>Según Género Plantado, Según Tipo de Bosque</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+<tr class="row-even"><td>Frecuencia de Presencia de Pesticidas</td>
+<td>Es la cantidad de ocurrencias de presencia de pesticidas en todos los puntos de muestreo</td>
+<td>Según Género Plantado, Según Tipo de Bosque</td>
+<td>Excel, Gráfico de torta o barra.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Para realizar consultas sobre la base de datos, debe primero seleccionar una categoría de las disponibles. Para ello, dirijase al menú desplegable debajo de la opción Consultas. A modo de ejemplo, seleccionaremos la categoría Suelo.</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/queries.png" style="width: 200px; height: 370px;" />
+</div>
+</div></blockquote>
+<dl class="docutils">
+<dt>Al seleccionar la categoría, se muestra la ventana correspondiente. Dentro de ella podremos ver:</dt>
+<dd><ul class="first simple">
+<li>Un menú desplegable con las posibles consultas de esta categoría</li>
+</ul>
+<div class="figure align-center">
+<img alt="login" src="../../_images/consultaCombo.png" style="width: 500px; height: 40px;" />
+</div>
+<ul class="simple">
+<li>Diferentes filtros que el usuario puede aplicar para que la consulta sea más específica</li>
+</ul>
+<div class="figure align-center">
+<img alt="login" src="../../_images/filtros.png" style="width: 500px; height: 40px;" />
+</div>
+<ul class="simple">
+<li>Opciones de agrupado de resultados</li>
+</ul>
+<div class="last figure align-center">
+<img alt="login" src="../../_images/agrupado.png" style="width: 160px; height: 20px;" />
+</div>
+</dd>
+</dl>
+<p>Para realizar una consulta, seleccionarla del menú desplegable y luego hacer click en consultar. Se realizará dicha consulta con los filtros seleccionados. A modo de ejemplo, se realizará la consulta de Frecuencia de Drenaje en el año 2010 en Durazno, según Género Plantado.</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/consulta.png" style="width: 749px; height: 406px;" />
+</div>
+</div></blockquote>
+<p>Como podemos ver, el resultado se muestra en una tabla en la misma ventana que nos encontramos, y el título de la consulta con los filtros aplicados se muestran arriba de la misma. En el caso de que los datos excedan el tamaño actual de la tabla, automáticamente se genera una paginación debajo de la tabla. Con ella, puede circular libremente por las páginas de resultados, además de configurar a través del menú desplegable la cantidad de filas que se muestran en la ventana principal. Además, se pueden ordenar las columnas de manera ascendente o descendente haciendo click en el nombre de la columna.</p>
+<dl class="docutils">
+<dt>A partir de estos resultados, podemos:</dt>
+<dd><ul class="first last simple">
+<li>Buscar un resultado en particular:</li>
+</ul>
+</dd>
+</dl>
+<p>Esta funcionalidad permite al usuario buscar datos específicos según distintos filtros. Para utilizar esta función, debe seleccionar en primer ícono que se encuentra en la tabla, en la parte inferior izquierda.</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/opciones.png" />
+</div>
+</div></blockquote>
+<p>Al hacer click en el ícono, se muestra el siguiente diálogo sobre la tabla:</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/busqueda.png" style="width: 574px; height: 228px;" />
+</div>
+</div></blockquote>
+<p>En dicha ventana, podemos filtrar los datos según condiciones impuestas por el usuario. Al seleccionar una columna, podemos imponer las condiciones listadas previamente, e ingresar un valor de filtro. Si se desea agregar mas filtros, se hace click en el botón con el símbolo de +.
+Luego para realizar la búsqueda, se hace click en Buscar.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Mostrar los resultados gráficamente:</li>
+</ul>
+</div></blockquote>
+<p>Esta funcionalidad permite visualizar los campos en un gráfico. Dependiendo de las cantidades de columnas que tenga la tabla es el tipo de gráfico que se muestra. En el caso de que el gráfico tenga dos columnas, se muestra una torta con los datos. Por otro lado, si tiene 3 columnas, se muestra un gráfico de barras.</p>
+<p>Para mostrar el gráfico, se hace click en el último botón que se encuentra en la tabla, en la parte inferior izquierda. Al hacer click, se levanta una ventana de diálogo y se muestra el gráfico.</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/grafico.png" />
+</div>
+</div></blockquote>
+<p>Para descargar la imagen, se hacer click en guardar y se despliega una ventana con la opción de guardar la imagen o abrirla.
+Para cerrar el gráfico se puede apretar la tecla Esc o hacer click en Cancelar.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Exportar los resultados a formato excel</li>
+</ul>
+</div></blockquote>
+<p>Esta funcionalidad permite exportar los datos de la tabla a una planilla excel. Para descargar la planilla excel, hacer click en el botón Exportar, en la parte inferior izquierda de la tabla.</p>
+<p>Luego de hacer click en dicho botón, se despliega una ventana con la opción de guardar la imagen o abrirla.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Mostrar los resultados georeferenciados</li>
+</ul>
+</div></blockquote>
+<div class="section" id="carga-de-datos">
+<h3>Carga de Datos:<a class="headerlink" href="#carga-de-datos" title="Enlazar permanentemente con este título">¶</a></h3>
+<blockquote>
+<div><p>Para recibir los datos de la aplicación LIFN y cargarlos al sistema, nos dirijimos al menú desplegable del Administrador, y hacemos click en la opción Cargar Datos.</p>
+<p>Al hacerlo, se mostrará la siguiente ventana:</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/carga.png" />
+</div>
+</div></blockquote>
+<p>Para cargar los datos, se necesita previamente el archivo .zip generado por la aplicación LIFN. Hacemos click en Buscar..., y buscamos este archivo en nuestro sistema operativo. Lo seleccionamos y hacemos click en Aceptar. Podremos ver que la ruta del archivo aparece en el campo de texto.</p>
+<p>Luego de realizar esto, hacemos click en Subir. Al hacer esto, el programa comenzará a insertar los datos en la base de datos. Cuando finalice, los datos ingresados ya estarán disponibles para consultar.</p>
+</div></blockquote>
+</div>
+<div class="section" id="envio-de-datos">
+<h3>Envío de Datos:<a class="headerlink" href="#envio-de-datos" title="Enlazar permanentemente con este título">¶</a></h3>
+<blockquote>
+<div><p>En esta sección, se detalla como utilizar la aplicación para generar los datos para la entrega de puntos de muestreos a las empresas o personas físicas que van a realizarlos. Para hacerlo, nos dirijimos al menú desplegable del Administrador, y hacemos click en la opción Enviar Datos.</p>
+<blockquote>
+<div><p>Al hacerlo, se mostrará la siguiente ventana:</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/envio.png" style="width: 720px; height: 333px;" />
+</div>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<p>En ella, podemos ver que tenemos diferentes filtros para la selección de puntos de muestreos. Podemos filtrar los puntos por subcuenca y por el nombre. Para hacerlo, seleccionamos la subcuenca a la cual pertenece el punto, además de poder escribir con que empieza el nombre del punto. Luego de eso, hacemos click en ver, y en el panel adyacente se cargan los puntos. Para seleccionar aquellos puntos que queremos mandar podemos:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Seleccionar un punto o multiples puntos (para hacerlo, mantenemos apretado la tecla Ctrl y clickeamos los puntos que deseemos seleccionar) del panel de la izquierda y con el botón =&gt; pasamos esos puntos al panel de la derecha.</li>
+<li>Para cancelar algún punto que seleccionamos por error, lo seleccionamos del panel de la derecha y con el botón &lt;= pasa a estar en el panel de la izquierda.</li>
+<li>Para pasar todos los puntos, hacemos click en el botn &gt;&gt;</li>
+<li>Para cancelar todos los puntos, hacemos click en el botón &lt;&lt;</li>
+</ul>
+</div></blockquote>
+<p>Luego de haber seleccionado los puntos, debemos escribir el nombre de la empresa o persona física que realizará el muestreo, además del año en que se realizará. Recuerde que solo se enviarán los puntos que se encuentren en el panel de la derecha.</p>
+<p>Por último, hacemos click en Guardar. Al hacerlo, se despliega un diálogo para la descarga de un archivo .xml, el cual debe ser entregado a quien realizará el muestreo para luego ser ingresado en su aplicación.</p>
+<p>Una vez que esos puntos fueron enviados, desaparecen del panel de puntos, y no reaparecen hasta ser devueltos por la empresa.</p>
+</div>
+<div class="section" id="visualizacion-de-archivos">
+<h3>Visualización de Archivos:<a class="headerlink" href="#visualizacion-de-archivos" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En esta sección se mostrará como se pueden visualizar las fotos y los tracks relevados en campo. Estos archivos se encuentran en el .zip generado por la aplicación de relevamiento de datos. Estos datos con subidos a través de la sección <strong>Carga de Datos</strong>, y son guardados en el disco en donde se encuentra alojada la aplicación.</p>
+<p>Para visualizar las fotos relevadas, nos dirigimos a la sección de Media, en el menú superior de la aplicación. Allí, seleccionamos la opción Fotos.
+Esto nos redirije a la siguiente pantalla:</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/fotos.png" style="width: 720px; height: 333px;" />
+</div>
+</div></blockquote>
+<dl class="docutils">
+<dt>En esta pantalla, debemos seleccionar los muestreos de los cuales hay fotos para observar. Para ello, tenemos varios filtros que podemos utilizar para seleccionar los muestreos. Estos son:</dt>
+<dd><ul class="first last simple">
+<li>Puntos que empiece por el texto ingresados.</li>
+<li>Año del muestreos.</li>
+<li>La Empresa que realizó el muestreo.</li>
+</ul>
+</dd>
+</dl>
+<p>Luego de seleccionar las opciones de los filtros, (si se desea mostrar todos los puntos se selecciona la opción &#8220;Todos&#8221;) se hace click en Seleccionar. Esto carga aquellos puntos que cumplan con los filtros seleccionados. Luego de ello, debemos seleccionar los muestreos de los cuales deseamos ver sus fotos. Para ello:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Seleccionar un muestreo o multiples muestreo (para hacerlo, mantenemos apretado la tecla Ctrl y clickeamos los muestreo que deseemos seleccionar) del panel de la izquierda y con el botón =&gt; pasamos esos muestreo al panel de la derecha.</li>
+<li>Para cancelar algún muestreo que seleccionamos por error, lo seleccionamos del panel de la derecha y con el botón &lt;= pasa a estar en el panel de la izquierda.</li>
+<li>Para pasar todos los muestreos, hacemos click en el botn &gt;&gt;</li>
+<li>Para cancelar todos los muestreos, hacemos click en el botón &lt;&lt;</li>
+</ul>
+</div></blockquote>
+<p>Luego de tener los muestreos, hacemos click en Ver. Esto nos lleva a la siguiente página:</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/galleria.png" style="width: 720px; height: 500px;" />
+</div>
+</div></blockquote>
+<p>Con esta interfaz, podemos visualizar las imágenes de los puntos de muestreo seleccionados. Podemos desplazarnos entre fotos con los botones laterales a las imágenes. Además, podemos visualizar la información de la imágen haciendo click en el ícono que se encuentra en la parte superior izquierda de la imágen. Ahí, se muestra el nombre del punto de muestreo, el año en que se realizó, su latitud y longitud, y la descripción que se le anotó.</p>
+<p>Para visualizar los tracks relevados, nos dirigimos a la sección de Media, en el menú superior de la aplicación. Allí, seleccionamos la opción Tracks.
+Esto nos redirije a la siguiente pantalla:</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/tracks.png" style="width: 720px; height: 333px;" />
+</div>
+</div></blockquote>
+<dl class="docutils">
+<dt>En esta pantalla, debemos seleccionar los muestreos de los cuales hay tracks para observar. Para ello, tenemos varios filtros que podemos utilizar para seleccionar los muestreos. Estos son:</dt>
+<dd><ul class="first last simple">
+<li>Puntos que empiece por el texto ingresados.</li>
+<li>Año del muestreos.</li>
+<li>La Empresa que realizó el muestreo.</li>
+</ul>
+</dd>
+</dl>
+<p>Luego de seleccionar las opciones de los filtros, (si se desea mostrar todos los puntos se selecciona la opción &#8220;Todos&#8221;) se hace click en Seleccionar. Esto carga aquellos puntos que cumplan con los filtros seleccionados. Luego de ello, debemos seleccionar los muestreos de los cuales deseamos ver sus tracks. Para ello:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Seleccionar un muestreo o multiples muestreo (para hacerlo, mantenemos apretado la tecla Ctrl y clickeamos los muestreo que deseemos seleccionar) del panel de la izquierda y con el botón =&gt; pasamos esos muestreo al panel de la derecha.</li>
+<li>Para cancelar algún muestreo que seleccionamos por error, lo seleccionamos del panel de la derecha y con el botón &lt;= pasa a estar en el panel de la izquierda.</li>
+<li>Para pasar todos los muestreos, hacemos click en el botn &gt;&gt;</li>
+<li>Para cancelar todos los muestreos, hacemos click en el botón &lt;&lt;</li>
+</ul>
+</div></blockquote>
+<p>Luego de tener los muestreos, hacemos click en Ver. Esto nos lleva a la siguiente página:</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="login" src="../../_images/galleriaTracks.png" style="width: 720px; height: 500px;" />
+</div>
+</div></blockquote>
+<p>Aquí se listan todos los archivos de tracks relacionados con los puntos de muestreos seleccionados previamente. Para descargar cierto archivo, solo basta con hacer click sobre el hipervínculo de Descargar, y la descarga comenzará inmediatamente.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="../../faq.html" title="Preguntas frecuentes"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="lifn.html" title="Aplicación LIFN"
+             >anterior</a> |</li>
+        <li><a href="../../index.html">Documentación de aplicaciones de IFN</a> &raquo;</li>
+          <li><a href="../../manual.html" >Documentación de aplicaciones</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, InGeSur srl.
+    </div>
+  </body>
+</html>

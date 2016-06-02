@@ -1,0 +1,217 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Aplicación LInFor &mdash; Documentación de aplicaciones de IFN</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="top" title="Documentación de aplicaciones de IFN" href="../../index.html" />
+    <link rel="up" title="Documentación de aplicaciones" href="../../manual.html" />
+    <link rel="next" title="Aplicación LIFN" href="lifn.html" />
+    <link rel="prev" title="Documentación de aplicaciones" href="../../manual.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="lifn.html" title="Aplicación LIFN"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="../../manual.html" title="Documentación de aplicaciones"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../../index.html">Documentación de aplicaciones de IFN</a> &raquo;</li>
+          <li><a href="../../manual.html" accesskey="U">Documentación de aplicaciones</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Contenidos</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Aplicación LInFor</a><ul>
+<li><a class="reference internal" href="#conceptos-generales">Conceptos generales</a></li>
+<li><a class="reference internal" href="#instalacion">Instalación</a></li>
+<li><a class="reference internal" href="#ejecucion">Ejecución</a><ul>
+<li><a class="reference internal" href="#modo-local">Modo local</a></li>
+<li><a class="reference internal" href="#modo-de-red">Modo de red</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tema anterior</h4>
+  <p class="topless"><a href="../../manual.html"
+                        title="Capítulo anterior">Documentación de aplicaciones</a></p>
+  <h4>Próximo tema</h4>
+  <p class="topless"><a href="lifn.html"
+                        title="Próximo capítulo">Aplicación LIFN</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Búsqueda rápida</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="aplicacion-linfor">
+<h1>Aplicación LInFor<a class="headerlink" href="#aplicacion-linfor" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">La última versión de la aplicación puede descargarse desde la página de la
+Dirección General Forestal en la sección
+<a class="reference external" href="http://www.mgap.gub.uy/portal/hgxpp001.aspx?7,20,492,O,S,0,MNU;E;2;15;125;3;MNU;,">cual!!!!</a>.</p>
+</div>
+<div class="section" id="conceptos-generales">
+<h2>Conceptos generales<a class="headerlink" href="#conceptos-generales" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>LInFor es una aplicación multiplataforma de escritorio desarrollada por <a class="reference external" href="http://www.ingesur.com.uy/">InGeSur srl</a>
+a través del <a class="reference external" href="http://www.inbio.org.uy/">Proyecto InBio</a> para el <a class="reference external" href="http://www.mgap.gub.uy/">Dirección General Forestal</a>
+(Ministerio de Ganadería, Agricultura y Pesca de Uruguay) para el ingreso de datos obtenidos en campo del Inventario Nacional Forestal.</p>
+<p>Fue desarrollada con <a class="reference external" href="http://www.pyside.org/">PySide</a> -es decir, en <a class="reference external" href="http://www.python.org/">Python</a> utilizando <a class="reference external" href="http://www.qt-project.org/">Qt</a>-
+y puede ser utilizada en sistemas operativos Windows (XP, Vista y 7), GNU/Linux, Mac OSX, etc.</p>
+<p>Contiene un servidor web liviano y efeiciente denominado <a class="reference external" href="http://packages.python.org/rocket/">Rocket</a> y una aplicación web diseñada a medida denominada LIFN.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Si desea mas información acerca de esa apliación LIFN consulte <a class="reference internal" href="lifn.html"><em>Aplicación LIFN</em></a>.</p>
+</div>
+<p>La aplicación funciona en modo local (en una sola máquina) o en modo de red (pude ser accedida en red, desde varias máquinas) y
+permite que los usuarios registrados en el sistema (1 adminsitrador y varios usuarios) puedan ingresar -desde una o varias computadoras-
+a través de un navegador web la información obtenida en campo para el Inventario Forestal.</p>
+<p>Luego que se completa toda la información requerida cada punto de muestreo es enviado a través
+de la web o por medio magnético para que sea validada e ingresada al sistema de seguimiento de
+recursos forestales (IFN).</p>
+</div>
+<div class="section" id="instalacion">
+<h2>Instalación<a class="headerlink" href="#instalacion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>LInFor es una aplicación que no requiere instalación y se distribuye como un archivo comprimido <strong>linfor.zip</strong>.</p>
+<p>Para comenzar a utilizar la aplicación descargue la versión mas reciente desde la página de la Dirección General Forestal.
+Descomprima el archivo descargado <strong>linfor.zip</strong> a una carpeta en su disco duro donde Ud. tenga permiso de escritura.</p>
+<div class="figure align-center">
+<img alt="Ventana de propiedades de la aplicación" src="../../_images/linfor_propwindow.png" style="width: 297px; height: 137px;" />
+<p class="caption">Descompresión de archivo de distribución de LInFor</p>
+</div>
+</div>
+<div class="section" id="ejecucion">
+<h2>Ejecución<a class="headerlink" href="#ejecucion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ejecute la aplicación haciendo doble click en el archivo ejecutable <strong>linfor.exe</strong>
+desde el explorador de archivos.</p>
+<blockquote>
+<div><div class="figure align-center">
+<img alt="Ventana de propiedades de la aplicación" src="../../_images/linfor_propwindow.png" style="width: 297px; height: 137px;" />
+<p class="caption">Imagen del explorador de archivos</p>
+</div>
+</div></blockquote>
+<p>En la primera ejecución la aplicación generará nuevas subcarpetas y decomprimirá otros
+archivos requeridos para su correcto funcionamiento. Inmediatamente despúes aparecerá
+la ventana de propiedades (ver figura siguiente).</p>
+<div class="figure align-center">
+<img alt="Ventana de propiedades de la aplicación" src="../../_images/linfor_propwindow.png" style="width: 297px; height: 137px;" />
+<p class="caption">Ventana de propiedades de la aplicación</p>
+</div>
+<p>En esa ventana Ud. deberá ingresar los valores deseados para la ejecución del servidor web Rocket:</p>
+<blockquote>
+<div><ul class="simple">
+<li>dirección IP;</li>
+<li>puerto.</li>
+</ul>
+</div></blockquote>
+<p>La aplicación mostrará las direcciones IP (IPv4) de todas las interfaces de red que encuentre y la dirección IP local
+(usualmente 127.0.0.1).</p>
+<p>En rango de valores válidos para los puertos se encuentra entre 8000 y 9000 (alguna combinación de direccion IP y puerto
+puede estar siendo utilzado por otra aplicación).</p>
+<div class="custom-note container">
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><img alt="Ventana de propiedades de la aplicación" class="first last align-center" src="../../_images/linfor_propwindow.png" style="width: 297px; height: 137px;" />
+</td>
+<td>Solo puede existir una instancia de la apicación en
+ejecución por lo que Ud. recibirá un mensaje de error
+como se muestra en la figura siguiente si trata de
+ejecutarla por segunda vez.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="modo-local">
+<h3>Modo local<a class="headerlink" href="#modo-local" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si Ud. desea ejecutar la aplicación en modo local (es decir, solo se admitirán conexiones web desde la propia máquina)
+seleccione una dirección IP local (127.0.0.1).</p>
+</div>
+<div class="section" id="modo-de-red">
+<h3>Modo de red<a class="headerlink" href="#modo-de-red" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si Ud. desea cargar datos desde varias máquinas al mismo tiempo (posiblemente con usuarios distintos y tal vez con sistemas operativos diferentes)
+ejecute la aplicación en el modo de red. En ese caso, seleccione una dirección IP distinta a la 127.0.0.1 y un puerto.</p>
+<p>Indíquele a los demás usuarios la dirección IP seleccionada (que esta en la misma red de la de ellos) y el puerto. Los usuarios remotos
+deberán abrir una ventana del navegador web (Internet Explorer, Firefox, Chrome, Opera, etc.) y escribir la URL (<cite>http://IP:puerto</cite>).</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="lifn.html" title="Aplicación LIFN"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="../../manual.html" title="Documentación de aplicaciones"
+             >anterior</a> |</li>
+        <li><a href="../../index.html">Documentación de aplicaciones de IFN</a> &raquo;</li>
+          <li><a href="../../manual.html" >Documentación de aplicaciones</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, InGeSur srl.
+    </div>
+  </body>
+</html>

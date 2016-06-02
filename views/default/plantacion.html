@@ -1,0 +1,187 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Plantación</h2>
+</div>
+{{=form}}
+<div class="modified" style="display: none"></div>
+<script src="{{=URL('static','js/tabsValidation.js')}}"></script>
+<script>
+    $("#Plantacion_genero").change(function() {
+        var idPlant = $("#Plantacion_genero").val();
+        if (idPlant == ""){
+            $("#Plantacion_especie").prop("disabled", true);
+            $("#Plantacion_especie").html("");
+        } else {
+            $("#Plantacion_especie").prop("disabled", false);
+            var request = $.getJSON("/{{=request.application}}/default/subSelectDataPlantacion?id="+idPlant, function(data){
+                $("#Plantacion_especie").html("");
+                var options = {};
+                $.each(data, function(key, val) {
+                    $("#Plantacion_especie").append("<option value=" + key + ">" + val + "</option>");
+                });      
+            });
+        }
+    });
+    
+    $("#Plantacion_distanciaFila").focusout(function(){
+        if ($("#Plantacion_distanciaFila").val() != ''){
+           if($("#Plantacion_parcelaRegular").is(":checked")){
+                if ($("#Plantacion_distanciaEntreFila").val() != ''){
+                    var distFila = parseFloat($("#Plantacion_distanciaFila").val());
+                    var distEntreFila = parseFloat($("#Plantacion_distanciaEntreFila").val());
+                    var densidad = calcD(distFila, distEntreFila, 0, 0);       
+                    $("#densidad").val(densidad);
+                }        
+            } else {
+                if ($("#Plantacion_distanciaEntreFila").val() != '' && $("#cantFilas").val() != '' && $("#distSilvo").val() != ''){
+                    var distFila = parseFloat($("#Plantacion_distanciaFila").val());
+                    var distEntreFila = parseFloat($("#Plantacion_distanciaEntreFila").val());
+                    var cantFilas = parseInt($("#cantFilas").val());
+                    var distSilvo = parseFloat($("#distSilvo").val());
+                    var densidad = calcD(distFila, distEntreFila, cantFilas, distSilvo);      
+                    $("#densidad").val(densidad);
+                }
+            }
+        }
+    });
+    
+    $("#Plantacion_distanciaEntreFila").focusout(function(){
+        if ($("#Plantacion_distanciaEntreFila").val() != ''){
+            if($("#Plantacion_parcelaRegular").is(":checked")){
+                if ($("#Plantacion_distanciaFila").val() != ''){
+                    var distFila = parseFloat($("#Plantacion_distanciaFila").val());
+                    var distEntreFila = parseFloat($("#Plantacion_distanciaEntreFila").val());
+                    var densidad = calcD(distFila, distEntreFila, 0, 0);   
+                    $("#densidad").val(densidad);
+                }        
+            } else {
+                if ($("#Plantacion_distanciaFila").val() != '' && $("#cantFilas").val() != '' && $("#distSilvo").val() != ''){
+                    var distFila = parseFloat($("#Plantacion_distanciaFila").val());
+                    var distEntreFila = parseFloat($("#Plantacion_distanciaEntreFila").val());
+                    var cantFilas = parseInt($("#cantFilas").val());
+                    var distSilvo = parseFloat($("#distSilvo").val());
+                    var densidad = calcD(distFila, distEntreFila, cantFilas, distSilvo);     
+                    $("#densidad").val(densidad);
+                }
+            }
+        }
+    });
+    $("#cantFilas").focusout(function(){
+        if ($("#cantFilas").val() != ''){
+            if($("#Plantacion_parcelaRegular").is(":checked")){
+                if ($("#Plantacion_distanciaEntreFila").val() != ''){
+                    var distFila = parseFloat($("#Plantacion_distanciaFila").val());
+                    var distEntreFila = parseFloat($("#Plantacion_distanciaEntreFila").val());
+                    var densidad = calcD(distFila, distEntreFila, 0, 0);      
+                    $("#densidad").val(densidad);
+                }        
+            } else {
+                if ($("#Plantacion_distanciaEntreFila").val() != '' && $("#Plantacion_distanciaFila").val() != '' && $("#distSilvo").val() != ''){
+                    var distFila = parseFloat($("#Plantacion_distanciaFila").val());
+                    var distEntreFila = parseFloat($("#Plantacion_distanciaEntreFila").val());
+                    var cantFilas = parseInt($("#cantFilas").val());
+                    var distSilvo = parseFloat($("#distSilvo").val());
+                    var densidad = calcD(distFila, distEntreFila, cantFilas, distSilvo);      
+                    $("#densidad").val(densidad);
+                }
+            }
+        }
+    });
+    $("#distSilvo").focusout(function(){
+        if ($("#distSilvo").val() != ''){
+            if($("#Plantacion_parcelaRegular").is(":checked")){
+                if ($("#Plantacion_distanciaEntreFila").val() != ''){
+                    var distFila = parseFloat($("#Plantacion_distanciaFila").val());
+                    var distEntreFila = parseFloat($("#Plantacion_distanciaEntreFila").val());
+                    var densidad = calcD(distFila, distEntreFila, 0, 0);       
+                    $("#densidad").val(densidad);
+                }        
+            } else {
+                if ($("#Plantacion_distanciaEntreFila").val() != '' && $("#cantFilas").val() != '' && $("#Plantacion_distanciaFila").val() != ''){
+                    var distFila = parseFloat($("#Plantacion_distanciaFila").val());
+                    var distEntreFila = parseFloat($("#Plantacion_distanciaEntreFila").val());
+                    var cantFilas = parseInt($("#cantFilas").val());
+                    var distSilvo = parseFloat($("#distSilvo").val());
+                    //var densidad = distFila * distEntreFila; 
+                    var densidad = calcD(distFila, distEntreFila, cantFilas, distSilvo);
+                    $("#densidad").val(densidad);
+                }
+            }
+        }
+    });
+
+    function calcD(distFila, distEntreFila, cantFilas, distSilvo){
+        if (cantFilas != 0 && distSilvo != 0){
+            var x = 100 / distEntreFila;
+            var y = 100 / (distSilvo + distFila * (cantFilas -1));
+            return ( x * cantFilas * y);
+        } else {
+            return ( 10000 / (distFila * distEntreFila));
+        }
+    }
+
+    $(document).ready(function(){
+        init();
+    });
+
+    function init()
+    {
+        $("#toggle-button-div-parcelaR").attr("data-toggle","buttons-radio");
+        $("#toggle-button-div-poda").attr("data-toggle","buttons-radio");
+        $("#Plantacion_tienePoda__row").hide();
+        $("#Plantacion_parcelaRegular__row").hide();
+        firstCheck();
+    }
+
+    function firstCheck()
+    {
+        if($("#Plantacion_parcelaRegular").is(":checked"))
+        {
+            $("#parcelaR-Si").toggleClass("active");
+            $(".irregular").hide();
+            $("#cantFilas").val("");
+            $("#distSilvo").val("");
+        }
+        else
+        {
+            $(".irregular").show();
+            $("#parcelaR-No").toggleClass("active");
+        }
+        if($("#Plantacion_tienePoda").is(":checked"))
+        {
+            $("#poda-Si").toggleClass("active");
+        }
+        else
+        {
+            $("#poda-No").toggleClass("active");
+        }
+    }
+
+    function changeRadio(value)
+    {
+        if (value == 1){
+            $("#Plantacion_parcelaRegular").attr("checked", "checked"); 
+            $(".irregular").hide();
+            $("#cantFilas").val("");
+            $("#distSilvo").val("");
+        }
+        else
+        {
+             $("#Plantacion_parcelaRegular").removeAttr("checked");
+             $(".irregular").show();
+        }
+    }
+
+    function changePodaRadio(value)
+    {
+        if (value == 1){
+            $("#Plantacion_tienePoda").attr("checked", "checked"); 
+        }
+        else
+        {
+             $("#Plantacion_tienePoda").removeAttr("checked");
+        }
+    }
+
+    
+</script>

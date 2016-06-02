@@ -1,0 +1,51 @@
+{{=divNoAsignados}}
+{{=divEstadisticas}}
+<div id = "jqgridUsuariosConectados"></div>
+<script>
+  $(document).ready(function() {
+        if($("#puntosNoAsignados").get(0)){
+            var newUrl = "/{{=request.application}}/default/puntosSinAsignar";
+            jQuery("#puntosNoAsignados").jqGrid({
+                url: newUrl,
+                datatype: "json",
+                loadonce: true,
+                colNames:['Nombre', 'Año'], 
+                colModel: [
+                            {'name': 'nombre', 'index': 'nombre', 'stype':'text', 'align':'center', 'width' : 200},
+                            {'name': 'asignados', 'index': 'asignados', 'search':false, 'align':'center', 'width':190 , 'resizable': false, 'sortable': false},
+                        ], 
+                jsonReader : {
+                  root:"rows",
+                  cell: "cell"
+                },
+                sortname: "nombre",
+                sortorder: "asc",
+                rowNum:20, 
+                autowidth: false,
+                shrinkToFit: false,
+                width: 440,
+                height: 150,
+                rowList:[10,20,30], 
+                pager: '#puntosNoAsignadosNavGrid', 
+                viewrecords: true, 
+                caption:"Puntos sin asignar:" 
+            }).navGrid('#puntosNoAsignadosNavGrid',{edit:false,add:false,del:false});
+            $("#puntosNoAsignadosNavGrid_center").removeAttr("style");
+        }
+
+        $.ajax({
+              url: "/{{=request.application}}/default/loggedUsers",
+              success: function(data) {
+                    $("#jqgridUsuariosConectados").html(data);
+              }
+        });
+        setInterval(function() {
+            $.ajax({
+              url: "/{{=request.application}}/default/loggedUsers",
+              success: function(data) {
+                    $("#jqgridUsuariosConectados").html(data);
+              }
+            });
+        }, 60000);
+   });
+</script>

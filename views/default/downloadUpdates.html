@@ -1,0 +1,14 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Actualización de datos</h2>
+</div>
+    {{if not empty:}}
+        {{if executed and not error:}}
+            <p>Se han realizado las actualizaciones.</p>
+        {{else:}}
+            <p>Ha ocurrido un error al actualizar.</p>
+        {{pass}}
+    {{else:}}
+        <p>No hay actualizaciones para realizar.</p>
+    {{pass}}
+</div>

@@ -1,0 +1,170 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Agua</h2>
+</div>
+<table>
+    <tr id="TieneDatos_tieneAgua__row">
+        <td class="w2p_fl">
+            <label id="TieneDatos_tieneAgua__label" for="TieneDatos_tieneAgua">Presencia: </label>
+        </td>
+        <td class="w2p_fw">
+            <div id="toggle-button-div-TieneDatos-tieneAgua" class="btn-group" data-toggle="buttons-radio">
+                <input id="TieneDatos_tieneAgua" class="boolean" type="checkbox" style="display:none;" name="tieneAgua">
+                {{if agua:}}
+                    <div class="btn-group" data-toggle="buttons-radio">
+                        <button id="haveDataYes" type="button" class="toggle-btn btn active">{{ =T('Yes')}}</button>
+                        <button id="haveDataNo" type="button" class="toggle-btn btn">{{ =T('No')}}</button>
+                    </div>
+                {{else:}}
+                    <div class="btn-group" data-toggle="buttons-radio">
+                        <button id="haveDataYes" type="button" class="toggle-btn btn">{{ =T('Yes')}}</button>
+                        <button id="haveDataNo" type="button" class="toggle-btn btn active">{{ =T('No')}}</button>
+                    </div>
+                {{pass}}
+            </div>
+        </td>
+        <td class="w2p_fc"></td>
+    </tr>
+</table>
+<img id="progressbar" src="{{=URL('static', 'images/progressbar.gif')}}" alt="Cargando..." style="display: none;"></img>
+{{if agua:}}
+    {{=form}}
+{{pass}}
+<div class="modified" style="display: none"></div>
+
+<!-- undoDialog -->
+<div id="undoDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Deshacer</h3>
+    </div>
+    <div class="modal-body">
+        <p>
+          Si acepta, se borraran todos los datos de Agua para este muestreo y
+          se regresara a la pantalla anterior. Desea continuar?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" role="dialog" onclick="undoDialogCancel();">{{ =T('Cancel') }}</button>
+        <button class="btn btn-primary" onclick="undoDialogConfirm();">{{ =T('Confirm') }}</button>
+    </div>
+</div>
+<!-- End undoDialog -->
+
+<div id="isUpdate" style="display: none">{{=update}}</div>
+<script src="{{=URL('static','js/tabsValidation.js')}}"></script>
+<script>
+    var rows = [];
+    $(document).ready(function(){
+        getIds();
+        $("#Agua_tipoCaudal option:selected").each(function () {
+                $("[id=row"+$(this).val()+"]").show();
+                $("[id=row"+$(this).val()+"Dist]").show();
+            });
+
+    });
+
+    function undoDialogConfirm() {
+        $.ajax({
+            url: '/{{=request.application}}/default/undoAgua',
+            success: function(data) {
+                location.reload();
+            }
+        });
+    }
+
+    function undoDialogCancel() {
+        $("#undoDialog").modal('toggle');
+    }
+
+    $("#haveDataYes").click(function(){
+        if ( $("#haveDataYes").hasClass("active")==true ) {
+            /* Nothing */
+        } else {
+            $("#progressbar").show();
+            $.ajax({
+            url: '/{{=request.application}}/default/siPresenciaAgua',
+            success: function(data) {
+                location.reload();
+            }
+            });
+        }
+    })
+
+    $("#haveDataNo").click(function(event) {
+            event.stopPropagation();
+            if ( $("#haveDataNo").hasClass("active")==true ) {
+                /* Nothing */
+            } else {
+                $("#undoDialog").modal('toggle');
+            }
+    })
+
+/*
+    $("#undo").click(function(){
+        $.ajax({
+          url: '/{{=request.application}}/default/undoAgua',
+          success: function(data) {
+            location.reload();
+          }
+        });
+    })
+
+    $("#close").on("click", function(e){
+          $("#undo").modal("hide");
+          e.stopPropagation();
+    });
+*/
+
+    $("#Agua_tipoCaudal").change(function() {
+         if($(this).attr("value") == 11){
+            //$(this).removeAttr("multiple");
+            hideDivs();
+        }else{
+            hideDivs();
+            $(this).attr("multiple", "multiple");
+            $("#Agua_tipoCaudal option:selected").each(function () {
+                  //$("#row"+$(this).val()).show();
+                    $("[id=row"+$(this).val()+"]").show();
+                    $("[id=row"+$(this).val()+"Dist]").show();
+            });
+
+        }
+    });
+
+    function hideDivs(){
+        $.each(rows, function(index, value){
+            $("[id=row"+value+"]").hide();
+            $("[id=row"+value+"Dist]").hide();
+        });
+
+    }
+    $(":submit").click(function(){
+        $("[id^=row]").find("td.w2p_fw").find("input").each(function(){
+            if ($(this).is(':hidden')){
+                $(this).val("");
+            }
+        });
+    });
+
+    $("#haveDataYes").click(function(){
+        $("#progressbar").show();
+        $.ajax({
+          url: '/{{=request.application}}/default/siPresenciaAgua',
+          success: function(data) {
+            location.reload();
+          }
+        });
+    })
+
+    function getIds()
+    {
+        $.ajax({
+          url: '/{{=request.application}}/default/waterIds',
+          success: function(data) {
+            var obj = jQuery.parseJSON(data);
+            rows = obj.ids;
+          }
+        });
+    }
+</script>

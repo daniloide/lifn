@@ -1,0 +1,130 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Flora del Suelo</h2>
+</div>
+{{=form}}
+<div>&nbsp;</div>
+<div id="equipo"></div>
+<div class="modified" style="display: none"></div>
+<script src="{{=URL('static','js/tabsValidation.js')}}"></script>
+<script type="text/javascript" src="{{=URL('static','js/ui.spinner.js')}}"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        hide();
+        reloadTable();
+    });
+   
+    function reloadTable()
+    {
+    	$.ajax({
+              url: "/{{=request.application}}/default/tableFloraSuelo?m="+{{=session.muestreoId}},
+              success: function(data) {
+                $("#equipo").html(data);
+              }
+            });
+    }
+	
+	function deleteFlora(id)
+	{
+		$.ajax({
+              url: "/{{=request.application}}/default/delete?field=id&val="+id+"&table=FloraDelSuelo",
+              success: function(data) {
+                reloadTable();
+              }
+            });
+	}
+    function numbersonly(myfield, e, dec)
+    {
+        var key;
+        var keychar;
+        
+        if (window.event)
+           key = window.event.keyCode;
+        else if (e)
+           key = e.which;
+        else
+           return true;
+        keychar = String.fromCharCode(key);
+        
+        // control keys
+        if ((key==null) || (key==0) || (key==8) || 
+            (key==9) || (key==13) || (key==27) )
+           return true;
+        
+        // numbers
+        else if ((("0123456789").indexOf(keychar) > -1))
+           return true;
+        
+        // decimal point jump
+        else if (dec && (keychar == "."))
+           {
+           myfield.form.elements[dec].focus();
+           return false;
+           }
+        else
+           return false;
+    }
+
+    function getData(value, common){
+        if(value != ""){       
+            $.ajax({
+                  url: "/{{=request.application}}/default/floraNames?partialstr="+value+"&comun="+common,
+                  success: function(data) {
+                    //$(".floraSueloAjax").show();
+                    if(common == 0){
+                        $("#cientificos").show();
+                        $("#cientificos").html(data);
+                    }else{
+                        $("#comunes").show();
+                        $("#comunes").html(data);
+
+                    }
+                    
+                  }
+            });
+        }else{
+            hide();
+        }
+    }
+
+    function hide(){
+        //$(".floraSueloAjax").hide();
+        $(".ajaxresults").html("");
+        $(".ajaxresults").hide();
+    }
+
+    function copyToBox(value, common){
+        if(common == 0){
+            $("#nomCientifico").val(value);
+            hide();
+            $.ajax({
+                  url: "/{{=request.application}}/default/floraCommonNames?nomCientifico="+value,
+                  success: function(data) {
+                    $("#nombreComun").val(data);
+                  }
+                });
+        } else {
+            $("#nombreComun").val(value);
+            hide();
+            $.ajax({
+                  url: "/{{=request.application}}/default/floraCientificNames?nomComun="+value,
+                  success: function(data) {
+                    $("#nomCientifico").val(data);
+                  }
+            });
+        }
+    }  
+
+    $(document).click(function() {
+        hide();
+    });
+    
+    $("#cientificos").click(function(event) {
+        event.stopPropagation();
+    });
+
+    $("#comunes").click(function(event) {
+        event.stopPropagation();
+    });
+ 
+</script>

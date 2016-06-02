@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Aplicación LIFN &mdash; Documentación de aplicaciones de IFN</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="top" title="Documentación de aplicaciones de IFN" href="../../index.html" />
+    <link rel="up" title="Documentación de aplicaciones" href="../../manual.html" />
+    <link rel="next" title="Aplicación IFN" href="ifn.html" />
+    <link rel="prev" title="Aplicación LInFor" href="linfor.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="ifn.html" title="Aplicación IFN"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="linfor.html" title="Aplicación LInFor"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="../../index.html">Documentación de aplicaciones de IFN</a> &raquo;</li>
+          <li><a href="../../manual.html" accesskey="U">Documentación de aplicaciones</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Contenidos</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Aplicación LIFN</a><ul>
+<li><a class="reference internal" href="#conceptos-generales">Conceptos generales</a></li>
+<li><a class="reference internal" href="#instalacion">Instalación</a></li>
+<li><a class="reference internal" href="#ejecucion">Ejecución</a></li>
+<li><a class="reference internal" href="#consideraciones-previas">Consideraciones previas</a><ul>
+<li><a class="reference internal" href="#roles">Roles</a><ul>
+<li><a class="reference internal" href="#permisos">Permisos</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gestion-de-usuarios">Gestión de usuarios</a></li>
+<li><a class="reference internal" href="#gestion-de-muestreos">Gestión de muestreos</a></li>
+<li><a class="reference internal" href="#asignacion-de-muestreos">Asignación de muestreos</a></li>
+<li><a class="reference internal" href="#enviar-datos">Enviar Datos</a></li>
+<li><a class="reference internal" href="#exportar-puntos-muestrales-a-kml">Exportar Puntos Muestrales a KML</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#primera-ejecucion">Primera ejecución</a></li>
+<li><a class="reference internal" href="#area-de-ingreso">Área de ingreso</a></li>
+<li><a class="reference internal" href="#panel-de-control">Panel de control</a></li>
+<li><a class="reference internal" href="#seleccion-del-estado-de-la-parcela">Selección del estado de la parcela</a></li>
+<li><a class="reference internal" href="#llenado-del-formulario">Llenado del formulario</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tema anterior</h4>
+  <p class="topless"><a href="linfor.html"
+                        title="Capítulo anterior">Aplicación LInFor</a></p>
+  <h4>Próximo tema</h4>
+  <p class="topless"><a href="ifn.html"
+                        title="Próximo capítulo">Aplicación IFN</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Búsqueda rápida</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="aplicacion-lifn">
+<h1>Aplicación LIFN<a class="headerlink" href="#aplicacion-lifn" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="conceptos-generales">
+<h2>Conceptos generales<a class="headerlink" href="#conceptos-generales" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>LIFN es una aplicación web diseñada a medida desarrollada por <a class="reference external" href="http://www.ingesur.com.uy/">InGeSur srl</a>
+a través del <a class="reference external" href="http://www.inbio.org.uy/">Proyecto InBio</a> para el <a class="reference external" href="http://www.mgap.gub.uy/">Dirección General Forestal</a>
+(Ministerio de Ganadería, Agricultura y Pesca de Uruguay) para el ingreso de datos obtenidos en campo del Inventario Forestal Nacional.</p>
+<p>La intención de la misma es estandarizar y regularizar los datos ingresados en el Inventario Forestal Nacional para poder obtener resultados que representen la realidad,
+ya que de otra forma esto sería imposible, por el simple hecho de que no existe un estandar para escribir lo pedido en el formulario.</p>
+<p>Fue desarrollada con <a class="reference external" href="http://www.web2py.com/">Web2py</a>, en el lenguaje de programción <a class="reference external" href="http://www.python.org/">Python</a> y puede ser utilizada en sistemas
+operativos Windows (XP, Vista y 7), GNU/Linux, Mac OSX, etc. Esta aplicación puede ser visualizada en cualquier explorador moderno.</p>
+<p>Luego que se completa toda la información requerida cada punto de muestreo es enviado a través
+de la web o por medio magnético para que sea validada e ingresada al sistema de seguimiento de
+recursos forestales (IFN).</p>
+</div>
+<div class="section" id="instalacion">
+<h2>Instalación<a class="headerlink" href="#instalacion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>LIFN no requiere instalación y sólo se debe de ingresar a la URL que se obtiene al ejecutar la aplicación LInFor.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Si desea mas información acerca de esa apliación LInFor consulte <a class="reference internal" href="linfor.html"><em>Aplicación LInFor</em></a>.</p>
+</div>
+</div>
+<div class="section" id="ejecucion">
+<h2>Ejecución<a class="headerlink" href="#ejecucion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Al ingresar a la URL provista por la aplicación LInFor, se desplegará el sistema LIFN que permite el ingreso de los datos del Inventario Forestal Nacional.</p>
+</div>
+<div class="section" id="consideraciones-previas">
+<h2>Consideraciones previas<a class="headerlink" href="#consideraciones-previas" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="roles">
+<h3>Roles<a class="headerlink" href="#roles" title="Enlazar permanentemente con este título">¶</a></h3>
+<dl class="docutils">
+<dt>Existen dos roles en el sistema:</dt>
+<dd><ul class="first last simple">
+<li>un administrador, encargado de gestionar los usuarios y de determinar que muestreos son realizados por cada usuario.</li>
+<li>un digitador, que ingresa los datos de los formularios del Inventario Forestal Nacional al sistema.</li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="permisos">
+<h4>Permisos<a class="headerlink" href="#permisos" title="Enlazar permanentemente con este título">¶</a></h4>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="32%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&nbsp;</th>
+<th class="head">Administrador</th>
+<th class="head">Digitador</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Agregar Usuarios</td>
+<td>Si</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>Agregar Muestreos</td>
+<td>Si</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>Asignar Muestreos</td>
+<td>Si</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>Enviar Información</td>
+<td>Si</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>Exportar a KML</td>
+<td>Si</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>Ingreso de Información</td>
+<td>Si</td>
+<td>Si</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="gestion-de-usuarios">
+<h3>Gestión de usuarios<a class="headerlink" href="#gestion-de-usuarios" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Para ingresar un nuevo usuario se deberá de pedir al administrador que se ingrese uno. Sólo el administrador tiene esta capacidad.</p>
+<p>Siendo el administrador, se debe de ingresar al menú superior &#8220;Nuevo usuario&#8221; e ingresar los datos pedidos.</p>
+</div>
+<div class="section" id="gestion-de-muestreos">
+<h3>Gestión de muestreos<a class="headerlink" href="#gestion-de-muestreos" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Para ingresar nuevos muestreos, se debe de ingresar en el menú superior &#8220;Nuevos muestreos&#8221;, que se encontrará al haber iniciado la sesión como administrador.
+Aquí se pedirá que se ingrese el archivo suministrado por la DGF en formato XML. El sistema ingresa los puntos muestrales para su posterior asignación y llenado.</p>
+<p>Luego de que se ingresaron, se deben de asignar los muestreos a los usuarios del sistema. Se pueden asignar tanto a los digitadores como al administrador.</p>
+</div>
+<div class="section" id="asignacion-de-muestreos">
+<h3>Asignación de muestreos<a class="headerlink" href="#asignacion-de-muestreos" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Para asignar un muestreo a un usuario, se ingresa como administrador y se ingresa al menú superior &#8220;Asignar muestreo a usuario&#8221; donde se desplegará el siguiente formulario:</p>
+<div class="figure align-center">
+<img alt="Asignar muestreo a usuario" src="../../_images/asignSamples.png" style="width: 566px; height: 254px;" />
+<p class="caption">Asignar muestreo a usuario</p>
+</div>
+<p>Primero se debe de seleccionar un usuario del listado, con lo que se modificarán las listas inferiores para representar los muestreos sin asignar y los asignados al usuario seleccionado.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Nótese que sólo se desplegarán los muestreos asignados que estén sin completar. Si se ha ingresado algún dato, no se mostrarán aquí.</p>
+</div>
+<dl class="docutils">
+<dt>Luego para asignar un muestreo a un usuario se utilizarán los siguientes botones:</dt>
+<dd><ul class="first last simple">
+<li>&gt;&gt; : agregar todos los muestreos sin asignar al usuario seleccionado</li>
+<li>=&gt; : agrega los muestreos seleccionados al usuario</li>
+<li>&lt;= : remueve los muestreos seleccionados del usuario</li>
+<li>&lt;&lt; : remueve todos los muestreos del usuario</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="enviar-datos">
+<h3>Enviar Datos<a class="headerlink" href="#enviar-datos" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Cuando se han realizado el total o una cantidad parcial de muestreos, se pueden enviar para su posterior análisis en la Dirección General Forestal.</p>
+<p>Para esto es necesario seleccionar el menú superior &#8220;Enviar información&#8221;. Se desplegará el siguiente formulario:</p>
+<div class="figure align-center">
+<img alt="Enviar información" src="../../_images/sendData.png" style="width: 561px; height: 253px;" />
+<p class="caption">Enviar información</p>
+</div>
+<dl class="docutils">
+<dt>Se utilizarán los siguientes botones para seleccionar que muestreos se enviarán:</dt>
+<dd><ul class="first last simple">
+<li>&gt;&gt; : agregar todos los muestreos</li>
+<li>=&gt; : agrega los muestreos seleccionados</li>
+<li>&lt;= : remueve los muestreos seleccionados</li>
+<li>&lt;&lt; : remueve todos los muestreos</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="exportar-puntos-muestrales-a-kml">
+<h3>Exportar Puntos Muestrales a KML<a class="headerlink" href="#exportar-puntos-muestrales-a-kml" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En cualquier momento se podrá exportar los puntos presentes en el sistema a un formato espacial (.kml) que podrá ser visualizado en Google Earth.</p>
+<p>Para lograr esto se deberá seleccionar el menú superior &#8220;Exportar KML&#8221;. El navegador entregará al usuario el archivo kml con los puntos para su posterior visualización.</p>
+<p>El KML contiene dos carpetas, las cuales contienen por un lado los puntos muestrales que ya han sido comenzados, y por otro los puntos muestrales sin realizar.</p>
+</div>
+</div>
+<div class="section" id="primera-ejecucion">
+<h2>Primera ejecución<a class="headerlink" href="#primera-ejecucion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Cuando se ejecuta por primera vez la aplicación, se desplegará un mensaje de bienvenida y se pedirá que se ingresen los datos de la persona responsable, llamada
+administrador. Esta persona será la encargada de gestionar los usuarios y determinar que muestreos son realizados por cada usuario.</p>
+<p>En este formulario se pedirá que se suministre un nombre de usuario, el cuál no puede contener espacios; el nombre y apellido de la persona;
+un correo electrónico y por último una contraseña para ingresar al sistema.</p>
+</div>
+<div class="section" id="area-de-ingreso">
+<h2>Área de ingreso<a class="headerlink" href="#area-de-ingreso" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Para ingresar al sistema se debe de seleccionar el botón &#8220;Loguearse&#8221; que se encuentra en la esquina superior derecha.</p>
+<p>Luego se despliega el siguiente formulario:</p>
+<div class="figure align-center">
+<img alt="Inicio de sesión" src="../../_images/login.png" style="width: 345px; height: 231px;" />
+<p class="caption">Inicio de sesión del sistema</p>
+</div>
+<p>Se debe de ingresar el nombre de usuario y la contraseña para ingresar con éxito al sistema.</p>
+</div>
+<div class="section" id="panel-de-control">
+<h2>Panel de control<a class="headerlink" href="#panel-de-control" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Al ingresar al sistema con un usuario válido se presenta el panel de control del usuario. En él se encuentra el listado de los puntos asignados.</p>
+<p>Cuando se inició sesión con un usuario del rol administrador, se presenta el listado, además de a quién fue asignado cada muestreo.</p>
+<div class="figure align-center">
+<img alt="Panel de control del administrador" src="../../_images/panelDeControlAdmin.png" style="width: 903px; height: 335px;" />
+<p class="caption">Panel de control del administrador</p>
+</div>
+<p>Por otra parte si se inicia sesión con un digitador, se presenta el siguiente panel de control.</p>
+<div class="figure align-center">
+<img alt="Panel de control del digitador" src="../../_images/panelDeControl.png" style="width: 903px; height: 344px;" />
+<p class="caption">Panel de control del digitador</p>
+</div>
+<p>A partir de esta pantalla se pueden comenzar, verificar y continuar el llenado de los formularios, al seleccionar el punto muestral deseado y clickear en el siguiente icono:</p>
+<div class="figure align-center">
+<img alt="Ver muestreo" src="../../_images/seeSample.png" style="width: 164px; height: 55px;" />
+<p class="caption">Comenzar, verificar y continuar formularios</p>
+</div>
+</div>
+<div class="section" id="seleccion-del-estado-de-la-parcela">
+<h2>Selección del estado de la parcela<a class="headerlink" href="#seleccion-del-estado-de-la-parcela" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Cuando se ingresa a un muestreo específico, lo primero a rellenar es el estado de la parcela. Aquí se selecciona si se pudo recabar información, si no hay bosque, si el bosque ha sido cortado o si no se puede ingresar.</p>
+<div class="figure align-center">
+<img alt="Estado de la parcela" src="../../_images/parcelState.png" style="width: 348px; height: 118px;" />
+<p class="caption">Estado de la parcela</p>
+</div>
+<p>Luego de seleccionar el estado, y dependiendo si selecciona que existe información, se continúa con el llenado del formulario.</p>
+</div>
+<div class="section" id="llenado-del-formulario">
+<h2>Llenado del formulario<a class="headerlink" href="#llenado-del-formulario" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Para comenzar a introducir los datos del Inventario Forestal Nacional, se deben de ingresar los datos generales de la parcela.
+Luego de seleccionar el tipo y sub tipo de bosque, la fecha de realización del muestreo y los datos remanantes, se podrá continuar con el llenado del formulario.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Advertencia</p>
+<p class="last">Recuerde para que los datos persistan, se debe de presionar el botón guardar en cada una de las etapas del formulario.</p>
+</div>
+<div class="figure align-center">
+<img alt="Datos generales de la parcela" src="../../_images/generalData.png" style="width: 485px; height: 413px;" />
+<p class="caption">Datos generales de la parcela</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="ifn.html" title="Aplicación IFN"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="linfor.html" title="Aplicación LInFor"
+             >anterior</a> |</li>
+        <li><a href="../../index.html">Documentación de aplicaciones de IFN</a> &raquo;</li>
+          <li><a href="../../manual.html" >Documentación de aplicaciones</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, InGeSur srl.
+    </div>
+  </body>
+</html>

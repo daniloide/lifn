@@ -1,0 +1,248 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Fauna</h2>
+</div>
+<table>
+	<tr id="TieneDatos_tieneAgua__row">
+		<td class="w2p_fl">
+			<label id="TieneDatos_tieneAgua__label" for="TieneDatos_tieneAgua">Presencia: </label>
+		</td>
+		<td class="w2p_fw">
+			<div id="toggle-button-div-TieneDatos-tieneAgua" class="btn-group" data-toggle="buttons-radio">
+				<input id="TieneDatos_tieneAgua" class="boolean" type="checkbox" style="display:none;" name="tieneAgua">
+				{{if fauna:}}
+                    <div class="btn-group" data-toggle="buttons-radio">
+                        <button id="haveDataYes" type="button" class="toggle-btn btn active">{{ =T('Yes')}}</button>
+                        <button id="haveDataNo" type="button" class="toggle-btn btn">{{ =T('No')}}</button>
+                    </div>
+                {{else:}}
+                    <div class="btn-group" data-toggle="buttons-radio">
+                        <button id="haveDataYes" type="button" class="toggle-btn btn">{{ =T('Yes')}}</button>
+                        <button id="haveDataNo" type="button" class="toggle-btn btn active">{{ =T('No')}}</button>
+                    </div>
+				{{pass}}
+			</div>
+		</td>
+		<td class="w2p_fc"></td>
+	</tr>
+</table>
+<img id="progressbar" src="{{=URL('static', 'images/progressbar.gif')}}" alt="Cargando..." style="display: none;"></img>
+{{if fauna:}}
+	{{=form}}
+	<div id="fauna"></div>
+{{pass}}
+<div>&nbsp;</div>
+<!-- undoDialog -->
+<div id="undoDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Deshacer</h3>
+    </div>
+    <div class="modal-body">
+        <p>
+        Si acepta, se borraran todos los datos de Fauna para este muestreo y
+        se regresara a la pantalla anterior. Desea continuar?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" role="dialog" onclick="undoDialogCancel();">{{ =T('Cancel') }}</button>
+        <button class="btn btn-primary" onclick="undoDialogConfirm();">{{ =T('Confirm') }}</button>
+    </div>
+</div>
+<!-- End undoDialog -->
+
+<div class="modified" style="display: none"></div>
+<script src="{{=URL('static','js/tabsValidation.js')}}"></script>
+<script type="text/javascript" src="{{=URL('static','js/jquery.js')}}"></script>
+
+<script type="text/javascript" src="{{=URL('static','js/ui/jquery.ui.core.js')}}"></script>
+<script type="text/javascript" src="{{=URL('static','js/ui/jquery.ui.widget.js')}}"></script>
+<script type="text/javascript" src="{{=URL('static','js/ui/jquery.ui.button.js')}}"></script>
+<script type="text/javascript" src="{{=URL('static','js/ui/jquery.ui.spinner.js')}}"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        hide();
+        $("#frecuencia").spinner({ min: 0, max: 1000, increment: 'fast' });
+        reloadTable();
+    });
+
+
+    function undoDialogConfirm() {
+        $.ajax({
+            url: '/{{=request.application}}/default/undoFauna',
+            success: function(data) {
+                location.reload();
+            }
+        });
+    }
+
+    function undoDialogCancel() {
+        $("#undoDialog").modal('toggle');
+    }
+
+    $("#haveDataYes").click(function(){
+        if ( $("#haveDataYes").hasClass("active")==true ) {
+            /* Nothing */
+        } else {
+            $("#progressbar").show();
+            $.ajax({
+            url: '/{{=request.application}}/default/siPresenciaFauna',
+            success: function(data) {
+                location.reload();
+            }
+            });
+        }
+    })
+
+    $("#haveDataNo").click(function(event) {
+            event.stopPropagation();
+            if ( $("#haveDataNo").hasClass("active")==true ) {
+                /* Nothing */
+            } else {
+                $("#undoDialog").modal('toggle');
+            }
+    })
+
+/*
+    $("#undo").click(function(){
+    	$.ajax({
+          url: '/{{=request.application}}/default/undoFauna',
+          success: function(data) {
+            location.reload();
+          }
+        });
+    })
+
+    $("#tieneAgua_Yes").click(function(){
+    	$("#progressbar").show();
+    	$.ajax({
+          url: '/{{=request.application}}/default/siPresenciaFauna',
+          success: function(data) {
+            location.reload();
+          }
+        });
+    })
+
+    $("#close").on("click", function(e){
+  		$("#undo").modal("hide");
+  		e.stopPropagation();
+	});
+*/
+
+    function reloadTable()
+    {
+    	$.ajax({
+              url: "/{{=request.application}}/default/tableFauna?m="+{{=session.muestreoId}},
+              success: function(data) {
+                $("#fauna").html(data);
+              }
+            });
+    }
+
+	function deleteFauna(id)
+	{
+		$.ajax({
+              url: "/{{=request.application}}/default/delete?field=id&val="+id+"&table=Fauna",
+              success: function(data) {
+                reloadTable();
+              }
+            });
+	}
+
+    function numbersonly(myfield, e, dec)
+    {
+        var key;
+        var keychar;
+
+        if (window.event)
+           key = window.event.keyCode;
+        else if (e)
+           key = e.which;
+        else
+           return true;
+        keychar = String.fromCharCode(key);
+
+        // control keys
+        if ((key==null) || (key==0) || (key==8) ||
+            (key==9) || (key==13) || (key==27) )
+           return true;
+
+        // numbers
+        else if ((("0123456789").indexOf(keychar) > -1))
+           return true;
+
+        // decimal point jump
+        else if (dec && (keychar == "."))
+           {
+           myfield.form.elements[dec].focus();
+           return false;
+           }
+        else
+           return false;
+    }
+
+    function getData(value, common){
+        if(value != ""){
+            var clase = $("#clase").val();
+            $.ajax({
+                  url: "/{{=request.application}}/default/faunaNames?partialstr="+value+"&clase="+clase+"&comun="+common,
+                  success: function(data) {
+                    if(common == 0){
+                        $("#cientificos").show();
+                        $("#cientificos").html(data);
+                    }else{
+                        $("#comunes").show();
+                        $("#comunes").html(data);
+
+                    }
+
+                  }
+            });
+        }else{
+            hide();
+        }
+    }
+
+    function hide(){
+        $("#cientificos").html("");
+        $("#comunes").html("");
+        $("#cientificos").hide();
+        $("#comunes").hide();
+    }
+
+    function copyToBox(value, common){
+        if(common == 0){
+            $("#nomCientifico").val(value);
+            hide();
+            $.ajax({
+                  url: "/{{=request.application}}/default/faunaCommonNames?nomCientifico="+value,
+                  success: function(data) {
+                    $("#nomComun").val(data);
+                  }
+                });
+        }else{
+            $("#nomComun").val(value);
+            hide();
+            $.ajax({
+                  url: "/{{=request.application}}/default/faunaCientificNames?nomComun="+value,
+                  success: function(data) {
+                    $("#nomCientifico").val(data);
+                  }
+            });
+        }
+    }
+
+    $(document).click(function() {
+        hide();
+    });
+
+    $("#cientificos").click(function(event) {
+        event.stopPropagation();
+    });
+
+    $("#comunes").click(function(event) {
+        event.stopPropagation();
+    });
+
+</script>

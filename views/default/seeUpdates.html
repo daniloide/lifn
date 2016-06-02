@@ -1,0 +1,13 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Verificación de actualización de datos</h2>
+</div>
+    {{if len(inserts) > 0:}}
+        {{for ins in inserts:}}
+            <p>Se insertará el valor {{=ins['value']}} en la tabla {{=ins['table']}}</p>
+        {{pass}}
+        <a href="{{=URL('downloadUpdates')}}" class="btn">Actualizar</a>
+    {{else:}}
+        <p>No se han encontrado actualizaciones para la aplicación</p>
+    {{pass}}
+</div>

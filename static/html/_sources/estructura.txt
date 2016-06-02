@@ -1,0 +1,63 @@
+.. sectionauthor:: Fernando Pacheco <fernando.pacheco@ingesur.com.uy>   
+
+**********************
+Estructura del sistema
+**********************
+
+El Inventario Nacional Forestal esta compuesto por dos aplicaciones:
+
+#. Una aplicación web que integra la información recogida en campo y permite obtener resultados acerca del estado de los recursos forestales del país (denominada IFN).
+#. Una aplicación de escritorio (denominada LInFor) capaz de ejecutarse sobre los sistemas operativos Windows, GNU/Linux y Mac que contiene:
+    * un pequeño servidor web;
+    * una aplicación web para el ingreso de datos de campo (denominada LIFN).
+
+En la figura siguiente se muestra un esquema de representación de alto nivel de la estructura del sistema.
+
+.. figure:: images/esquema_del_sistema_IFN.png
+    :align: center
+    :alt: Ventana de propiedades de la aplicación
+    :width: 297px    
+    :height: 137px
+
+    Esquema de alto nivel de la estructura de sistema IFN
+
+Aplicación IFN
+##############
+
+Esta aplicación integra la información histórica de datos forestales del país.
+
+Permite realizar consultas predefinidas por el usuario del tipo:
+
+    * temporal;
+    * espacial;
+    * estadísticas.
+
+Posee salidas:
+
+    * gráficas: mapas y/o gráficos;
+    * tabulares que peuden ser exportadas a planilals de cálculo.
+
+Se trata de una aplicación web con las siguientes características técnicas:
+
+    * aaa
+
+.. seealso:: Por mas información consulte el manual ed usuarios disponible en :doc:`/manuals/apps/ifn`.
+
+Aplicación LInFor
+#################
+
+
+#. Una aplicación de escritorio web que integra la información recogida en campo y permite obtener resultados acerca del estado de los recursos forestales del país.
+#. Una aplicación de escritorio capaz de ejecutarse sobre los sistemas operativos Windows, GNU/Linux y Mac que contiene un servidor web (LINFor);
+#. Una aplicación web (depende de la anterior) que permite completar los datos recabados en campo (LIFN);
+
+.. seealso:: Por mas información consulte el manual ed usuarios disponible en :doc:`/manuals/apps/linfor`.
+
+Aplicación LIFN
+################
+
+#. Una aplicación de escritorio web que integra la información recogida en campo y permite obtener resultados acerca del estado de los recursos forestales del país.
+#. Una aplicación de escritorio capaz de ejecutarse sobre los sistemas operativos Windows, GNU/Linux y Mac que contiene un servidor web (LINFor);
+#. Una aplicación web (depende de la anterior) que permite completar los datos recabados en campo (LIFN);
+
+.. seealso:: Por mas información consulte el manual ed usuarios disponible en :doc:`/manuals/apps/lifn`.

@@ -1,0 +1,100 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Parcela Bosque Natural</h2>
+</div>
+{{=form}}
+<div>&nbsp;</div>
+<div id="parcela"></div>
+<div class="modified" style="display: none"></div>
+<script src="{{=URL('static','js/tabsValidation.js')}}"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        hide();
+        reloadTable();
+    });
+
+    function reloadTable()
+    {
+    	$.ajax({
+              url: "/{{=request.application}}/default/tableParcelasBosqueNatural?m="+{{=session.muestreoId}},
+              success: function(data) {
+                $("#parcela").html(data);
+              }
+            });
+    }
+	
+	function deleteEquipo(id)
+	{
+		$.ajax({
+              url: "/{{=request.application}}/default/delete?field=id&val="+id+"&table=ParcelasBosqueNatural",
+              success: function(data) {
+                reloadTable();
+              }
+            });
+	}
+
+    function getData(value, common){
+        if(value != ""){        
+            $.ajax({
+                  url: "/{{=request.application}}/default/bnNames?partialstr="+value+"&comun="+common,
+                  success: function(data) {
+                    if(common == 0){
+                        $("#cientificos").show();
+                        $("#cientificos").html(data);
+                    }else{
+                        $("#comunes").show();
+                        $("#comunes").html(data);
+
+                    }
+                    
+                  }
+            });
+        }else{
+            hide();
+        }
+    }
+
+    function hide(){
+        $("#cientificos").html("");
+        $("#comunes").html("");
+        $("#cientificos").hide();
+        $("#comunes").hide();
+    }
+
+    function copyToBox(value, common){
+        if(common == 0){
+            $("#nomCientifico").val(value);
+            hide();
+            $.ajax({
+                  url: "/{{=request.application}}/default/bnCommonNames?nomCientifico="+value,
+                  success: function(data) {
+                    $("#nombreComun").val(data);
+                  }
+                });
+            var cient = $("#nomCientifico").val();
+        }else{
+            $("#nombreComun").val(value);
+            hide();
+            $.ajax({
+                  url: "/{{=request.application}}/default/bnCientificNames?nomComun="+value,
+                  success: function(data) {
+                    $("#nomCientifico").val(data);
+                    var cient =  $("#nomCientifico").val();
+                  }
+            });
+        }
+        
+    }  
+
+    $(document).click(function() {
+        hide();
+    });
+    
+    $("#cientificos").click(function(event) {
+        event.stopPropagation();
+    });
+
+    $("#comunes").click(function(event) {
+        event.stopPropagation();
+    });
+</script>

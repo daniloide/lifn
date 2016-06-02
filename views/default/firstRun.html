@@ -1,0 +1,23 @@
+{{extend 'layout.html'}}
+{{=welcomeMsg}}
+{{=body}}
+{{=form}}
+<script>
+    $('document').ready(function(){
+        $(":submit:visible").attr("disabled", true);
+        //$("#confirmP").on("keyup", "#confirmP", function(){
+        $("#confirmP").keyup(function(){
+            $("#confirmP_row + .w2p_fc").show();
+            if ($("#auth_user_password").val() == $("#confirmP").val()){
+                $(":submit:visible").attr("disabled", false);
+                $("#confirmP_row + .w2p_fc").html("Confirmada");
+                $("#confirmP").attr("style", "border: 1px solid #CCCCCC");
+            } else {
+                $(":submit:visible").attr("disabled", true);
+                $("#confirmP_row + .w2p_fc").html("Debe confirmar su contraseña");
+                $("#confirmP").attr("style", "border: 2px solid red");
+            }
+        });
+    });
+</script>
+

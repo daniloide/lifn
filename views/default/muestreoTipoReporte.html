@@ -1,0 +1,47 @@
+    {{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Estado del Punto Muestral</h2>
+</div>
+{{=form}}
+<script>
+    var names = ['InfoRelevada','AusenciaBosque','BosqueCortado','NoSePuedeIngresar'];
+
+    $(document).ready(function() {
+        init();
+    });
+
+    function init() {
+        $("#toggle-button-div-infoRelevada").attr("data-toggle","buttons-radio");
+        $("#toggle-button-div-ausenciaBosque").attr("data-toggle","buttons-radio");
+        $("#toggle-button-div-bosqueCortado").attr("data-toggle","buttons-radio");
+        $("#toggle-button-div-noSePuedeIngresar").attr("data-toggle","buttons-radio");
+        firstCheck();
+    }
+
+    $(".toggle-btn").click(function(){
+        var bid=$(this).attr('id');
+        var iid='i' + bid.substr(1,bid.length);
+        if ( $("#" + bid).hasClass("active") ){
+            // Nada
+        } else {
+            deactivateAll();
+            $("#" + bid).addClass("active");
+            $("#" + iid).prop('checked', true);
+        }
+    });
+
+    function deactivateAll() {
+        for (index = 0; index < names.length; ++index) {
+            $("#" + "b" + names[index]).removeClass("active");
+            $("#" + "i" + names[index]).prop('checked', false);
+        }
+    }
+
+    function firstCheck() {
+        for (index = 0; index < names.length; ++index) {
+            if ( $("#" + "i" + names[index]).is(":checked") ) {
+                $("#" + "b" + names[index]).toggleClass("active");
+            }
+        }
+    }
+</script>

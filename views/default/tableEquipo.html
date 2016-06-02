@@ -1,0 +1,30 @@
+<table class="table" style="background-color: #FFFFFF;margin-top: -20px; border-radius: 15px; border-color: #DDDDDD #DDDDDD transparent;">
+	<thead>
+		<tr>
+			{{for header in equipo[1]:}}
+			<th>
+				{{=header}}
+			</th>
+			{{pass}}
+		</tr>
+	</thead>
+	<tbody>
+		{{if len(equipo[0]) >0:}}
+			{{for data in equipo[0]:}}
+			<tr>
+				<td>{{=data['cargo']}}</td>
+				<td>{{=data['nombre']}}</td>
+				<td><input type="button" value="Borrar" class="btn btn-small" onclick="deleteEquipo({{=data['id']}})" /></td>
+			</tr>
+			{{pass}}
+		{{else:}}
+		<tr>
+			<td>No hay datos</td>
+			<td>No hay datos</td>
+			<td>No hay datos</td>
+			<td>No hay datos</td>
+			<td>No hay datos</td>
+		</tr>
+		{{pass}}
+	</tbody>
+</table>

@@ -1,0 +1,14 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Suelo</h2>
+</div>
+{{=form}}
+<div class="modified" style="display: none"></div>
+<script src="{{=URL('static','js/tabsValidation.js')}}"></script>
+<script>
+    /* $(":submit:visible").click(function(){
+            var current_index = $("#tabs").tabs("option","selected");
+            $("#tabs").tabs('load',current_index);
+    });*/
+</script>
+<script src="{{=URL('static','js/sueloPopovers.js')}}"></script>

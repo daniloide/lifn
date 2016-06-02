@@ -1,0 +1,47 @@
+***************************************
+Documentacion del código fuente de LIFN
+***************************************
+
+LIFN es una aplicación web multiplataforma (Windows, GNU/Linux, Mac)
+desarrollada con web2py.
+
+Se presenta a continuación la documentación del código fuente.
+
+.. automodule:: lifn
+   :members:
+   :undoc-members:
+
+El diagrama de clases es el siguiente:
+
+.. 
+    inheritance-diagram:: igs.linforapp.LinforApp igs.propform.PropForm igs.systray.SysTray
+
+.. 
+    topic:: Clase LinforApp
+
+    Comentarios generales
+
+        ..  autoclass:: igs.linforapp.LinforApp
+            :members:
+            :undoc-members:
+            :private-members:
+
+.. 
+    topic:: Clase PropForm
+
+    Comentarios generales
+
+        ..  autoclass:: igs.propform.PropForm
+            :members:
+            :undoc-members:    
+            :private-members:
+
+.. 
+    topic:: Clase SysTray
+
+    Comentarios generales
+
+        ..  autoclass:: igs.systray.SysTray
+            :members:    
+            :private-members:
+

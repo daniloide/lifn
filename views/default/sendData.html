@@ -1,0 +1,108 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Enviar Datos de Formularios</h2>
+</div>
+
+<div style="min-height: 400px;">
+    <p>Aquí encontrará una lista de muestreos completados (lista a su izquierda). Marque de dicha lista los muestreos que desea enviar agregándolos a la lista de la derecha (utilice los botones ubicados entre las dos listas).</p>
+    <p>Cuando esté satisfecho con la elección de muestreos seleccione el botón <i>"Exportar a .zip"</i> para exportar toda la información (datos, imágenes, tracks, etc.) de cada uno de los muestreos a un archivo comprimido.</p>
+    {{=form}}
+</div>
+    
+<script> 
+    $(document).ready(function() {
+        $('[name=selectOneOrMultiple]:button').qtip(
+        {
+            content: 'Agregar los seleccionados' // Give it some content, in this case a simple string
+        });
+        $('[name=deselectOneOrMultiple]:button').qtip(
+        {
+            content: 'Remover seleccionados' // Give it some content, in this case a simple string
+        });
+        $('[name=selectAll]:button').qtip(
+        {
+            content: 'Agregar todos' // Give it some content, in this case a simple string
+        });
+        $('[name=deselectAll]:button').qtip(
+        {
+            content: 'Remover todos' // Give it some content, in this case a simple string
+        });
+        $("[name=selectOneOrMultiple]:button").click(function(){         
+            var textos = {};         
+            var selected = $("#todos").val();           
+            var todos = $("#todos > option");         
+            $.each(todos, function(index, val){             
+                if ($.inArray($(this).val(), selected) != -1){                 
+                    textos[$(this).val()] = $(this).text();                 
+                    $(this).remove();             
+                }         
+            })  
+            asigns = "";         
+            $.each(textos, function(index, val){             
+                asigns += "<option value="+ index +">" + val + "</option>"         
+            });         
+            var oldVals = $("#asignados").html();         
+            $("#asignados").html(oldVals + asigns);
+            checkIfCanExport();     
+        });     
+        $("[name=deselectOneOrMultiple]:button").click(function(){         
+            var textos = {};
+            var selected = $("#asignados").val();         
+            var asignados = $("#asignados > option");
+            $.each(asignados, function(index, val){
+                 if ($.inArray($(this).val(), selected) != -1){                 
+                    textos[$(this).val()] = $(this).text();                 
+                    $(this).remove();             
+                 }         
+            })
+            todos = "";
+            $.each(textos, function(index, val){             
+                todos += "<option value="+ index +">" + val + "</option>"         
+            });         
+            var oldVals = $("#todos").html();
+            $("#todos").html(oldVals + todos);
+            checkIfCanExport();
+         });    
+         $("[name=selectAll]:button").click(function(){         
+            var todos = $("#todos").html();
+            $("#todos").html("");
+            var oldVals = $("#asignados").html();
+            $("#asignados").html(oldVals + todos);
+            checkIfCanExport();
+         });     
+
+        $("[name=deselectAll]:button").click(function(){         
+            var asignados = $("#asignados").html();         
+            $("#asignados").html("");         
+            var oldVals = $("#todos").html();         
+            $("#todos").html(oldVals + asignados);
+            checkIfCanExport();   
+        });
+
+        $("#accept").click(function(){
+            if ($("#asignados option").length > 0){
+                var muestreos = "";
+                var first = true;
+                $("#asignados option").each(function()
+                {
+                    if(first){
+                        muestreos = $(this).val();
+                        first= false;
+                    }else{
+                        muestreos = muestreos + "," + $(this).val();      
+                    }
+                });
+                window.location.replace("/{{=request.application}}/default/datosZip?m="+muestreos);
+            } 
+        });
+    });  
+
+    function checkIfCanExport(){
+        if ($("#asignados option").length > 0){
+            $("#accept").removeAttr("disabled");
+        } else {
+            $("#accept").attr("disabled", "disabled");
+        }
+    }    
+</script>
+ 

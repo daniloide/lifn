@@ -1,0 +1,21 @@
+{{extend 'layout.html'}}
+<script src="{{=URL('static','js/galleria/galleria-1.2.8.min.js')}}"></script>
+<div id="galleria">
+    {{for foto in fotos:}}
+        <img data-title="{{=foto['title']}}" data-description="{{= foto['description']}}" src="{{=URL('download',args=foto['name'])}}"></img>
+    {{pass}}
+</div>
+<script>
+    Galleria.loadTheme("{{=URL('static','js/galleria/themes/classic/galleria.classic.min.js')}}");
+    $('#galleria').galleria({
+        width: 700,
+        height: 467 
+        });
+    Galleria.configure({
+        imageCrop: true,
+        transition: 'fade',
+        showInfo: true
+        });
+    Galleria.run('#galleria');
+    
+</script>

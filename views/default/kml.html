@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Exportar a KML</h2>
+</div>
+{{if exported:}}
+    <p>Se han exportado los puntos en formato KML con éxito.</>
+{{else:}}
+    <p>No existen puntos en el sistema.</p>
+{{pass}}

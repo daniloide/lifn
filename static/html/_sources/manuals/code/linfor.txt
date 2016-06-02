@@ -1,0 +1,48 @@
+.. sectionauthor:: Fernando Pacheco <fernando.pacheco@ingesur.com.uy>   
+
+*****************************************
+Documentacion del código fuente de LInFor
+*****************************************
+
+LInFor es una aplicación de escritorio multiplataforma (Windows, GNU/Linux, Mac)
+desarrollada con PySIde, que inicializa un servidor web (Rocket) que permite ejecutar
+aplicaciones construidas con web2py.
+
+El núcleo de la aplicación es el módulo igs. Su documentación se muestra a continuación.  
+
+Módulo igs
+==========
+
+.. automodule:: igs 
+   :members:
+   :undoc-members:
+
+El diagrama de clases es el siguiente:
+
+.. inheritance-diagram:: igs.linforapp.LinforApp igs.propform.PropForm igs.systray.SysTray
+
+.. topic:: Clase LinforApp
+
+    Comentarios generales
+
+        ..  autoclass:: igs.linforapp.LinforApp
+            :members:
+            :undoc-members:
+            :private-members:
+
+.. topic:: Clase PropForm
+
+    Comentarios generales
+
+        ..  autoclass:: igs.propform.PropForm
+            :members:
+            :undoc-members:    
+            :private-members:
+
+.. topic:: Clase SysTray
+
+    Comentarios generales
+
+        ..  autoclass:: igs.systray.SysTray
+            :members:    
+            :private-members:

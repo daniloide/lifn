@@ -1,0 +1,34 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Equipo de Trabajo</h2>
+</div>
+{{=form}}
+<div>&nbsp;</div>
+<div id="equipo"></div>
+<div class="modified" style="display: none"></div>
+<script src="{{=URL('static','js/tabsValidation.js')}}"></script>
+<script>
+	$(document).ready(function(){
+		reloadTable();
+    })
+    
+    function reloadTable()
+    {
+    	$.ajax({
+              url: "/{{=request.application}}/default/tableEquipo?m="+{{=session.muestreoId}},
+              success: function(data) {
+                $("#equipo").html(data);
+              }
+            });
+    }
+	
+	function deleteEquipo(id)
+	{
+		$.ajax({
+              url: "/{{=request.application}}/default/delete?field=id&val="+id+"&table=EquipoTrabajo",
+              success: function(data) {
+                reloadTable();
+              }
+            });
+	}
+</script>

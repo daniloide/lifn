@@ -1,0 +1,14 @@
+div.span12 {
+    margin-left: 20px;
+    margin-top: 0px;
+    width: 100%;
+    overflow-x: auto;
+    position: relative;
+}
+
+div.left-sidebar + div.span12 {
+    margin-left: 20px;
+    margin-top: 0px;
+    width: 720px;
+    overflow-x: hidden;
+}

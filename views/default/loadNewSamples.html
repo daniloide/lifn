@@ -1,0 +1,54 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Agregar nuevos puntos muestrales</h2>
+</div>
+
+<div style="min-height: 400px;">
+    <p>Para comenzar a cargar información al sistema Ud. deberá aregue nuevos puntos muestreales a la base de datos.</p>
+    <p>Luego de ello Ud. podrá asignarlos dichos puntos muestreales a otros usuarios del sistema para que estos los completen o podrá completarlos Ud. mismo.</pp>
+    <p>Por último, luego de completados, los puntos podrán ser enviados al Sistema de Información del Inventario Forestal Nacional.</p>    
+{{=form}}
+</div>
+
+<div id="dialog" title="Nuevos Puntos Muestrales"></div>
+<script>
+    function createUploader(){            
+        var uploader = new qq.FineUploader({
+            element: document.getElementById('file-uploader'),
+            request: { 
+                endpoint: '/{{=request.application}}/default/saveSamples',
+            },
+            allowedExtensions: ['xml'],            
+            text: {
+                uploadButton: '<i class="icon-upload icon-white"></i> Subir archivo XML',
+                cancelText: ' Cancelar',
+                failUpload: ' El archivo no se ha podido subir',
+            },            
+            multiple: false,
+            disableDefaultDropzone: true,
+            template: '<div class="qq-uploader">' +
+            '<!-- <pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre> -->' +
+            '<div class="qq-upload-button btn btn-success">{uploadButtonText}</div>' +
+            '<div class="qq-upload-list" style="float:left;"><ul class="qq-upload-list" style="margin-top: 10px; text-align: center;"></ul></div>' +
+            '</div>',            
+            debug: true,
+            callbacks : {            
+                onComplete: function (id, fileName, result) {
+                    var fileName = result['fileName'];
+                    if (fileName != ''){
+                        $("#sampleFileName").remove();
+                        $(":submit").before('<div id="sampleFileName"><input type="text" name="upload" value=' + fileName + ' style="display:none;"></div>');
+                        $.ajax({
+                          url: '/{{=request.application}}/default/processSamples?fn='+fileName,
+                          success: function(data) {
+                            $("#dialog").html(data);
+                            $("#dialog").dialog({modal:true, height: 150, width: 415});
+                          }
+                        });          
+                    }
+                }
+            }
+        });           
+    }
+    window.onload = createUploader;  
+</script>

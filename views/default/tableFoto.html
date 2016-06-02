@@ -1,0 +1,40 @@
+<table id="fotosMuestreo" class="table" style="background-color: #FFFFFF;margin-top: -20px; border-radius: 15px; border-color: #DDDDDD #DDDDDD transparent;">
+    <thead>
+        <tr>
+            {{for header in fotos[1]:}}
+            <th>
+                {{=header}}
+            </th>
+            {{pass}}
+        </tr>
+    </thead>
+    <tbody>
+        {{if len(fotos[0]) >0:}}
+            {{for data in fotos[0]:}}
+            <tr class="data" id={{=data['id']}}>
+                <td class="tipo">{{=data['tipoFoto']}}</td>
+                <td class="desc">{{=data['descr']}}</td>
+                <td>{{=data['lat']}}</td>
+                <td>{{=data['lon']}}</td>
+                <td>
+                    <input type="button" value="{{ =T('Delete') }}" class="btn btn-small" onclick="deleteFoto({{=data['id']}})" />
+                </td>
+            </tr>
+            {{pass}}
+            <tr>
+                <td colspan=5 style="text-align:right;">
+                <input type="button" value="{{ =T('View all') }}" class="btn btn-small" onclick="viewAllFoto({{=muestreo}})" />
+                    <input type="button" value="{{ =T('Delete all') }}" class="btn btn-small" onclick="deleteAllFoto({{=muestreo}})" />
+                </td>
+            </tr>
+        {{else:}}
+        <tr>
+            <td>No hay datos</td>
+            <td>No hay datos</td>
+            <td>No hay datos</td>
+            <td>No hay datos</td>
+            <td>No hay datos</td>
+        </tr>
+        {{pass}}
+    </tbody>
+</table>

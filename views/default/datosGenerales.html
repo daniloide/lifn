@@ -1,0 +1,34 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Datos Generales</h2>
+</div>
+{{=form}}
+<div class="modified" style="display: none"></div>
+<div id="cambio" style="display: none">{{=cambio}}</div>
+<script src="{{=URL('static','js/tabsValidation.js')}}"></script>
+<script>
+    $("#DatosGenerales_tipoDeBosque").change(function() {
+        $("#subbosque").attr("disabled", 'disabled');
+        var idPlant = $("#DatosGenerales_tipoDeBosque").val();
+        $("#subbosque").html("");
+        if (idPlant == ""){
+            $("#subbosque").attr("disabled", 'disabled');
+            $("#subbosque").html("");
+        } else {
+            
+            var request = $.getJSON("/{{=request.application}}/default/subSelectData?id="+idPlant+"&t=TipoSubBosque", function(data){
+                $("#subbosque").html("");
+                var options = {};
+                $.each(data, function(key, val) {
+                    $("#subbosque").append("<option value=" + key + ">" + val + "</option>");
+                });
+                $("#subbosque").removeAttr("disabled");
+            });
+        }
+    });
+     $(document).ready(function() {
+        if ($("#subbosque").find("option").length == 0){
+            $("#subbosque").attr("disabled", 'disabled');
+        }
+    });
+</script>

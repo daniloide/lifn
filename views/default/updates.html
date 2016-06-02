@@ -1,0 +1,22 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Verificación de actualización de datos</h2>
+</div>
+
+<div style="min-height: 400px;">
+    <p>Los tipos de datos en el sistema central de la DGF pueden cambiar (aunque no es usual que así suceda).</p>
+    <p>Si Ud. está conectado a Internet podrá utilizar esta opción para actualizar sus tipos de datos a la última versión.</p>
+{{=form}}
+</div>
+<script>
+    $(document).ready(function(){
+        $("#ver").click(function(){
+            window.location = "/{{=request.application}}/default/seeUpdates";
+        });
+
+        $("#descargar").click(function(){
+            window.location = "/{{=request.application}}/default/downloadUpdates";
+        });
+    });
+
+</script>

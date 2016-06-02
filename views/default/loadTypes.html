@@ -1,0 +1,22 @@
+{{extend 'layout.html'}}
+<script>        
+    $(document).ready(function(){
+        $(":submit").attr('disabled', 'disabled');
+        $("#progressbar").show();
+        $.getJSON("/{{=request.application}}/default/loadSQLTypes", function(data) {
+            if (data.ret.resp == "OK"){
+                $(":submit").removeAttr('disabled');
+            } else {
+                alert('Error!');
+            }
+            $("#progressbar").hide();
+          
+        });
+
+    });
+
+</script>
+<h2>Cargar datos iniciales</h2>
+<p>Se están cargando los datos iniciales. Por favor aguarde para poder comenzar a utilizar la aplicación.</p>
+<img id="progressbar" src="{{=URL('static', 'images/progressbar.gif')}}" alt="Cargando..." style="display: none;"></img>
+{{=form}}

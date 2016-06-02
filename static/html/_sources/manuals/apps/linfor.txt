@@ -1,0 +1,123 @@
+.. sectionauthor:: Fernando Pacheco <fernando.pacheco@ingesur.com.uy>   
+
+*****************
+Aplicación LInFor
+*****************
+
+.. note::
+
+    La última versión de la aplicación puede descargarse desde la página de la
+    Dirección General Forestal en la sección
+    `cual!!!! <http://www.mgap.gub.uy/portal/hgxpp001.aspx?7,20,492,O,S,0,MNU;E;2;15;125;3;MNU;,>`_.
+
+Conceptos generales
+####################
+
+LInFor es una aplicación multiplataforma de escritorio desarrollada por `InGeSur srl <http://www.ingesur.com.uy/>`_
+a través del `Proyecto InBio <http://www.inbio.org.uy/>`_ para el `Dirección General Forestal <http://www.mgap.gub.uy/>`_
+(Ministerio de Ganadería, Agricultura y Pesca de Uruguay) para el ingreso de datos obtenidos en campo del Inventario Nacional Forestal.
+
+Fue desarrollada con `PySide <http://www.pyside.org/>`_ -es decir, en `Python <http://www.python.org/>`_ utilizando `Qt <http://www.qt-project.org/>`_-
+y puede ser utilizada en sistemas operativos Windows (XP, Vista y 7), GNU/Linux, Mac OSX, etc.
+
+Contiene un servidor web liviano y efeiciente denominado `Rocket <http://packages.python.org/rocket/>`_ y una aplicación web diseñada a medida denominada LIFN. 
+
+.. note::
+
+    Si desea mas información acerca de esa apliación LIFN consulte :doc:`/manuals/apps/lifn`.
+
+La aplicación funciona en modo local (en una sola máquina) o en modo de red (pude ser accedida en red, desde varias máquinas) y
+permite que los usuarios registrados en el sistema (1 adminsitrador y varios usuarios) puedan ingresar -desde una o varias computadoras-
+a través de un navegador web la información obtenida en campo para el Inventario Forestal.
+
+Luego que se completa toda la información requerida cada punto de muestreo es enviado a través
+de la web o por medio magnético para que sea validada e ingresada al sistema de seguimiento de
+recursos forestales (IFN). 
+
+Instalación
+############
+
+LInFor es una aplicación que no requiere instalación y se distribuye como un archivo comprimido **linfor.zip**.
+
+Para comenzar a utilizar la aplicación descargue la versión mas reciente desde la página de la Dirección General Forestal.
+Descomprima el archivo descargado **linfor.zip** a una carpeta en su disco duro donde Ud. tenga permiso de escritura.
+
+.. figure:: images/linfor_propwindow.png
+    :align: center
+    :alt: Ventana de propiedades de la aplicación
+    :width: 297px    
+    :height: 137px
+
+    Descompresión de archivo de distribución de LInFor
+
+Ejecución
+##########
+
+Ejecute la aplicación haciendo doble click en el archivo ejecutable **linfor.exe**
+desde el explorador de archivos.
+
+    .. figure:: images/linfor_propwindow.png
+        :align: center
+        :alt: Ventana de propiedades de la aplicación
+        :width: 297px    
+        :height: 137px
+    
+        Imagen del explorador de archivos
+
+En la primera ejecución la aplicación generará nuevas subcarpetas y decomprimirá otros
+archivos requeridos para su correcto funcionamiento. Inmediatamente despúes aparecerá 
+la ventana de propiedades (ver figura siguiente).
+
+.. figure:: images/linfor_propwindow.png
+    :align: center
+    :alt: Ventana de propiedades de la aplicación
+    :width: 297px    
+    :height: 137px
+    
+    Ventana de propiedades de la aplicación
+
+En esa ventana Ud. deberá ingresar los valores deseados para la ejecución del servidor web Rocket:
+
+    * dirección IP;
+    * puerto.
+
+La aplicación mostrará las direcciones IP (IPv4) de todas las interfaces de red que encuentre y la dirección IP local
+(usualmente 127.0.0.1).
+
+En rango de valores válidos para los puertos se encuentra entre 8000 y 9000 (alguna combinación de direccion IP y puerto
+puede estar siendo utilzado por otra aplicación).
+
+..
+    Esto es un comentario que no se ve!.
+
+.. container:: custom-note
+
+    .. list-table::
+       :widths: 15 15
+       :header-rows: 0
+
+       * - .. image:: images/linfor_propwindow.png
+                :align: center
+                :alt: Ventana de propiedades de la aplicación
+                :width: 297px
+                :height: 137px
+         - Solo puede existir una instancia de la apicación en
+           ejecución por lo que Ud. recibirá un mensaje de error
+           como se muestra en la figura siguiente si trata de
+           ejecutarla por segunda vez.
+
+Modo local
+***********
+
+Si Ud. desea ejecutar la aplicación en modo local (es decir, solo se admitirán conexiones web desde la propia máquina)
+seleccione una dirección IP local (127.0.0.1).
+
+Modo de red
+************
+
+Si Ud. desea cargar datos desde varias máquinas al mismo tiempo (posiblemente con usuarios distintos y tal vez con sistemas operativos diferentes)
+ejecute la aplicación en el modo de red. En ese caso, seleccione una dirección IP distinta a la 127.0.0.1 y un puerto.
+
+Indíquele a los demás usuarios la dirección IP seleccionada (que esta en la misma red de la de ellos) y el puerto. Los usuarios remotos
+deberán abrir una ventana del navegador web (Internet Explorer, Firefox, Chrome, Opera, etc.) y escribir la URL (`http://IP:puerto`).
+

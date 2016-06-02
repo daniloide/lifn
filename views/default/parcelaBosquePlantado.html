@@ -1,0 +1,55 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Parcelas Bosque Plantado De Radio {{=radio}}</h2>
+</div>
+{{=form}}
+<span class="label label-warning">Si algunas de las alturas no fueron registradas se deben ingresar 0</span>
+<div style="overflow: auto">
+<div>&nbsp;</div>
+<div id="parcela"></div>
+</div>
+<input type="hidden" value="{{=radio}}" id="radio"/>
+<div class="modified" style="display: none"></div>
+<script src="{{=URL('static','js/tabsValidation.js')}}"></script>
+<script type="text/javascript">
+    $("#ParcelasBosquePlantado_dap1").focusout(function(){
+        if ($("#ParcelasBosquePlantado_dap2").val() == ''){
+            $("#ParcelasBosquePlantado_dap2").val($("#ParcelasBosquePlantado_dap1").val());
+        }
+    });
+    
+    $(document).ready(function(){
+		reloadTable();
+    })
+    
+    function reloadTable()
+    {
+    	$.ajax({
+              url: "/{{=request.application}}/default/tableParcelaBosquePlantado?m="+{{=session.muestreoId}},
+              success: function(data) {
+                $("#parcela").html(data);
+              }
+            });
+    }
+    
+    $("#ParcelasBosquePlantado_distancia").focusout(function()
+    {
+    	var value = parseInt($("#ParcelasBosquePlantado_distancia").val(),10);
+    	var top = parseInt($("#radio").val(), 10);
+    	if(value > top){
+    		$("#ParcelasBosquePlantado_distancia").val('');
+    		alert("La distancia no puede ser mayor al radio");
+    		
+    	} 	
+    })
+	
+	function deleteEquipo(id)
+	{
+		$.ajax({
+              url: "/{{=request.application}}/default/delete?field=id&val="+id+"&table=ParcelasBosquePlantado",
+              success: function(data) {
+                reloadTable();
+              }
+            });
+	}
+</script>

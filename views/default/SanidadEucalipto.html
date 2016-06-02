@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Sanidad Eucalyptus</h2>
+</div>
+{{ include "plugin_dm/datamanager.html"}}
+{{ =toolbar }}
+{{ =grid }}
+<input id="muestreo_id" type="hidden" value={{=muestreo}} />
+<script src="{{=URL('static','js/plugin_dm/datamanager.js')}}"></script>

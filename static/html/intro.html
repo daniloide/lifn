@@ -1,0 +1,196 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introducción &mdash; Documentación de aplicaciones de IFN</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Documentación de aplicaciones de IFN" href="index.html" />
+    <link rel="next" title="Estructura del sistema" href="estructura.html" />
+    <link rel="prev" title="Aplicaciones del Inventario Nacional Forestal" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="estructura.html" title="Estructura del sistema"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Aplicaciones del Inventario Nacional Forestal"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Documentación de aplicaciones de IFN</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Contenidos</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introducción</a><ul>
+<li><a class="reference internal" href="#metodologia">Metodología</a></li>
+<li><a class="reference internal" href="#herramientas">Herramientas</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tema anterior</h4>
+  <p class="topless"><a href="index.html"
+                        title="Capítulo anterior">Aplicaciones del Inventario Nacional Forestal</a></p>
+  <h4>Próximo tema</h4>
+  <p class="topless"><a href="estructura.html"
+                        title="Próximo capítulo">Estructura del sistema</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Búsqueda rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduccion">
+<h1>Introducción<a class="headerlink" href="#introduccion" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>En el año 2012 la empresa <a class="reference external" href="http://www.ingesur.com.uy/">InGeSur srl</a> desarrolla un conjunto de aplicaciones,
+a través del <a class="reference external" href="http://www.inbio.org.uy/">Proyecto InBio</a>, para la <a class="reference external" href="http://www.mgap.gub.uy/">Dirección General Forestal</a>
+(Ministerio de Ganadería, Agricultura y Pesca de Uruguay) que recolectan, gestionan y procesan la información de seguimiento de los Recursos Forestales del país.</p>
+<div class="section" id="metodologia">
+<h2>Metodología<a class="headerlink" href="#metodologia" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El trabajo fue realizado en un entorno abierto y multiplataforma, es decir:</p>
+<ul class="simple">
+<li>se utilizaron herramientas libres y estándares abiertos;</li>
+<li>el código fuente de las aplicacioens fue entregada al cliente;</li>
+<li>los sistemas y aplicacioens desarrolladas pueden ejecutarse en sistemas operativos Windows (XP, Vista y 7), GNU/Linux y Mac OSX <a class="footnote-reference" href="#id10" id="id1">[1]</a>.</li>
+</ul>
+</div>
+<div class="section" id="herramientas">
+<h2>Herramientas<a class="headerlink" href="#herramientas" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El desarrollo fue realizado utilizando las siguientes herramientas:</p>
+<ul class="simple">
+<li><em>lenguajes de programación</em>: en su gran mayoría, Python (versión 2.7) <a class="footnote-reference" href="#id11" id="id2">[2]</a>, complementando con Javascript/jQuery para el desarrollo de páginas web dinámicas;</li>
+<li><em>sistemas de gestión de bases de datos</em>: PostgreSQL <a class="footnote-reference" href="#id12" id="id3">[3]</a>/PostGIS <a class="footnote-reference" href="#id14" id="id4">[4]</a> (aplicación central) y SQLite <a class="footnote-reference" href="#id16" id="id5">[5]</a> (para aplicación personal LInFor/LIFN).</li>
+<li><em>para desarrollo de aplicacioens web</em>: web2py <a class="footnote-reference" href="#id18" id="id6">[6]</a>;</li>
+<li><em>para el desarrollo de aplicaciones de escritorio</em>: PySide <a class="footnote-reference" href="#id20" id="id7">[7]</a> , es decir, bibliotecas Qt <a class="footnote-reference" href="#id21" id="id8">[8]</a> y Python ();</li>
+<li><em>documentación del código fuente</em>: docstrings/rst para código python (Sphinx <a class="footnote-reference" href="#id22" id="id9">[9]</a> para generar salidas a HTML, PDF, etc.).</li>
+</ul>
+<p>La última versión de las aplicaciones públicas pueden descargarse desde la página de la Dirección General Forestal (<a class="reference external" href="http://www.mgap.gub.uy/donde">aquí</a>).</p>
+<p>El manual de usario de las aplicaciones públicas puede consultarse en el siguiente enlace: <a href="#id23"><span class="problematic" id="id24">manuales_</span></a>.</p>
+<p class="rubric">Notas al pie</p>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Se optó por con utilizar GNU/Linux (Ubuntu Server 12.04) para alojar (en la Dirección General Forestal) los sistemas construidos.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Python es un lenguaje de programación orientado a objeto ampliamente utilizado. Por mas información consulte <a class="reference external" href="http://www.python.org/">este</a>  enlace.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>PostgreSQL es un sistema de gestión de bases de datos objeto-relacional que se distribuye bajo una licencia (Open Source). Por mas información consulte <a class="reference external" href="http://www.postgresql.org/">este</a>  enlace.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id14" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>PostGIS es un módulo de PostgreSQL que permite gestionar datos espaciales directamente sobre el sistema de gestión de bases de datos. Esta certificado al &#8220;Simple Feature Specification&#8221; del Open Geospatial Consortium. Se distribuye bajo la licencia GPL (Versión 2). Por mas información consulte <a class="reference external" href="http://postgis.refractions.net/">este</a>  enlace.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id16" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>SQLite es un sistema de gestión de bases de datos liviano ampliamente utilizado (el más utilizado en el mundo). Por mas información consulte <a class="reference external" href="http://www.sqlite.org/">este</a>  enlace.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id18" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td>web2py es una plataforma de desarrollo de aplicaciones web que utiliza el modelo MVC. Por mas información consulte <a class="reference external" href="http://www.web2py.com/">este</a>  enlace.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id20" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td>PySide es un conjunto de bibliotecas y herramientas que enlazan las bibliotecas Qt en Python bajo una licencia LGPL. Por mas información consulte el <a class="reference external" href="http://www.pyside.org/">sitio</a>  del Proyecto.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id21" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td>Las bibliotecas Qt se distribuyen bajo la licencia LGPL (existe además una licencia comercial) y son ampliamente utilizadas para el desarrollo de aplicacioens de escritorio y dispositivos portátiles/móviles. Por mas información consulte <a class="reference external" href="http://www.qt-project.org/">Qt Project</a>  y/o <a class="reference external" href="http://qt.digia.com/">Digia</a> .</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id22" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[9]</a></td><td>Sphinx es una herramienta para docuemtnación de proyectos informáticos (orientada a Python, pero capaz de funcionar con C,C++, etc). Por mas información consulte <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a>.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="estructura.html" title="Estructura del sistema"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Aplicaciones del Inventario Nacional Forestal"
+             >anterior</a> |</li>
+        <li><a href="index.html">Documentación de aplicaciones de IFN</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, InGeSur srl.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+.. Linfor documentation master file, created by
+   sphinx-quickstart on Sun Sep 23 11:34:47 2012.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+.. meta::
+   :description: Docuemntación de aplicaciónes del inventarios nacional forestal
+   :keywords: InGeSur, Dirección General Forestal, Ministerio de Gaadería
+
+.. sectionauthor:: Fernando Pacheco <fernando.pacheco@ingesur.com.uy>   
+
+*********************************************
+Aplicaciones del Inventario Nacional Forestal
+*********************************************
+
+Esta es la documentación [1]_ de aplicaciones del Inventario Nacional Forestal
+de la **Dirección General Forestal** (Ministerio de Ganadería, Agricultura y Pesca de Uruguay).
+
+
+Desde aqui Ud. podrá navegar hasta cada una de los enlaces de la documentación.
+
+.. toctree::
+    :maxdepth: 1
+    
+    intro.rst
+    estructura.rst
+    code.rst
+    manual.rst
+    faq.rst
+    indices_y_tablas.rst 
+
+.. [1] La documentación de las aplicaciones y del código fuente ha sido geneada utilizando `Sphinx <http://sphinx.pocoo.org/>`_.

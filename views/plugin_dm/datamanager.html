@@ -1,0 +1,84 @@
+<!-- Begin datamanager -->
+
+<!-- New Dialog -->
+<div id="newDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>{{ =T('New record') }}</h3>
+    </div>
+    <div class="modal-body">
+        <div id="newResult" class="center">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" id="save" class="btn btn-primary" onclick="newDialogSave();"> {{ =T('Save') }} </a>
+        <a href="#" id="close" class="btn" onclick="newDialogClose();"> {{ =T('Close') }} </a>
+    </div>
+</div>
+
+<!-- Edit Dialog -->
+<div id="editDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>{{ =T('Edit record') }}</h3>
+    </div>
+    <div class="modal-body">
+        <div id="editResult" class="center">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" id="save"  class="btn btn-primary" onclick="editDialogSave();"> {{ =T('Save') }} </a>
+        <a href="#" id="close" class="btn" onclick="editDialogClose();"> {{ =T('Close') }} </a>
+    </div>
+</div>
+
+<!-- Delete Dialog -->
+<div id="deleteDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3> {{=T('Delete confirmation')}}</h3>
+    </div>
+    <div class="modal-body">
+        {{=T('Are you sure?. Delete this record?')}}
+        <div id="deleteResult" class="center">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" id="delete" class="btn btn-warning" onclick="deleteDialogDelete();">{{ =T('Delete') }}</a>
+        <a href="#" id="close" class="btn" onclick="deleteDialogClose();">{{ =T('Cancel') }}</a>
+    </div>
+</div>
+
+<!-- DeleteAll Dialog -->
+<div id="deleteAllDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="deleteAllLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3> {{=T('Delete all confirmation')}}</h3>
+    </div>
+    <div class="modal-body">
+        {{=T('Are you sure?. Delete all records in this table?')}}
+        <div id="deleteAllResult" class="center">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" id="deleteAll" class="btn btn-warning" onclick="deleteAllDialogDelete();">{{ =T('Delete') }}</a>
+        <a href="#" id="close" class="btn" onclick="deleteAllDialogClose();">{{ =T('Cancel') }}</a>
+    </div>
+</div>
+
+<!-- DetailsE Dialog -->
+<div id="detailsEDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="detailsEDialog" aria-hidden="true" style="display: none;">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3> {{=T('Details')}}</h3>
+    </div>
+    <div class="modal-body">
+        <div id="detailsEResult" class="center">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" id="save" class="btn btn-primary" onclick="detailsEDialogSave();" disabled="disabled">{{ =T('Save') }}</a>
+        <a href="#" id="close" class="btn" onclick="detailsEDialogClose();">{{ =T('Cancel') }}</a>
+    </div>
+</div>
+<!-- End datamanager -->

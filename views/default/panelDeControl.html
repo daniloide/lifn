@@ -1,0 +1,39 @@
+<div id="resultado">
+    <table id="resultadoJqgrid"></table>
+    <div id="presultadoJqgrid"></div>
+</div>
+<script>
+    $(document).ready(function(){
+        var newUrl = "/{{=request.application}}/default/jqGridResultControlPanel?op={{=op}}";
+        var newColModel;
+        var newColNames;
+        var request = $.getJSON("/{{=request.application}}/default/jqGridColModelControlPanel?op={{=op}}", function(data){
+            newColModel = data
+            var request = $.getJSON("/{{=request.application}}/default/jqGridColNamesControlPanel?op={{=op}}", function(data){
+                newColNames = data
+                jQuery("#resultadoJqgrid").jqGrid({
+                            url: newUrl,
+                            datatype: "json",
+                            loadonce: true,
+                            colNames:newColNames, 
+                            colModel: newColModel, 
+                            jsonReader : {
+                              root:"rows",
+                              cell: "cell"
+                            },
+                            sortname: "muestreo",
+                            sortorder: "asc",
+                            rowNum:20, 
+                            autowidth: false,
+                            shrinkToFit: false,
+                            width: 900,
+                            height: 250,
+                            rowList:[10,20,30], 
+                            pager: '#presultadoJqgrid', 
+                            viewrecords: true, 
+                            caption:"Formularios:" 
+                }).navGrid('#presultadoJqgrid',{edit:false,add:false,del:false});
+            });
+        });
+    });
+</script>

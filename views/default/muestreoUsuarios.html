@@ -1,0 +1,201 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Asignar Muestreo a Usuario</h2>
+</div>
+
+<div style="min-height: 400px;">
+    <p>Asigne muestreos a los usuarios registrados del sistema para que estos ingresen los datos correspondientes.</p>
+    <p>Luego de que los usuarios asignados completen los formularios, Ud. podrá enviar la información a la Dirección General Forestal.</p>
+{{=form}}
+</div>
+
+<div id="save" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Confirmar</h3>
+  </div>
+  <div class="modal-body">
+  	<p>
+  		Existen formularios asignados que no se han guardado. Si cambia de usuario, perdera los cambios. 
+  		Desea guardar los cambios y cambiar de usuario?
+  	</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" id="close">Cancelar</button>
+    <button class="btn btn-primary" id="saveAndChange">Guardar y cambiar</button>
+  </div>
+</div>
+
+<script>  
+
+var saved = false;
+var changed = false;
+var currentUser = '';
+ 
+$(document).ready(function() {
+	currentUser = $("#user").val();
+	$("#progressBar").html("<img id='progressbarImage' src='{{=URL('static', 'images/progressbar.gif')}}' alt='Cargando...' style='display: none;'></img>");
+    $('[name=selectOneOrMultiple]:button').qtip(
+    {
+        content: 'Agregar los seleccionados' // Give it some content, in this case a simple string
+    });
+    $('[name=deselectOneOrMultiple]:button').qtip(
+    {
+        content: 'Remover seleccionados' // Give it some content, in this case a simple string
+    });
+    $('[name=selectAll]:button').qtip(
+    {
+        content: 'Agregar todos' // Give it some content, in this case a simple string
+    });
+    $('[name=deselectAll]:button').qtip(
+    {
+        content: 'Remover todos' // Give it some content, in this case a simple string
+    });
+    $("[name=selectOneOrMultiple]:button").click(function(){
+        var textos = {};
+        var selected = $("#todos").val();
+        var todos = $("#todos > option");
+        $.each(todos, function(){
+            if ($.inArray($(this).val(), selected) != -1){
+                textos[$(this).val()] = $(this).text();
+                $(this).remove();
+                changed = true;
+            }
+        })
+        asigns = "";
+        $.each(textos, function(index, val){
+            asigns += "<option value="+ index +">" + val + "</option>"
+        });
+        var oldVals = $("#asignados").html();
+        $("#asignados").html(oldVals + asigns);
+    });
+    $("[name=deselectOneOrMultiple]:button").click(function(){
+        var textos = {};
+        var selected = $("#asignados").val();
+        var asignados = $("#asignados > option");
+        $.each(asignados, function(){
+            if ($.inArray($(this).val(), selected) != -1){
+                textos[$(this).val()] = $(this).text();
+                $(this).remove();
+                changed = true;
+            }
+        })
+        todos = "";
+        $.each(textos, function(index, val){
+            todos += "<option value="+ index +">" + val + "</option>"
+        });
+        var oldVals = $("#todos").html();
+        $("#todos").html(oldVals + todos);
+    });
+
+    $("[name=selectAll]:button").click(function(){
+        var todos = $("#todos").html();
+        $("#todos").html("");
+        var oldVals = $("#asignados").html();
+        $("#asignados").html(oldVals + todos);
+        changed = true;
+    });
+
+    $("[name=deselectAll]:button").click(function(){
+        var asignados = $("#asignados").html();
+        $("#asignados").html("");
+        var oldVals = $("#todos").html();
+        $("#todos").html(oldVals + asignados);
+        changed = true;
+    });
+
+    $("#user").change(function() {
+    	if(!changed)
+    	{
+    		currentUser = $("#user").val();
+	        $("#progressbarImage").show();
+        	remainingPoints();
+        }
+        else
+        {
+        	$("#save").modal('show');
+        }
+    });
+    
+    function remainingPoints()
+    {
+    	var userId = $("#user").val();
+        var link = "/{{=request.application}}/default/asignedFormsUser?user="+userId
+        $.get(
+              link,
+              function(data) {
+                    $("#asignados").html(data);
+                     $("#progressbarImage").hide();
+              }
+        );
+        $.get(
+              "/{{=request.application}}/default/remainingPoints",
+              function(data) {
+                    $("#todos").html(data);
+              }
+        );
+	}
+	
+	$("#saveAndChange").click(function()
+	{
+		$("#guardar").trigger('click');
+		$("#save").modal('hide');
+		
+	})
+	
+	$("#close").click(function()
+	{
+		$("#user").val(currentUser);
+		$("#save").modal('hide');
+		
+	})
+
+    $("#guardar").click(function(){
+    	$("#progressbarImage").show();
+    	changed = false;
+        var asignados = "";
+        var todos = "";
+        var opts = $("#asignados > option");
+        $.each(opts, function(){
+            asignados += $(this).val() + ",";
+        });
+        var asignados = asignados.slice(0,-1);
+        var optsTodos = $("#todos > option");
+        $.each(optsTodos, function(){
+            todos += $(this).val() + ",";
+        });
+        var todos = todos.slice(0,-1);
+        var userId = currentUser;
+        if (todos == ""){
+            todos = "0";
+        }
+        if (asignados == ""){
+            asignados = "0";
+        }
+        $.ajax({
+            url: "/{{=request.application}}/default/saveMuestreoUsuarios?user="+userId+"&asign="+asignados+"&todos="+todos,
+            success: function(data) {
+                $.get(
+                      "/{{=request.application}}/default/remainingPoints",
+                      function(data) {
+                            $("#todos").html(data);
+                      }
+                );
+                var userId = $("#user").val();
+                var link = "/{{=request.application}}/default/asignedFormsUser?user="+userId
+                $.get(
+                      link,
+                      function(data) {
+                            $("#asignados").html(data);
+                      }
+                );
+                $(".flash").html('Guardado con éxito');
+                $(".flash").css("display", "block");
+                currentUser = $("#user").val();
+                remainingPoints();
+                $("#progressbarImage").hide();
+            }
+        });
+    });
+});
+    </script>

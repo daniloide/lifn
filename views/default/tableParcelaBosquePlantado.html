@@ -1,0 +1,46 @@
+<table class="table" style="background-color: #FFFFFF;margin-top: -20px; border-radius: 15px; border-color: #DDDDDD #DDDDDD transparent;">
+	<thead>
+		<tr>
+			{{for header in arboles[1]:}}
+			<th>
+				{{=header}}
+			</th>
+			{{pass}}
+		</tr>
+	</thead>
+	<tbody>
+		{{if len(arboles[0]) >0:}}
+			{{for data in arboles[0]:}}
+			<tr>
+				<td>{{=data['arb']}}</td>
+				<td>{{=data['dap1']}}</td>
+				<td>{{=data['dap2']}}</td>
+				<td>{{=data['dist']}}</td>
+				<td>{{=data['rum']}}</td>
+				<td>{{=data['hc']}}</td>
+				<td>{{=data['ht']}}</td>
+				<td>{{=data['hp']}}</td>
+				<td>{{=data['tipo']}}</td>
+				<td>{{=data['esp']}}</td>
+				<td>{{=data['obs']}}</td>
+				<td><input type="button" value="Borrar" class="btn btn-small" onclick="deleteEquipo({{=data['id']}})" /></td>
+			</tr>
+			{{pass}}
+		{{else:}}
+		<tr>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+		</tr>
+		{{pass}}
+	</tbody>
+</table>

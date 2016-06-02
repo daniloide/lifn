@@ -1,0 +1,237 @@
+.. sectionauthor:: Guillermo Bergengruen <guillermo.bergengruen@ingesur.com.uy>   
+
+*****************
+Aplicación LIFN
+*****************
+
+Conceptos generales
+####################
+
+LIFN es una aplicación web diseñada a medida desarrollada por `InGeSur srl <http://www.ingesur.com.uy/>`_
+a través del `Proyecto InBio <http://www.inbio.org.uy/>`_ para el `Dirección General Forestal <http://www.mgap.gub.uy/>`_
+(Ministerio de Ganadería, Agricultura y Pesca de Uruguay) para el ingreso de datos obtenidos en campo del Inventario Forestal Nacional.
+
+La intención de la misma es estandarizar y regularizar los datos ingresados en el Inventario Forestal Nacional para poder obtener resultados que representen la realidad,
+ya que de otra forma esto sería imposible, por el simple hecho de que no existe un estandar para escribir lo pedido en el formulario.
+
+Fue desarrollada con `Web2py <http://www.web2py.com/>`_, en el lenguaje de programción `Python <http://www.python.org/>`_ y puede ser utilizada en sistemas 
+operativos Windows (XP, Vista y 7), GNU/Linux, Mac OSX, etc. Esta aplicación puede ser visualizada en cualquier explorador moderno.
+
+Luego que se completa toda la información requerida cada punto de muestreo es enviado a través
+de la web o por medio magnético para que sea validada e ingresada al sistema de seguimiento de
+recursos forestales (IFN). 
+
+Instalación
+############
+
+LIFN no requiere instalación y sólo se debe de ingresar a la URL que se obtiene al ejecutar la aplicación LInFor.
+
+.. note::
+
+    Si desea mas información acerca de esa apliación LInFor consulte :doc:`/manuals/apps/linfor`.
+
+
+Ejecución
+##########
+
+Al ingresar a la URL provista por la aplicación LInFor, se desplegará el sistema LIFN que permite el ingreso de los datos del Inventario Forestal Nacional.
+
+
+Consideraciones previas
+#######################
+
+Roles
+*****
+
+Existen dos roles en el sistema:
+    * un administrador, encargado de gestionar los usuarios y de determinar que muestreos son realizados por cada usuario.
+    * un digitador, que ingresa los datos de los formularios del Inventario Forestal Nacional al sistema.
+    
+Permisos
+========
+
+    +------------------------+-----------------+------------+
+    |                        | Administrador   | Digitador  |
+    +========================+=================+============+
+    | Agregar Usuarios       | Si              | No         |
+    +------------------------+-----------------+------------+
+    | Agregar Muestreos      | Si              | No         |
+    +------------------------+-----------------+------------+
+    | Asignar Muestreos      | Si              | No         |
+    +------------------------+-----------------+------------+
+    | Enviar Información     | Si              | No         |
+    +------------------------+-----------------+------------+
+    | Exportar a KML         | Si              | No         |
+    +------------------------+-----------------+------------+
+    | Ingreso de Información | Si              | Si         |
+    +------------------------+-----------------+------------+
+
+Gestión de usuarios
+*******************
+
+Para ingresar un nuevo usuario se deberá de pedir al administrador que se ingrese uno. Sólo el administrador tiene esta capacidad.
+
+Siendo el administrador, se debe de ingresar al menú superior "Nuevo usuario" e ingresar los datos pedidos.
+
+Gestión de muestreos
+********************
+
+Para ingresar nuevos muestreos, se debe de ingresar en el menú superior "Nuevos muestreos", que se encontrará al haber iniciado la sesión como administrador. 
+Aquí se pedirá que se ingrese el archivo suministrado por la DGF en formato XML. El sistema ingresa los puntos muestrales para su posterior asignación e ingreso de datos.
+
+Luego de que se ingresaron, se deben de asignar los muestreos a los usuarios del sistema. Se pueden asignar tanto a los digitadores como al administrador.
+
+Asignación de muestreos
+***********************
+
+Para asignar un muestreo a un usuario, se ingresa como administrador y se ingresa al menú superior "Asignar muestreo a usuario" donde se desplegará el siguiente formulario:
+
+
+.. figure:: images/lifn/asignSamples.png
+    :align: center
+    :alt: Asignar muestreo a usuario
+    :width: 719px
+    :height: 282px
+
+    Asignar muestreo a usuario
+    
+Primero se debe de seleccionar un usuario del listado, con lo que se modificarán las listas inferiores para representar los muestreos sin asignar y los asignados al usuario seleccionado.
+
+.. note::
+
+    Nótese que sólo se desplegarán los muestreos asignados que estén sin completar. Si se ha ingresado algún dato, no se mostrarán aquí.
+    
+Luego para asignar un muestreo a un usuario se utilizarán los siguientes botones:
+    * >> : agregar todos los muestreos sin asignar al usuario seleccionado
+    * => : agrega los muestreos seleccionados al usuario
+    * <= : remueve los muestreos seleccionados del usuario
+    * << : remueve todos los muestreos del usuario
+
+Enviar Datos
+************
+
+Cuando se han realizado el total o una cantidad parcial de muestreos, se pueden enviar para su posterior análisis en la Dirección General Forestal.
+
+Para esto es necesario seleccionar el menú superior "Enviar información". Se desplegará el siguiente formulario:
+
+.. figure:: images/lifn/sendData.png
+    :align: center
+    :alt: Enviar información
+    :width: 715px
+    :height: 290px
+
+    Enviar información
+    
+Se utilizarán los siguientes botones para seleccionar que muestreos se enviarán:
+    * >> : agregar todos los muestreos
+    * => : agrega los muestreos seleccionados
+    * <= : remueve los muestreos seleccionados
+    * << : remueve todos los muestreos
+    
+Exportar Puntos Muestrales a KML
+********************************
+
+En cualquier momento se podrá exportar los puntos presentes en el sistema a un formato espacial (.kml) que podrá ser visualizado en Google Earth. 
+
+Para lograr esto se deberá seleccionar el menú superior "Exportar KML". El navegador entregará al usuario el archivo kml con los puntos para su posterior visualización.
+
+El KML contiene dos carpetas, las cuales contienen por un lado los puntos muestrales que ya han sido comenzados, y por otro los puntos muestrales sin realizar. 
+
+
+Primera ejecución
+#################
+
+Cuando se ejecuta por primera vez la aplicación, se desplegará un mensaje de bienvenida y se pedirá que se ingresen los datos de la persona responsable, llamada
+administrador. Esta persona será la encargada de gestionar los usuarios y determinar que muestreos son realizados por cada usuario.
+
+En este formulario se pedirá que se suministre un nombre de usuario, el cuál no puede contener espacios; el nombre y apellido de la persona; 
+un correo electrónico y por último una contraseña para ingresar al sistema.
+
+Área de ingreso
+###############
+
+Para ingresar al sistema se debe de seleccionar el botón "Loguearse" que se encuentra en la esquina superior derecha.
+
+Luego se despliega el siguiente formulario:
+
+.. figure:: images/lifn/login.png
+    :align: center
+    :alt: Inicio de sesión
+    :width: 449px
+    :height: 239px
+
+    Inicio de sesión del sistema
+
+Se debe de ingresar el nombre de usuario y la contraseña para ingresar con éxito al sistema.
+
+
+    
+Panel de control
+################
+
+Al ingresar al sistema con un usuario válido se presenta el panel de control del usuario. En él se encuentra el listado de los puntos asignados.
+
+Cuando se inició sesión con un usuario del rol administrador, se presenta el listado, además de a quién fue asignado cada muestreo.
+
+.. figure:: images/lifn/panelDeControlAdmin.png
+    :align: center
+    :alt: Panel de control del administrador
+    :width: 963px
+    :height: 415px
+
+    Panel de control del administrador
+    
+Por otra parte si se inicia sesión con un digitador, se presenta el siguiente panel de control.
+
+.. figure:: images/lifn/panelDeControl.png
+    :align: center
+    :alt: Panel de control del digitador
+    :width: 981px
+    :height: 434px
+
+    Panel de control del digitador
+    
+A partir de esta pantalla se pueden comenzar, verificar y continuar el llenado de los formularios, al seleccionar el punto muestral deseado y clickear en el siguiente icono:
+
+.. figure:: images/lifn/seeSample.png
+    :align: center
+    :alt: Ver muestreo
+    :width: 161px
+    :height: 65px
+
+    Comenzar, verificar y continuar formularios
+
+Selección del estado de la parcela
+##################################
+
+Cuando se ingresa a un muestreo específico, lo primero a rellenar es el estado de la parcela. Aquí se selecciona si se pudo recabar información, si no hay bosque, si el bosque ha sido cortado o si no se puede ingresar.
+
+.. figure:: images/lifn/parcelState.png
+    :align: center
+    :alt: Estado de la parcela
+    :width: 695px
+    :height: 312px
+
+    Estado de la parcela
+
+Luego de seleccionar el estado, y dependiendo si selecciona que existe información, se continúa con el llenado del formulario.
+
+Ingreso de datos del formulario
+###############################
+
+Para comenzar a introducir los datos del Inventario Forestal Nacional, se deben de ingresar los datos generales de la parcela. 
+Luego de seleccionar el tipo y sub tipo de bosque, la fecha de realización del muestreo y los datos remanantes, se podrá continuar con el llenado del formulario.
+
+.. warning::
+
+    Recuerde para que los datos persistan, se debe de presionar el botón guardar en cada una de las etapas del formulario.
+    
+.. figure:: images/lifn/generalData.png
+    :align: center
+    :alt: Datos generales de la parcela
+    :width: 711px
+    :height: 398px
+
+    Datos generales de la parcela
+
+Luego de ingresar estos datos, el menú lateral, que contiene todos los items del formulario, se desplegará mostrando las secciones que deberán ser completadas.

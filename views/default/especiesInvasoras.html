@@ -1,0 +1,195 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Especies Invasoras</h2>
+</div>
+<table>
+	<tr id="TieneDatos_tieneAgua__row">
+		<td class="w2p_fl">
+			<label id="TieneDatos_tieneAgua__label" for="TieneDatos_tieneAgua">Presencia: </label>
+		</td>
+		<td class="w2p_fw">
+			<!-- <div id="toggle-button-div-TieneDatos-tieneAgua" class="btn-group" data-toggle="buttons-radio"> -->
+				<input id="TieneDatos_tieneAgua" class="boolean" type="checkbox" style="display:none;" name="tieneAgua">
+				{{if especies:}}
+                    <div class="btn-group" data-toggle="buttons-radio">
+                        <button id="haveDataYes" type="button" class="toggle-btn btn active">{{ =T('Yes')}}</button>
+                        <button id="haveDataNo" type="button" class="toggle-btn btn">{{ =T('No')}}</button>
+                    </div>
+				{{else:}}
+                    <div class="btn-group" data-toggle="buttons-radio">
+                        <button id="haveDataYes" type="button" class="toggle-btn btn">{{ =T('Yes')}}</button>
+                        <button id="haveDataNo" type="button" class="toggle-btn btn active">{{ =T('No')}}</button>
+                    </div>
+                {{pass}}
+			<!-- </div> -->
+		</td>
+		<td class="w2p_fc"></td>
+	</tr>
+</table>
+<img id="progressbar" src="{{=URL('static', 'images/progressbar.gif')}}" alt="Cargando..." style="display: none;"></img>
+{{if especies:}}
+    {{=form}}
+<div>&nbsp;</div>
+<div id="especies"></div>
+{{pass}}
+
+<!-- undoDialog -->
+<div id="undoDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Deshacer</h3>
+    </div>
+    <div class="modal-body">
+        <p>
+            Si acepta, se borraran todos los datos de Especies Invasoras para este muestreo y
+            se regresara a la pantalla anterior. Desea continuar?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" role="dialog" onclick="undoDialogCancel();">{{ =T('Cancel') }}</button>
+        <button class="btn btn-primary" onclick="undoDialogConfirm();">{{ =T('Confirm') }}</button>
+    </div>
+</div>
+<!-- End undoDialog -->
+
+<div class="modified" style="display: none"></div>
+<script src="{{=URL('static','js/tabsValidation.js')}}"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        hide();
+        reloadTable();
+    }
+    );
+
+    function undoDialogConfirm() {
+        $.ajax({
+            url: '/{{=request.application}}/default/undoEspeciesInvasoras',
+            success: function(data) {
+                location.reload();
+            }
+        });
+    }
+
+    function undoDialogCancel() {
+        $("#undoDialog").modal('toggle');
+    }
+
+    $("#haveDataYes").click(function(){
+        if ( $("#haveDataYes").hasClass("active")==true ) {
+            /* Nothing */
+        } else {
+            $("#progressbar").show();
+            $.ajax({
+            url: '/{{=request.application}}/default/siPresenciaEspecies',
+            success: function(data) {
+                location.reload();
+            }
+            });
+        }
+    })
+
+    $("#haveDataNo").click(function(event) {
+            event.stopPropagation();
+            if ( $("#haveDataNo").hasClass("active")==true ) {
+                /* Nothing */
+            } else {
+                $("#undoDialog").modal('toggle');
+            }
+    })
+
+
+    function reloadTable()
+    {
+    	$.ajax({
+              url: "/{{=request.application}}/default/tableEspeciesInvasoras?m="+{{=session.muestreoId}},
+              success: function(data) {
+                $("#especies").html(data);
+              }
+            });
+    }
+
+	function deleteEspecies(id)
+	{
+		$.ajax({
+              url: "/{{=request.application}}/default/delete?field=id&val="+id+"&table=EspeciesInvasoras",
+              success: function(data) {
+                reloadTable();
+              }
+            });
+	}
+
+    function getData(value, common){
+        if(value != ""){
+            $.ajax({
+                  url: "/{{=request.application}}/default/especiesInvasorasNames?partialstr="+value+"&comun="+common,
+                  success: function(data) {
+                    if(common == 0){
+                        $("#cientificos").show();
+                        $("#cientificos").html(data);
+                    }else{
+                        $("#comunes").show();
+                        $("#comunes").html(data);
+
+                    }
+                  }
+            });
+        }else{
+            hide();
+        }
+    }
+
+    function hide(){
+        $("#cientificos").html("");
+        $("#comunes").html("");
+        $("#cientificos").hide();
+        $("#comunes").hide();
+    }
+
+    function copyToBox(value, common){
+        if(common == 0){
+            $("#nomCientifico").val(value);
+            hide();
+            $.ajax({
+                  url: "/{{=request.application}}/default/especiesInvasorasCommonNames?nomCientifico="+value,
+                  success: function(data) {
+                    $("#nombreComun").val(data);
+                  }
+                });
+            var cient = $("#nomCientifico").val();
+            $.ajax({
+              url: "/{{=request.application}}/default/especiesInvasorasCategory?nomCientifico="+cient,
+              success: function(data) {
+                $("#categoria").val(data);
+              }
+            });
+        }else{
+            $("#nombreComun").val(value);
+            hide();
+            $.ajax({
+                  url: "/{{=request.application}}/default/especiesInvasorasCientificNames?nomComun="+value,
+                  success: function(data) {
+                    $("#nomCientifico").val(data);
+                    var cient =  $("#nomCientifico").val();
+                    $.ajax({
+                      url: "/{{=request.application}}/default/especiesInvasorasCategory?nomCientifico="+cient,
+                      success: function(data) {
+                        $("#categoria").val(data);
+                      }
+                    });
+                  }
+            });
+        }
+    }
+
+    $(document).click(function() {
+        hide();
+    });
+
+    $("#cientificos").click(function(event) {
+        event.stopPropagation();
+    });
+
+    $("#comunes").click(function(event) {
+        event.stopPropagation();
+    });
+</script>
