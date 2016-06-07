@@ -155,7 +155,6 @@ db.define_table('TipoCoberturaHerbacea',
           label='Descripción', unique=True, notnull=True)
 )
 
-""" NO VA MAS
 db.define_table('TipoCoberturaResiduosPlantas',
     Field('tipo', type='string',
           label='Porcentaje', unique=True, notnull=True),
@@ -169,7 +168,6 @@ db.define_table('TipoCoberturaResiduosCultivos',
     Field('descripcion', type='string',
           label='Descripción', unique=True, notnull=True)
 )
-"""
 
 db.define_table('TipoEstructuraSuelo',
     Field('tipo', type='string',
@@ -992,13 +990,12 @@ db.define_table('CoberturaVegetal',
           label='Cobertura de Residuos de Cultivos',comment='Proyección vertical de los residuos de cultivos como porcentaje total del área')
 )
 
-db.CoberturaVegetal.coberturaResiduosPlantas.requires = IS_IN_SET(('0','<5%','5-10%','10-20%','20-30%','30-50%','50-70%','>70%'))
-db.CoberturaVegetal.coberturaResiduosCultivos.requires = IS_IN_SET(('0', '<5%','5-10%','10-20%','20-30%','30-50%','50-70%','>70%'))
 db.CoberturaVegetal.muestreo.requires = IS_IN_DB(db, db.Muestreo.id, '%(punto)s - %(anioMuestreo)s')
 db.CoberturaVegetal.gradoCoberturaCopas.requires = IS_IN_DB(db, db.TipoGradoCoberturaCopas.id, '%(tipo)s', orderby=db.TipoGradoCoberturaCopas.id)
 db.CoberturaVegetal.gradoSotobosque.requires = IS_IN_DB(db, db.TipoGradoSotobosque.id, '%(tipo)s', orderby=db.TipoGradoSotobosque.id)
 db.CoberturaVegetal.coberturaHerbacea.requires = IS_IN_DB(db, db.TipoCoberturaHerbacea.id, '%(tipo)s', orderby=db.TipoCoberturaHerbacea.id)
-
+db.CoberturaVegetal.coberturaResiduosPlantas.requires = IS_IN_DB(db, db.TipoCoberturaResiduosPlantas.id, '%(tipo)s', orderby=db.TipoCoberturaHerbacea.id)
+db.CoberturaVegetal.coberturaResiduosCultivos.requires = IS_IN_DB(db, db.TipoCoberturaResiduosCultivos.id, '%(tipo)s', orderby=db.TipoCoberturaHerbacea.id)
 
 db.define_table('ProductosNoMadereros',
     Field('muestreo', db.Muestreo,

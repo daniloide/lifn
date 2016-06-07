@@ -300,13 +300,14 @@ def loadSQLTypes():
         db.commit()
         cl=1
         for sql in sqlLines:
-            # print "%i: %s" % (cl,sql)
+            #print "%i: %s" % (cl,sql)
             db.executesql(sql)
             cl=cl+1
         ret['resp'] = 'OK'
-    except:
+    except  Exception, e:
         db.rollback()
         ret['resp'] = 'NOK'
+	print "loadSQLTypes - On line: %d, error: %s" % (cl,e)
     import gluon.contrib.simplejson
     return gluon.contrib.simplejson.dumps({'ret': ret})
 
