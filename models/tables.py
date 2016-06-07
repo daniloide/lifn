@@ -984,9 +984,9 @@ db.define_table('CoberturaVegetal',
           label='Grado de Sotobosque', comment='Proyección vertical de las copas del sotobosque como porcentaje total del área'),
     Field('coberturaHerbacea',db.TipoCoberturaHerbacea,
           label='Cobertura Herbacea', comment='Proyección vertical de las plantas herbáceas como porcentaje total del área'),
-    Field('coberturaResiduosPlantas',type='string',
+    Field('coberturaResiduosPlantas',db.TipoCoberturaResiduosPlantas,
           label='Cobertura de Residuos de Plantas', comment='Proyección vertical de los residuos de plantas como porcentaje total del área'),
-    Field('coberturaResiduosCultivos',type='string',
+    Field('coberturaResiduosCultivos',db.TipoCoberturaResiduosCultivos,
           label='Cobertura de Residuos de Cultivos',comment='Proyección vertical de los residuos de cultivos como porcentaje total del área')
 )
 
@@ -994,8 +994,8 @@ db.CoberturaVegetal.muestreo.requires = IS_IN_DB(db, db.Muestreo.id, '%(punto)s 
 db.CoberturaVegetal.gradoCoberturaCopas.requires = IS_IN_DB(db, db.TipoGradoCoberturaCopas.id, '%(tipo)s', orderby=db.TipoGradoCoberturaCopas.id)
 db.CoberturaVegetal.gradoSotobosque.requires = IS_IN_DB(db, db.TipoGradoSotobosque.id, '%(tipo)s', orderby=db.TipoGradoSotobosque.id)
 db.CoberturaVegetal.coberturaHerbacea.requires = IS_IN_DB(db, db.TipoCoberturaHerbacea.id, '%(tipo)s', orderby=db.TipoCoberturaHerbacea.id)
-db.CoberturaVegetal.coberturaResiduosPlantas.requires = IS_IN_DB(db, db.TipoCoberturaResiduosPlantas.id, '%(tipo)s', orderby=db.TipoCoberturaHerbacea.id)
-db.CoberturaVegetal.coberturaResiduosCultivos.requires = IS_IN_DB(db, db.TipoCoberturaResiduosCultivos.id, '%(tipo)s', orderby=db.TipoCoberturaHerbacea.id)
+db.CoberturaVegetal.coberturaResiduosPlantas.requires = IS_IN_DB(db, db.TipoCoberturaResiduosPlantas.id, '%(tipo)s', orderby=db.TipoCoberturaResiduosPlantas.id)
+db.CoberturaVegetal.coberturaResiduosCultivos.requires = IS_IN_DB(db, db.TipoCoberturaResiduosCultivos.id, '%(tipo)s', orderby=db.TipoCoberturaResiduosCultivos.id)
 
 db.define_table('ProductosNoMadereros',
     Field('muestreo', db.Muestreo,
