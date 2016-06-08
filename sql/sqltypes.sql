@@ -75,6 +75,7 @@ INSERT INTO TipoGradoErosion(id,tipo) VALUES(3,'Ligera');
 INSERT INTO TipoGradoErosion(id,tipo) VALUES(4,'Moderada');
 INSERT INTO TipoGradoErosion(id,tipo) VALUES(5,'Severa');
 INSERT INTO TipoGradoErosion(id,tipo) VALUES(6,'Extrema');
+INSERT INTO TipoErosion(id,tipo) VALUES(5,'No se define');
 INSERT INTO TipoErosion(id,tipo) VALUES(6,'Laminar');
 INSERT INTO TipoErosion(id,tipo) VALUES(7,'Cárcava');
 INSERT INTO TipoErosion(id,tipo) VALUES(8,'Zanja');
