@@ -1,0 +1,34 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Estratos</h2>
+</div>
+{{=form}}
+<div>&nbsp;</div>
+<div id="estratos"></div>
+<div class="modified" style="display: none"></div>
+<script src="{{=URL('static','js/tabsValidation.js')}}"></script>
+<script>
+	$(document).ready(function(){
+		reloadTable();
+    })
+    
+    function reloadTable()
+    {
+    	$.ajax({
+              url: "/{{=request.application}}/default/tableEstratos?m="+{{=session.muestreoId}},
+              success: function(data) {
+                $("#estratos").html(data);
+              }
+            });
+    }
+	
+	function deleteEstrato(id)
+	{
+		$.ajax({
+              url: "/{{=request.application}}/default/delete?field=id&val="+id+"&table=Estratos",
+              success: function(data) {
+                reloadTable();
+              }
+            });
+	}
+</script>

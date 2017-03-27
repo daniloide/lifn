@@ -167,4 +167,27 @@
           }
         });
     }
+    
+$("#Agua_tipoCaudal").change(function() {
+         if($(this).attr("value") == 11){
+            //$(this).removeAttr("multiple");
+            hideDivs();
+        }else{
+            hideDivs();
+            $(this).attr("multiple", "multiple");
+            $("#Agua_tipoCaudal option:selected").each(function () {
+                  //$("#row"+$(this).val()).show();
+                    $("[id=row"+$(this).val()+"]").show();
+                    $("[id=row"+$(this).val()+"Dist]").show();
+            });
+
+        }
+    });
+    
+    $('[id^=dist]').change(function(){
+	if ($(this).val() <0 || $(this).val()>100){
+		alert("La distancia debe estar entre 0 y 100");
+		$(this).val(0);
+	}
+    });
 </script>

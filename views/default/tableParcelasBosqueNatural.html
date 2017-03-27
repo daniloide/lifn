@@ -13,8 +13,6 @@
 			{{for data in parcelas[0]:}}
 			<tr>
 				<td>{{=data['arbol']}}</td>
-				<td>{{=data['dap1']}}</td>
-				<td>{{=data['dap2']}}</td>
 				<td>{{=data['nomCient']}}</td>
 				{{if data['nomCom']:}}
 				<td>{{=data['nomCom']}}</td>
@@ -23,9 +21,11 @@
 				{{pass}}
 				<td>{{=data['edad']}}</td>
 				<td>{{=data['ht']}}</td>
-				<td>{{=data['estr']}}</td>
 				<td>{{=data['obs']}}</td>
-				<td><input type="button" value="Borrar" class="btn btn-small" onclick="deleteEquipo({{=data['id']}})" /></td>
+				<td>{{=data['estr']}}</td>
+				<td>{{=data['dap1']}}</td>
+				<td>{{=data['dap2']}}</td>				
+				<td><input type="button" value="Borrar" class="btn btn-small" onclick="deleteEquipo({{=data['id']}})" /> <a href="#agregarVara" role="button" class="btn btn-small" data-toggle="modal" style="margin-bottom:10px;">Agregar vara</a> </td>
 			</tr>
 			{{pass}}
 		{{else:}}
@@ -44,3 +44,4 @@
 		{{pass}}
 	</tbody>
 </table>
+

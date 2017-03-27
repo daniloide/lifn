@@ -1,0 +1,110 @@
+{{extend 'layout.html'}}
+<div class="custom-header">
+    <h2>Distancias</h2>
+</div>
+{{=form}}
+<!--
+<button id="fakeSave" style="position: absolute; top: 400px; left:550px;">Guardar</button>
+-->
+<span class="label label-warning">Las distancias que no fueron relevadas o no aplicaban deben ser 0</span>
+<div class="modified" style="display:none"></div>
+<div id="dialog" title="GPX"></div>
+<script src="{{=URL('static','js/tabsValidation.js')}}"></script>
+<script>
+    function createUploader(){
+        var uploader = new qq.FineUploader({
+            element: document.getElementById('fineUploader'),
+            request: {
+                endpoint: '/{{=request.application}}/default/saveTrack'
+            },
+            allowedExtensions: ['gpx'],
+            text: {
+                uploadButton: '<i class="icon-upload icon-white"></i> Subir archivo',
+                cancelText: ' Cancelar',
+                failUpload: ' El archivo no se puedo subir',
+            },
+            template: '<div class="qq-uploader">' +
+            '<!-- <pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre> -->' +
+            '<div class="qq-upload-button btn btn-success">{uploadButtonText}</div>' +
+            '<div class="qq-upload-list" style="float:left;">' +
+            '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;"></ul></div>' +
+            '</div>',
+            multiple: false,
+            disableDefaultDropzone: true,
+            callbacks: {
+                onComplete: function (id, fileName, result) {
+                    var fileName = result['fileName'];
+                    if (fileName != ''){
+                        //$("#trackFileName").remove();
+                        $("[name=trackFileName]").val(fileName);
+                        /*
+                        $(":submit").before('<div id="trackFileName"><input type="text" name="trackFileName" value=' + fileName + ' style="display:none;"></div>');
+                        */
+
+                        $.ajax({
+                          url: '/{{=request.application}}/default/parseTrack?fileName='+fileName,
+                          success: function(data) {
+                            $("#dialog").html(data);
+                            $("#dialog").dialog({modal:true, height: 250, width: 600});
+                          }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    function getTrackInfo(){
+        var fileName = $("[name=trackFileName]").val();
+        $.ajax({
+          url: '/{{=request.application}}/default/parseTrack?fileName='+fileName,
+          success: function(data) {
+            $("#dialog").html(data);
+            $("#dialog").dialog({modal:true, height: 250, width: 600});
+            //$('form').after('<div id="gpxData">' + data + '</div>');
+          }
+        });
+    }
+
+    function eraseTrack(){
+        var muestreoId = $("#muestreoId").html();
+        $.ajax({
+          url: '/{{=request.application}}/default/eraseTrack?id='+muestreoId,
+          success: function() {
+              $("#trackFileName").val("");
+              $("#actions").hide();
+          }
+        });
+    }
+
+    $("#fakeSave").click(function(){
+    	if($(".qq-upload-file").length > 0)
+    	{
+    		$('form').find(':submit').trigger('click');
+    	}
+    	else
+    	{
+    		alert("El track no puede ser vacio");
+    	}
+    })
+    function showRumboCaminoCentroParcela(){
+        if ($("#Distancias_puntoGPSCentroParcela") >=0){
+            $("#Distancias_rumboCaminoCentroParcela").show();
+        } else {
+            $("#Distancias_rumboCaminoCentroParcela").hide();
+        }
+    }
+
+    $(document).ready(function (){
+        $("#info").click(function(){
+            getTrackInfo();
+        });
+        $("#eraseLink").click(function(){
+            eraseTrack();
+        });
+        $('table').find('tr#submit_record__row').hide();
+        showRumboCaminoCentroParcela();
+        $("#Distancias_puntoGPSCentroParcela").change(showRumboCaminoCentroParcela);
+    })
+    window.onload = createUploader;
+</script>

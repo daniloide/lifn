@@ -10,4 +10,21 @@
             var current_index = $("#tabs").tabs("option","selected");
             $("#tabs").tabs('load',current_index);
     });*/
+    function seleccionarPendiente(){
+        if ($("#Relieve_ubicacion option:selected").text() == "Plano" && $("#Relieve_exposicion option:selected").text() == "Plano"){
+	  $("#Relieve_pendiente" ).val("0");
+            $("#Relieve_formaPendiente").val("5");
+            //$("#Relieve_pendiente" ).prop( "disabled", true );
+            //$("#Relieve_formaPendiente").prop( "disabled", true );
+	     $("#Relieve_pendiente__row").hide();
+	     $("#Relieve_formaPendiente__row").hide();
+        } else {
+          // $("#Relieve_pendiente" ).prop( "disabled", false );
+           // $("#Relieve_formaPendiente").prop( "disabled", false );
+	$("#Relieve_pendiente__row").show();
+	$("#Relieve_formaPendiente__row").show();
+        }
+    }
+    $("#Relieve_ubicacion, #Relieve_exposicion").change(seleccionarPendiente);
+    $(document).ready(seleccionarPendiente);
 </script>

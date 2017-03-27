@@ -10,5 +10,15 @@
             var current_index = $("#tabs").tabs("option","selected");
             $("#tabs").tabs('load',current_index);
     });*/
+    function seleccionarTipoErosion(){
+        if ($("#Suelo_gradoErosion option:selected").text() == "Nula"){
+            $("#Suelo_tipoErosion").val('10');
+            $("#Suelo_tipoErosion" ).prop( "disabled", true );
+        } else {
+            $("#Suelo_tipoErosion" ).prop( "disabled", false)
+        }
+    }
+    $("#Suelo_gradoErosion").change(seleccionarTipoErosion);
+    $(document).ready(seleccionarTipoErosion);
 </script>
 <script src="{{=URL('static','js/sueloPopovers.js')}}"></script>

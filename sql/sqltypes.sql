@@ -121,22 +121,14 @@ INSERT INTO TipoCoberturaHerbacea(id,tipo,descripcion) VALUES(3,'5-10%%','Cobert
 INSERT INTO TipoCoberturaHerbacea(id,tipo,descripcion) VALUES(4,'10-40%%','Cobertura muy dispersa de plantas herbáceas');
 INSERT INTO TipoCoberturaHerbacea(id,tipo,descripcion) VALUES(5,'40-70%%','Cobertura dispersa de plantas herbáceas');
 INSERT INTO TipoCoberturaHerbacea(id,tipo,descripcion) VALUES(6,'>70%%','Espesa cobertura de plantas herbáceas');
-INSERT INTO TipoCoberturaResiduosPlantas(id,tipo,descripcion) VALUES(1,'0%','No hay cobertura de residuos de plantas');
-INSERT INTO TipoCoberturaResiduosPlantas(id,tipo,descripcion) VALUES(2,'0-5%','Muy pocos de residuos de plantas');
-INSERT INTO TipoCoberturaResiduosPlantas(id,tipo,descripcion) VALUES(3,'5-10%','Cobertura esparcida de residuos de plantas');
-INSERT INTO TipoCoberturaResiduosPlantas(id,tipo,descripcion) VALUES(4,'10-20%','Descripción faltante 1');
-INSERT INTO TipoCoberturaResiduosPlantas(id,tipo,descripcion) VALUES(5,'20-30%','Descripción faltante 2');
-INSERT INTO TipoCoberturaResiduosPlantas(id,tipo,descripcion) VALUES(6,'30-50%','Descripción faltante 3');
-INSERT INTO TipoCoberturaResiduosPlantas(id,tipo,descripcion) VALUES(7,'50-70%','Descripción faltante 4');
-INSERT INTO TipoCoberturaResiduosPlantas(id,tipo,descripcion) VALUES(8,'>70%','Espesa cobertura de residuos de plantas');
-INSERT INTO TipoCoberturaResiduosCultivos(id,tipo,descripcion) VALUES(1,'0%','No hay cobertura de residuos de cultivos');
-INSERT INTO TipoCoberturaResiduosCultivos(id,tipo,descripcion) VALUES(2,'0-5%','Muy pocos residuos de cultivos');
-INSERT INTO TipoCoberturaResiduosCultivos(id,tipo,descripcion) VALUES(3,'5-10%','Cobertura esparcida de residuos de cultivos');
-INSERT INTO TipoCoberturaResiduosCultivos(id,tipo,descripcion) VALUES(4,'10-20%','Descripción faltante 1');
-INSERT INTO TipoCoberturaResiduosCultivos(id,tipo,descripcion) VALUES(5,'20-30%','Descripción faltante 2');
-INSERT INTO TipoCoberturaResiduosCultivos(id,tipo,descripcion) VALUES(6,'30-50%','Descripción faltante 3');
-INSERT INTO TipoCoberturaResiduosCultivos(id,tipo,descripcion) VALUES(7,'50-70%','Descripción faltante 4');
-INSERT INTO TipoCoberturaResiduosCultivos(id,tipo,descripcion) VALUES(8,'>70%','Espesa cobertura de residuos de cultivos');
+INSERT INTO TipoCoberturaResiduosPlantasCultivos(id,tipo,descripcion) VALUES(1,'0','No hay cobertura de residuos de plantas/cultivos');
+INSERT INTO TipoCoberturaResiduosPlantasCultivos(id,tipo,descripcion) VALUES(2,'0-5','Muy pocos de residuos de plantas/cultivos');
+INSERT INTO TipoCoberturaResiduosPlantasCultivos(id,tipo,descripcion) VALUES(3,'5-10','Cobertura esparcida de residuos de plantas/cultivos');
+INSERT INTO TipoCoberturaResiduosPlantasCultivos(id,tipo,descripcion) VALUES(4,'10-20','Descripción faltante 1');
+INSERT INTO TipoCoberturaResiduosPlantasCultivos(id,tipo,descripcion) VALUES(5,'20-30','Descripción faltante 2');
+INSERT INTO TipoCoberturaResiduosPlantasCultivos(id,tipo,descripcion) VALUES(6,'30-50','Descripción faltante 3');
+INSERT INTO TipoCoberturaResiduosPlantasCultivos(id,tipo,descripcion) VALUES(7,'50-70','Descripción faltante 4');
+INSERT INTO TipoCoberturaResiduosPlantasCultivos(id,tipo,descripcion) VALUES(8,'>70','Espesa cobertura de residuos de plantas/cultivos');
 INSERT INTO TipoEstructuraSuelo(id,tipo) VALUES(2,'Sin Estructura');
 INSERT INTO TipoEstructuraSuelo(id,tipo) VALUES(3,'Laminar');
 INSERT INTO TipoEstructuraSuelo(id,tipo) VALUES(4,'Prismática');
@@ -153,12 +145,12 @@ INSERT INTO TipoHumedad(id,tipo) VALUES(2,'Húmedo');
 INSERT INTO TipoHumedad(id,tipo) VALUES(3,'Seco');
 INSERT INTO TipoRaices(id,tipo) VALUES(3,'Ausencia');
 INSERT INTO TipoRaices(id,tipo) VALUES(2,'Presencia');
-INSERT INTO TipoGanado(id,tipo) VALUES(11,'Otros');
-INSERT INTO TipoGanado(id,tipo) VALUES(7,'Vacuno');
-INSERT INTO TipoGanado(id,tipo) VALUES(8,'Equino');
-INSERT INTO TipoGanado(id,tipo) VALUES(9,'Ovino');
-INSERT INTO TipoGanado(id,tipo) VALUES(10,'Porcino');
-INSERT INTO TipoGanado(id,tipo) VALUES(13,'Ausencia');
+INSERT INTO TipoSilvopastoreo(id,tipo) VALUES(11,'Otros');
+INSERT INTO TipoSilvopastoreo(id,tipo) VALUES(7,'Vacuno');
+INSERT INTO TipoSilvopastoreo(id,tipo) VALUES(8,'Equino');
+INSERT INTO TipoSilvopastoreo(id,tipo) VALUES(9,'Ovino');
+INSERT INTO TipoSilvopastoreo(id,tipo) VALUES(10,'Porcino');
+INSERT INTO TipoSilvopastoreo(id,tipo) VALUES(13,'Ausencia');
 INSERT INTO TipoIntensidadPastoreo(id,tipo) VALUES(3,'Ligera');
 INSERT INTO TipoIntensidadPastoreo(id,tipo) VALUES(4,'Moderada');
 INSERT INTO TipoIntensidadPastoreo(id,tipo) VALUES(5,'Severa');
@@ -2640,7 +2632,7 @@ INSERT INTO TipoDepartamento(id,codigo,nombre,region) VALUES(17,'P','Lavalleja',
 INSERT INTO TipoDepartamento(id,codigo,nombre,region) VALUES(18,'Q','Durazno',2);
 INSERT INTO TipoDepartamento(id,codigo,nombre,region) VALUES(20,'Z','Montevideo',3);
 INSERT INTO TipoDepartamento(id,codigo,nombre,region) VALUES(19,'R','Tacuarembó',2);
-INSERT INTO TipoFoto(id,tipo) VALUES(1,'Carretera a Camino Vecinal');
+INSERT INTO TipoFoto(id,tipo) VALUES(1,'Acceso a Camino Vecinal');
 INSERT INTO TipoFoto(id,tipo) VALUES(2,'Camino Vecinal a Camino de Acceso');
 INSERT INTO TipoFoto(id,tipo) VALUES(3,'Camino de Acceso a Punto GPS');
 INSERT INTO TipoFoto(id,tipo) VALUES(4,'Punto GPS a Centro de Parcela');
@@ -4208,10 +4200,24 @@ UPDATE TipoCoberturaHerbacea SET tipo = '40-70' WHERE id =5;
 UPDATE TipoCoberturaHerbacea SET tipo = '>70' WHERE id =6;
 
 ------- PRODUCTOS NO MADEREROS --------
-INSERT INTO TipoGanado (id,tipo) VALUES ('14', 'Vacuno Equino');
-INSERT INTO TipoGanado (id,tipo) VALUES ('15', 'Vacuno Ovino');
-INSERT INTO TipoGanado (id,tipo) VALUES ('16', 'Vacuno Equino Ovino');
+INSERT INTO TipoSilvopastoreo (id,tipo) VALUES ('14', 'Vacuno Equino');
+INSERT INTO TipoSilvopastoreo (id,tipo) VALUES ('15', 'Vacuno Ovino');
+INSERT INTO TipoSilvopastoreo (id,tipo) VALUES ('16', 'Vacuno Equino Ovino');
 UPDATE TipoSistemasProduccion SET tipo = 'Otro' WHERE id =11;
 
 ------- FORESTACION --------
 UPDATE TipoDestinoMadera SET tipo = 'Postes Piques Uso del establecimiento' WHERE id =14;
+
+
+
+
+---------------------DANILO--------------------------
+INSERT INTO TipoFormaPendiente(id,tipo) VALUES(5,'Nula');
+INSERT INTO TipoSotobosque(id,tipo) VALUES(6,'Leñoso y No Leñoso');
+INSERT INTO TipoIntensidadPastoreo(id,tipo) VALUES(6,'Nula');
+INSERT INTO TipoFoto(id,tipo) VALUES(9,'Suelo');
+
+UPDATE TipoSeveridad SET tipo = 'Ligera (1–10%)' WHERE id =1;
+UPDATE TipoSeveridad SET tipo = 'Moderada (11–30%)' WHERE id =2;
+UPDATE TipoSeveridad SET tipo = 'Seria (31–70%)' WHERE id =3;
+UPDATE TipoSeveridad SET tipo = 'Extrema (71–100%)' WHERE id =5;

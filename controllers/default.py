@@ -691,7 +691,7 @@ def datosGenerales():
         ).select().first()
         if rowReport == None:
             redirect(URL('muestreoTipoReporte', vars=dict(m=session.muestreoId)))
-        elif rowReport != None and rowReport.TipoReporte.id == CON_INFORMACION:
+        elif rowReport != None and (rowReport.TipoReporte.id == CON_INFORMACION or rowReport.TipoReporte.id == BOSQUE_CORTADO):
             recordId = db(db.DatosGenerales.muestreo==session.muestreoId).select().first()
             opts = []
             plantacion = ""
@@ -802,8 +802,7 @@ def sideMenu():
         (db.MuestreoTipoReporte.tipo == db.TipoReporte.id)
     ).select().first()
     if rowReport != None:
-        if rowReport.TipoReporte.id == BOSQUE_CORTADO or \
-            rowReport.TipoReporte.id == NO_BOSQUE or \
+        if  rowReport.TipoReporte.id == NO_BOSQUE or \
             rowReport.TipoReporte.id == NO_INGRESO:
             return {
                 0:['muestreoTipoReporte', "Estado Punto Muestral"]
@@ -831,24 +830,37 @@ def sideMenu():
                     16:['problemasAmbientales', "Problemas Ambientales"],
                     18:['fuego', "Fuego"]
                 }
-                tabsPlant = {
-                    5:['plantacion', "Plantación"],
-                    13:['productosNoMadereros', "Productos No Madereros"],
-                    17:['ForestacionMantenimientoEstructura', "Forestación"],
-                    20:['parcelaBosquePlantado' ,"Parcela circular (6 m radio)", 1],
-                    21:['parcelaBosquePlantado' ,"Parcela circular (10 m radio)", 2],
-                    22:['parcelaBosquePlantado' ,"Parcela circular (14 m radio)", 3],
-                    23:['parcelaBosquePlantado' ,"Parcela circular (18 m radio)", 4]
-                }
-                tabsNativo = {
-                    13:['productosNoMadereros', "Productos No Madereros"],
-                    19:['especiesInvasoras', "Especies Invasoras"],
-                    25:['parcelaBosqueNatural', "Parcela (20 x 10 m)"]
-                }
+		
+		if rowReport.TipoReporte.id == BOSQUE_CORTADO:
+		    tabsPlant = {
+			13:['productosNoMadereros', "Productos No Madereros"]
+		    }
+		    tabsNativo = {
+			13:['productosNoMadereros', "Productos No Madereros"],
+			19:['especiesInvasoras', "Especies Invasoras"],
+			20:['regeneracionNatural', "Regeneracion Natural"]
+		    }
+		else:
+		    tabsPlant = {
+			5:['plantacion', "Plantación"],
+			13:['productosNoMadereros', "Productos No Madereros"],
+			17:['ForestacionMantenimientoEstructura', "Bosque"],
+			20:['parcelaBosquePlantado' ,"Parcela circular (6 m radio)", 1],
+			21:['parcelaBosquePlantado' ,"Parcela circular (10 m radio)", 2],
+			22:['parcelaBosquePlantado' ,"Parcela circular (14 m radio)", 3],
+			23:['parcelaBosquePlantado' ,"Parcela circular (18 m radio)", 4]
+		    }		    
+		    tabsNativo = {
+			13:['productosNoMadereros', "Productos No Madereros"],
+			19:['especiesInvasoras', "Especies Invasoras"],
+			30:['estratos', "Estratos"],
+			20:['regeneracionNatural', "Regeneracion Natural"],
+			25:['parcelaBosqueNatural', "Parcela (20 x 10 m)"]
+		    }
                 sideMenu = tabs
                 if session.plant == True:
                     session.GeneroPlantado = generoPlantacion(session.muestreoId)
-                    if session.GeneroPlantado:
+                    if session.GeneroPlantado and rowReport.TipoReporte.id != BOSQUE_CORTADO:
                         if session.GeneroPlantado == "Eucalyptus":
                             tabsPlant[24] = ['SanidadEucalipto', "Sanidad Eucalyptus"]
                         elif session.GeneroPlantado == "Pinus":
@@ -1027,7 +1039,7 @@ def muestreoTipoReporte():
                 db.MuestreoTipoReporte.insert(muestreo=session.muestreoId, tipo=form.vars.tipoRep, comentario=form.vars.comentario)
                 response.flash = T("Successfully saved")
             session.muestreoPorcentaje = returnPercentage()
-            if tipoRep == "Con informacion relevada":
+            if tipoRep == "Con informacion relevada" or  tipoRep == "Bosque cortado":
                 redirect(URL('datosGenerales', vars=dict(m=session.muestreoId)))
         elif form.errors:
             response.flash = T("There are errors. Please correct them")
@@ -1041,7 +1053,10 @@ def muestreoTipoReporte():
     else:
         redirect(URL('index'))
 
-
+def distancias_processing(form):
+    if (form.vars.puntoGPSCentroParcela != "") & (form.vars.rumboCaminoCentroParcela == ""):
+        form.errors.rumboCaminoCentroParcela = T('Cannot be empty')
+       
 @auth.requires_membership('digitador')
 def distancias():
     if __hasPermission(request.get_vars["m"]):
@@ -1053,7 +1068,6 @@ def distancias():
                 if recordId.track != '':
                     trackName = recordId.track
                 recordId = recordId.id
-
             form = SQLFORM(
                 db.Distancias,
                 record=recordId,
@@ -1135,40 +1149,41 @@ def distancias():
             form[0].insert(9, fakeSave)
 
             form.vars.muestreo = session.muestreoId
-            if form.validate(keepvalues=True):
-                recordId = form.vars.id
-                row = db(db.Distancias.muestreo==session.muestreoId).select().first()
-                trackName = ''
-                if request.post_vars['trackFileName']:
-                    trackName = request.post_vars['trackFileName']
-                if row != None:
-                    if trackName == '':
-                        trackName = row.track
-                    print "Distancias.update.trackName: %s" % trackName
-                    row.update_record(muestreo=form.vars.muestreo, carreteraCaminoVecinal = form.vars.carreteraCaminoVecinal, caminoVecinalCaminoAcceso=form.vars.caminoVecinalCaminoAcceso,caminoAccesoPuntoGPS=form.vars.caminoAccesoPuntoGPS, puntoGPSCentroParcela=form.vars.puntoGPSCentroParcela, rumboCaminoCentroParcela=form.vars.rumboCaminoCentroParcela, track=trackName)
-                    response.flash = T("Successfully modified")
-                else:
-                    print "Distancias.insert.trackName: %s" % trackName
-                    db.Distancias.insert(
-                        muestreo = form.vars.muestreo,
-                        carreteraCaminoVecinal = form.vars.carreteraCaminoVecinal,
-                        caminoVecinalCaminoAcceso = form.vars.caminoVecinalCaminoAcceso,
-                        caminoAccesoPuntoGPS = form.vars.caminoAccesoPuntoGPS,
-                        puntoGPSCentroParcela = form.vars.puntoGPSCentroParcela,
-                        rumboCaminoCentroParcela = form.vars.rumboCaminoCentroParcela,
-                        track = trackName
-                    )
-                    session.muestreoPorcentaje = returnPercentage()
-                    response.flash = T("Successfully saved")
-                redirect(URL("distancias", vars=dict(m=session.muestreoId)))
-            elif form.errors:
-                response.flash = T("There are errors. Please correct them")
-            else:
-                if recordId != None:
-                    response.flash = T("Modify the data")
-                else:
-                    response.flash = T('Fill in the data of distances')
-            return dict(form=form, menuL = sideMenu(), selected=2)
+
+	    if form.validate(keepvalues=True):
+		recordId = form.vars.id
+		row = db(db.Distancias.muestreo==session.muestreoId).select().first()
+		trackName = ''
+		if request.post_vars['trackFileName']:
+		    trackName = request.post_vars['trackFileName']
+		if row != None:
+		    if trackName == '':
+			trackName = row.track
+		    print "Distancias.update.trackName: %s" % trackName
+		    row.update_record(muestreo=form.vars.muestreo, carreteraCaminoVecinal = form.vars.carreteraCaminoVecinal, caminoVecinalCaminoAcceso=form.vars.caminoVecinalCaminoAcceso,caminoAccesoPuntoGPS=form.vars.caminoAccesoPuntoGPS, puntoGPSCentroParcela=form.vars.puntoGPSCentroParcela, rumboCaminoCentroParcela=form.vars.rumboCaminoCentroParcela, track=trackName)
+		    response.flash = T("Successfully modified")
+		else:
+		    print "Distancias.insert.trackName: %s" % trackName
+		    db.Distancias.insert(
+			muestreo = form.vars.muestreo,
+			carreteraCaminoVecinal = form.vars.carreteraCaminoVecinal,
+			caminoVecinalCaminoAcceso = form.vars.caminoVecinalCaminoAcceso,
+			caminoAccesoPuntoGPS = form.vars.caminoAccesoPuntoGPS,
+			puntoGPSCentroParcela = form.vars.puntoGPSCentroParcela,
+			rumboCaminoCentroParcela = form.vars.rumboCaminoCentroParcela,
+			track = trackName
+		    )
+		    session.muestreoPorcentaje = returnPercentage()
+		    response.flash = T("Successfully saved")
+		redirect(URL("distancias", vars=dict(m=session.muestreoId)))
+	    elif form.errors:
+		response.flash = T("There are errors. Please correct them")
+	    else:
+		if recordId != None:
+		    response.flash = T("Modify the data")
+		else:
+		    response.flash = T('Fill in the data of distances')
+	    return dict(form=form, menuL = sideMenu(), selected=2)
         else:
             redirect(URL('datosGenerales', vars=dict(m=session.muestreoId)))
     else:
@@ -1287,6 +1302,10 @@ def coordenadasParcela():
     else:
         redirect(URL('index'))
 
+def check_plantacion(form):
+    if form.vars.tienePoda and (form.vars.alturaPoda <= 0):
+	form.errors.alturaPoda = "Si la plantación tiene poda, la altura de la poda debe ser mayor a 0"
+
 @auth.requires_membership('digitador')
 def plantacion():
     """
@@ -1316,7 +1335,8 @@ def plantacion():
                     valDens = 10000 / (recordId.distanciaFila * recordId.distanciaEntreFila)
                     checked = 'checked'
                 recordId = recordId.id
-            form = SQLFORM(db.Plantacion, record=recordId, showid = False, fields=['genero','especie','rangoEdad','raleo','tienePoda','alturaPoda','parcelaRegular','distanciaFila','distanciaEntreFila','adaptacionEspecie','regimen','estadoGeneral'], submit_button='Guardar')
+            #form = SQLFORM(db.Plantacion, record=recordId, showid = False, fields=['genero','especie','rangoEdad','raleo','tienePoda','alturaPoda','parcelaRegular','distanciaFila','distanciaEntreFila','adaptacionEspecie','regimen','estadoGeneral'], submit_button='Guardar')
+	    form = SQLFORM(db.Plantacion, record=recordId, showid = False, fields=['genero','especie','rangoEdad','raleo','tienePoda','alturaPoda','parcelaRegular','distanciaFila','distanciaEntreFila','adaptacionEspecie','estadoGeneral'], submit_button='Guardar')
             form.vars.muestreo = session.muestreoId
             poda = TR(
                 TD(LABEL("Tiene Poda:"), _class="w2p_fl"),
@@ -1345,7 +1365,7 @@ def plantacion():
                 form.vars.cantidadFilas = int(request.post_vars['cantFilas'])
             if request.post_vars['distSilvo']:
                 form.vars.distanciaSilvopastoreo = float(request.post_vars['distSilvo'])
-            if form.validate():
+            if form.validate(onvalidation=check_plantacion):
                 row = db(db.Plantacion.muestreo==session.muestreoId).select().first()
                 cantidadFilas = form.vars.cantidadFilas if form.vars.cantidadFilas != None else 0
                 distanciaSilvopastoreo = form.vars.distanciaSilvopastoreo if form.vars.distanciaSilvopastoreo != None else 0.0
@@ -1353,7 +1373,8 @@ def plantacion():
 
                     if form.vars.tienePoda == False:
                         form.vars.alturaPoda = 0.0
-                    row.update_record(genero=form.vars.genero,especie=form.vars.especie,rangoEdad=form.vars.rangoEdad,raleo=form.vars.raleo,tienePoda=form.vars.tienePoda,alturaPoda=form.vars.alturaPoda,parcelaRegular=form.vars.parcelaRegular, distanciaFila=form.vars.distanciaFila,distanciaEntreFila=form.vars.distanciaEntreFila,cantidadFilas=cantidadFilas,distanciaSilvopastoreo=distanciaSilvopastoreo,adaptacionEspecie=form.vars.adaptacionEspecie,regimen=form.vars.regimen,estadoGeneral=form.vars.estadoGeneral)
+                    #row.update_record(genero=form.vars.genero,especie=form.vars.especie,rangoEdad=form.vars.rangoEdad,raleo=form.vars.raleo,tienePoda=form.vars.tienePoda,alturaPoda=form.vars.alturaPoda,parcelaRegular=form.vars.parcelaRegular, distanciaFila=form.vars.distanciaFila,distanciaEntreFila=form.vars.distanciaEntreFila,cantidadFilas=cantidadFilas,distanciaSilvopastoreo=distanciaSilvopastoreo,adaptacionEspecie=form.vars.adaptacionEspecie,regimen=form.vars.regimen,estadoGeneral=form.vars.estadoGeneral)
+		    row.update_record(genero=form.vars.genero,especie=form.vars.especie,rangoEdad=form.vars.rangoEdad,raleo=form.vars.raleo,tienePoda=form.vars.tienePoda,alturaPoda=form.vars.alturaPoda,parcelaRegular=form.vars.parcelaRegular, distanciaFila=form.vars.distanciaFila,distanciaEntreFila=form.vars.distanciaEntreFila,cantidadFilas=cantidadFilas,distanciaSilvopastoreo=distanciaSilvopastoreo,adaptacionEspecie=form.vars.adaptacionEspecie,estadoGeneral=form.vars.estadoGeneral)
                     response.flash = T("Successfully modified")
                     recordId = row.id
                 else:
@@ -1371,7 +1392,7 @@ def plantacion():
                         cantidadFilas=cantidadFilas,
                         distanciaSilvopastoreo=distanciaSilvopastoreo,
                         adaptacionEspecie=form.vars.adaptacionEspecie,
-                        regimen=form.vars.regimen,
+                        #regimen=form.vars.regimen,
                         estadoGeneral=form.vars.estadoGeneral
                     )
                     session.muestreoPorcentaje = returnPercentage()
@@ -1443,6 +1464,55 @@ def tableEquipo():
         rows.append(cell)
     return dict(equipo = [rows,headers])
 
+
+@auth.requires_membership('digitador')
+def estratos():
+    """
+    Página que permite el ingreso de datos del equipo de trabajo el cual trabajó en el punto muestral
+    """
+    try:
+        optSample = request.env['http_referer'].split("?")
+        optSampleId = optSample[1].split("=")[1]
+    except:
+        optSampleId = -1
+    if __hasPermission(request.get_vars["m"]) or __hasPermission(optSampleId):
+        checkNewRepSel()
+        if __hasGeneralData(session.muestreoId):
+            form = SQLFORM(db.Estratos, showid = False, fields = ['nombre','altura'], submit_button='Guardar')
+            form.vars.muestreo = session.muestreoId
+            if form.validate(keepvalues=False):
+		if db((db.Estratos.nombre == form.vars.nombre)).count() > 0:
+		    form.errors.nombre = "Altura máxima de estrato ya definida"
+		    response.flash = T("There are errors. Please correct them")
+		else:
+		    row = db(db.Observaciones.muestreo==session.muestreoId).select().first()
+		    if row != None:
+			row.update_record(**dict(form.vars))
+			session.muestreoPorcentaje = returnPercentage()
+			response.flash = T("Successfully modified")
+		    else:
+			db.Estratos.insert(**dict(form.vars))
+			session.muestreoPorcentaje = returnPercentage()
+			response.flash = T("Successfully saved")
+            elif form.errors:
+                response.flash = T("There are errors. Please correct them")
+            else:
+                response.flash = T("Fill in the data of the strata")
+            return dict(form=form, menuL = sideMenu(), selected=30)
+        else:
+            redirect(URL('datosGenerales', vars=dict(m=session.muestreoId)))
+    else:
+        redirect(URL('index'))
+
+def tableEstratos():
+    muestreo = request.get_vars['m']
+    headers = ['Nombre', 'Altura','Acciones']
+    rows = []
+    estratos = db(db.Estratos.muestreo==muestreo).select()
+    for r in estratos:
+        cell = {'nombre':r.nombre, 'altura':r.altura, 'id':r.id}
+        rows.append(cell)
+    return dict(estratos = [rows,headers])
 
 @auth.requires_membership('digitador')
 def observaciones():
@@ -1561,6 +1631,12 @@ def agua():
                     rowLago = row.id
                 elif row.tipo == "Océano":
                     rowOceano = row.id
+                elif row.tipo == "Manantial": 
+                    rowManantial = row.id
+                elif row.tipo == "Otro": 
+                    rowOtro = row.id
+                elif row.tipo == "Arroyo Laguna": 
+                    rowArroyoLaguna = row.id	
             if __hasGeneralData(session.muestreoId):
                 recordId = db(db.Agua.muestreo==session.muestreoId).select().first()
                 update = "False";
@@ -1574,6 +1650,9 @@ def agua():
                 laguna = ""
                 lago = ""
                 oceano = ""
+		manantial = ""
+		otro = ""
+		arroyoLaguna = ""
                 distRio = ""
                 distArroyo = ""
                 distEmbalse = ""
@@ -1584,6 +1663,9 @@ def agua():
                 distLaguna = ""
                 distLago = ""
                 distOceano = ""
+		distManantial = ""
+		distOtro = ""
+		distArroyoLaguna = ""
                 if recordId != None:
                     recordId = recordId.id
                     names = db(db.NombreAfluentes.muestreo == session.muestreoId).select()
@@ -1619,6 +1701,15 @@ def agua():
                         elif tipoCaudal == "Océano":
                             oceano = name.nombre
                             distOceano = name.distancia
+                        elif tipoCaudal == "Manantial":
+                            manantial  = name.nombre
+                            distManantial = name.distancia
+                        elif tipoCaudal == "Otro":
+                            otro  = name.nombre
+                            distOtro = name.distancia
+                        elif tipoCaudal == "Arroyo Laguna":
+                            arroyoLaguna  = name.nombre
+                            distArroyoLaguna = name.distancia
                 form = SQLFORM(
                     db.Agua,
                     record=recordId,
@@ -1676,6 +1767,12 @@ def agua():
                 trLagoDist = TR(TD(LABEL("Distancia al Lago (m): "), _class="w2p_fl"),TD(INPUT(_type="text", _class='double',_name="distLago", _id="distLago", _value=distLago),_id="div"+str(rowLago) +"Dist", _class="w2p_fw"), _id="row"+str(rowLago) +"Dist", _style = "display: none;")
                 trOceano = TR(TD(LABEL("Nombre Océano: ", _id="label10"), _class="w2p_fl"),TD(INPUT(_type="text",_name="Oceano", _id="oceano", _value=oceano),_id="div"+str(rowOceano), _class="w2p_fw"), _id="row"+str(rowOceano), _style = "display: none;")
                 trOceanoDist = TR(TD(LABEL("Distancia al Océano (m): "), _class="w2p_fl"),TD(INPUT(_type="text", _class='double',_name="distOceano", _id="distOceano", _value=distOceano),_id="div"+str(rowOceano) +"Dist", _class="w2p_fw"), _id="row"+str(rowOceano) +"Dist", _style = "display: none;")
+		trManantial = TR(TD(LABEL("Nombre Manantial: ", _id="label22"), _class="w2p_fl"),TD(INPUT(_type="text",_name="Manantial", _id="manantial", _value=manantial),_id="div"+str(rowManantial), _class="w2p_fw"), _id="row"+str(rowManantial), _style = "display: none;")
+                trManantialDist = TR(TD(LABEL("Distancia al Manantial (m): "), _class="w2p_fl"),TD(INPUT(_type="text", _class='double',_name="distManantial", _id="distManantial", _value=distManantial),_id="div"+str(rowManantial) +"Dist", _class="w2p_fw"), _id="row"+str(rowManantial) +"Dist", _style = "display: none;")
+                trOtro = TR(TD(LABEL("Nombre:", _id="label23"), _class="w2p_fl"),TD(INPUT(_type="text",_name="Otro", _id="Otro", _value=otro),_id="div"+str(rowOtro), _class="w2p_fw"), _id="row"+str(rowOtro), _style = "display: none;")
+                trOtroDist = TR(TD(LABEL("Distancia (m): "), _class="w2p_fl"),TD(INPUT(_type="text", _class='double',_name="distOtro", _id="distOtro", _value=distOtro),_id="div"+str(rowOtro) +"Dist", _class="w2p_fw"), _id="row"+str(rowOtro) +"Dist", _style = "display: none;")
+                trArroyoLaguna = TR(TD(LABEL("Nombre Arroyo Laguna: ", _id="label24"), _class="w2p_fl"),TD(INPUT(_type="text",_name="ArroyoLaguna", _id="ArroyoLaguna", _value=arroyoLaguna),_id="div"+str(rowArroyoLaguna), _class="w2p_fw"), _id="row"+str(rowArroyoLaguna), _style = "display: none;")
+                trArroyoLagunaDist = TR(TD(LABEL("Distancia al Arroyo Laguna (m): "), _class="w2p_fl"),TD(INPUT(_type="text", _class='double',_name="distArroyoLaguna", _id="distArroyoLaguna", _value=distArroyoLaguna),_id="div"+str(rowArroyoLaguna) +"Dist", _class="w2p_fw"), _id="row"+str(rowArroyoLaguna) +"Dist", _style = "display: none;")
                 form[0].insert(1,trRio)
                 form[0].insert(2,trRioDist)
                 form[0].insert(3,trArroyo)
@@ -1696,15 +1793,21 @@ def agua():
                 form[0].insert(18,trLagoDist)
                 form[0].insert(19,trOceano)
                 form[0].insert(20,trOceanoDist)
+		form[0].insert(21,trManantial)
+		form[0].insert(22,trManantialDist)
+                form[0].insert(23,trOtro)
+                form[0].insert(24,trOtroDist)
+		form[0].insert(25,trArroyoLaguna)
+		form[0].insert(26,trArroyoLagunaDist)
                 form.vars.muestreo = session.muestreoId
                 if form.validate(keepvalues=True):
                     recordId = form.vars.id
                     row = db(db.Agua.muestreo==session.muestreoId).select().first()
                     first = True
-                    names = ['Rio','Arroyo','Canada','Embalse','Canalderiego','Represa','Tajamar','Laguna','Oceano']
+                    names = ['Rio','Arroyo','Canada','Embalse','Canalderiego','Represa','Tajamar','Laguna','Oceano','Manantial', 'Otro', 'ArroyoLaguna']
                     nombres = ""
                     for name in names:
-                        if request.post_vars[name] != "":
+                        if (request.post_vars[name] != "") or (request.post_vars["dist"+name] != ""):
                             if first:
                                 nombres = name + ":" + request.post_vars[name] + "|"+ request.post_vars["dist"+name]
                                 first = False
@@ -1739,10 +1842,83 @@ def agua():
     else:
         redirect(URL('index'))
 
+@auth.requires_membership('digitador')
+def regeneracionNatural():
+    """
+    Página que permite el ingreso de datos sobre las especies invasoras presentes en el punto muestral
+    """
+    try:
+        optSample = request.env['http_referer'].split("?")
+        optSampleId = optSample[1].split("=")[1]
+    except:
+        optSampleId = -1
+    if __hasPermission(request.get_vars["m"]) or __hasPermission(optSampleId):
+        checkNewRepSel()
+        if __hasGeneralData(session.muestreoId):
+            especies = tieneEspeciesInvasoras(session.muestreoId)
+            form = SQLFORM(
+                db.RegeneracionNatural,
+                showid = False,
+                fields = ['numeroA', 'rumboA', 'distanciaCentralA',  'cantidadA'],
+                submit_button='Guardar'
+            )
+            form.vars.muestreo = session.muestreoId
+            nombreCientificoInput = TR(
+                TD(LABEL("A: Nombre Científico:"),_class="w2p_fl"),
+                TD(
+                    INPUT(_type='text', _name="nomCientificoA", _id ="nomCientificoA", _autocomplete="off", _onkeyup="getData(this.value,0);",requires=IS_NOT_EMPTY())
+                    ,_class="w2p_fw"
+                ),
+                TD("A: Nombre científico", _class="w2p_fc")
+            )
+            ajaResCientificos = TR(
+                TD(LABEL("")),
+                TD(DIV("", _id="cientificos", _class = "ajaxresults"))
+            )
+            nombreComunInput = TR(
+                TD(LABEL("A: Nombre Común:"),_class="w2p_fl"),
+                TD(
+                    INPUT(_type='text', _name="nombreComunA", _id ="nombreComunA", _autocomplete="off", _onkeyup="getData(this.value,1);",requires=IS_NOT_EMPTY()),
+                    _class="w2p_fw"
+                ),
+                TD("A: Nombre común", _class="w2p_fc")
+            )
+            ajaxResComunes = TR(
+                TD(LABEL("")),
+                TD(DIV("", _id="comunes", _class = "ajaxresults"))
+            )
+
+            form[0].insert(-1, nombreCientificoInput)
+            form[0].insert(-2, ajaResCientificos)
+            form[0].insert(-3, nombreComunInput)
+            form[0].insert(-4, ajaxResComunes)
+            if request.post_vars['nomCientificoA']:
+                row = db(db.TipoNombreCientificoEspeciesInvasoras.nombreCientifico == request.post_vars['nomCientificoA']).select().first()
+                if row != None:
+                    form.vars.nombreCientificoA = row.id
+            if form.accepts(request.vars, session):
+                response.flash = T("Successfully saved")
+            elif form.errors:
+                response.flash = T("There are errors. Please correct them")
+            else:
+                response.flash = T("Fill in the data of invasive species")
+            return dict(form=form, menuL = sideMenu(), selected=19, especies = especies)
+        else:
+            redirect(URL('datosGenerales', vars=dict(m=session.muestreoId)))
+    else:
+        redirect(URL('index'))
+
+
 def undoAgua():
     muestreo = session.muestreoId
     db(db.TieneDatos.muestreo == muestreo).update(tieneAgua = False)
     db(db.Agua.muestreo == muestreo).delete()
+
+def undoRegeneracionNatural():
+    muestreo = session.muestreoId
+    db(db.TieneDatos.muestreo == muestreo).update(tieneRegeneracionNatural = False)
+    db(db.RegeneracionNatural.muestreo == muestreo).delete()
+
 
 def undoFauna():
     muestreo = session.muestreoId
@@ -1770,6 +1946,14 @@ def siPresenciaAgua():
         tieneAgua = True
     )
 
+def siRegeneracionNatural():
+    muestreo = session.muestreoId
+    db(
+        db.TieneDatos.muestreo == muestreo
+    ).update(
+        tieneRegeneracionNatural = True
+    )
+    
 def siPresenciaEspecies():
     muestreo = session.muestreoId
     db(db.TieneDatos.muestreo == muestreo).update(tieneEspeciesInvasoras = True)
@@ -1806,8 +1990,11 @@ def saveWaterNames(m, names):
         tipo = db(db.TipoCaudal.tipo == tipoCaudal).select().first()
         if tipo != None:
             data = value[1].split('|')
-            nombreCaudal = data[0] if data[0] != "" else "Ninguno"
-            distancia = float(data[1]) if data[1] != "" else 0.0
+            nombreCaudal = data[0] #if data[0] != "" else "Ninguno"
+	    distancia = float(data[1])
+	    if  (distancia < 0 or distancia >100): 
+		distancia  = 0.0
+	#distancia = float(data[1]) if data[1] != "" else 0.0
             db.NombreAfluentes.insert(muestreo = muestreo, nombre = nombreCaudal, tipo = tipo.id, distancia = distancia)
 
 def tieneAgua(muestreo):
@@ -1818,8 +2005,29 @@ def tieneAgua(muestreo):
             tieneDatos = True
     return tieneDatos
 
+def tieneRegeneracionNatural(muestreo):
+    tieneRegeneracionNaturalFila = db(db.TieneRegeneracionNatural.muestreo == muestreo).select(db.TieneDatos.ALL).first()
+    tieneDatos = False
+    if tieneRegeneracionNaturalFila:
+        if tieneRegeneracionNaturalFila.tieneRegeneracionNatural:
+            tieneDatos = True
+    return tieneDatos
+
 @auth.requires_membership('digitador')
 def tieneAguaForm():
+    if __hasPermission(request.get_vars["m"]):
+        db.TieneDatos.tieneAgua.widget = widget
+        recordId = db(db.TieneDatos.muestreo==request.get_vars["m"]).select().first()
+        form = SQLFORM(db.TieneDatos, record = recordId, showid = False, fields = ['tieneAgua'], submit_button='Guardar')
+        form.vars.muestreo = request.get_vars["m"]
+        session.menuL_enabled = True
+        if form.accepts(request.vars, session):
+            if form.vars.tieneAgua:
+                redirect(URL('agua', vars=dict(m=request.get_vars["m"])))
+        return dict(form = form, menuL = sideMenu(), selected=8)
+
+@auth.requires_membership('digitador')
+def tieneRegeneracionNaturalForm():
     if __hasPermission(request.get_vars["m"]):
         db.TieneDatos.tieneAgua.widget = widget
         recordId = db(db.TieneDatos.muestreo==request.get_vars["m"]).select().first()
@@ -2030,6 +2238,12 @@ def relieve():
     else:
         redirect(URL('index'))
 
+def check_suelo(form):
+    if (form.vars.pedregosidad + form.vars.rocosidad) > 100 :
+	form.errors.pedregosidad = "El porcentaje de Rocosidad y Pedregosidad no debe superar el 100%"
+	form.errors.rocosidad = "El porcentaje de Rocosidad y Pedregosidad no debe superar el 100%"
+
+
 @auth.requires_membership('digitador')
 def suelo():
     """
@@ -2050,7 +2264,8 @@ def suelo():
             else:
                 form = SQLFORM(db.Suelo, record=recordId, showid = False, fields = ['grupoConeat','usoTierra','usoPrevio','gradoErosion', 'tipoErosion','profundidadPrimerHorizonte','profundidadMantillo','profundidadHumus','color','textura','estructura','drenaje','infiltracion','impedimento','olor','humedad','pedregosidad','rocosidad','micorrizas','faunaSuelo', 'raices'], submit_button='Guardar')
             form.vars.muestreo = session.muestreoId
-            if form.validate(keepvalues=True):
+            print("form.validate")
+            if form.validate(onvalidation=check_suelo, keepvalues=True):
                 recordId = form.vars.id
                 row = db(db.Suelo.muestreo==session.muestreoId).select().first()
                 if row != None:
@@ -2086,7 +2301,7 @@ def coberturaVegetal():
             recordId = db(db.CoberturaVegetal.muestreo==session.muestreoId).select().first()
             if recordId != None:
                 recordId = recordId.id
-            form = SQLFORM(db.CoberturaVegetal, record=recordId, showid = False, fields = ['gradoCoberturaCopas', 'gradoSotobosque', 'coberturaHerbacea','coberturaResiduosPlantas','coberturaResiduosCultivos'], submit_button='Guardar')
+            form = SQLFORM(db.CoberturaVegetal, record=recordId, showid = False, fields = ['gradoCoberturaCopas', 'gradoSotobosque', 'coberturaHerbacea','coberturaResiduosPlantasCultivos'], submit_button='Guardar')
             form.vars.muestreo = session.muestreoId
             if form.validate(keepvalues=True):
                 recordId = form.vars.id
@@ -2133,7 +2348,7 @@ def productosNoMadereros():
             db.ProductosNoMadereros.actividadesCasaPesca.widget = widget
             db.ProductosNoMadereros.estudiosCientificos.widget = widget
             db.ProductosNoMadereros.fijacionCarbono.widget = widget
-            form = SQLFORM(db.ProductosNoMadereros, record=recordId, showid = False, fields = ['tipoGanado','intensidadPastoreo','sistemasProduccion','produccionApicola','sombra','rompeVientos','recoleccionHongos','aceitesEsenciales','obtencionSemillas','actividadesCasaPesca','actividadesRecreacion','estudiosCientificos','fijacionCarbono'], submit_button='Guardar')
+            form = SQLFORM(db.ProductosNoMadereros, record=recordId, showid = False, fields = ['silvopastoreo','intensidadPastoreo','sistemasProduccion','produccionApicola','sombra','rompeVientos','recoleccionHongos','aceitesEsenciales','obtencionSemillas','actividadesCasaPesca','actividadesRecreacion','estudiosCientificos','fijacionCarbono'], submit_button='Guardar')
             form.vars.muestreo = session.muestreoId
             if form.validate(keepvalues=True):
                 recordId = form.vars.id
@@ -2172,16 +2387,16 @@ def flora():
             recordId = db(db.Flora.muestreo==session.muestreoId).select().first()
             if recordId != None:
                 recordId = recordId.id
-            form = SQLFORM(db.Flora, record=recordId, showid = False, fields = ['tipoSotobosque','alturaSotobosque'], submit_button='Guardar')
+            form = SQLFORM(db.Flora, record=recordId, showid = False, fields = ['tipoSotobosque','alturaLenosas'], submit_button='Guardar')
             form.vars.muestreo = session.muestreoId
             floraForm = getFloraSueloForm()
             if form.validate(keepvalues=True):
                 row = db(db.Flora.muestreo==session.muestreoId).select().first()
                 if row != None:
-                    row.update_record(muestreo=form.vars.muestreo, tipoSotobosque=form.vars.tipoSotobosque, alturaSotobosque=form.vars.alturaSotobosque)
+                    row.update_record(muestreo=form.vars.muestreo, tipoSotobosque=form.vars.tipoSotobosque, alturaLenosas=form.vars.alturaLenosas)
                     response.flash = T("Successfully modified")
                 else:
-                    db.Flora.insert(muestreo=form.vars.muestreo, tipoSotobosque=form.vars.tipoSotobosque, alturaSotobosque=form.vars.alturaSotobosque)
+                    db.Flora.insert(muestreo=form.vars.muestreo, tipoSotobosque=form.vars.tipoSotobosque, alturaLenosas=form.vars.alturaLenosas)
                     session.muestreoPorcentaje = returnPercentage()
                     response.flash = T("Successfully saved")
                 redirect(URL("flora", vars=dict(m=session.muestreoId)))
@@ -2760,12 +2975,12 @@ def parcelaBosqueNatural():
                 showid = False,
                 fields = [
                     'numArbol',
-                    'dap1',
-                    'dap2',
                     'rangoEdad',
-                    'ht',
+                    'ht',		    
+                    'observaciones',
                     'estrato',
-                    'observaciones'
+                    'dap1',
+                    'dap2'
                     ],
                 submit_button='Guardar'
             )
@@ -2857,7 +3072,7 @@ def bnCientificNames():
 
 def tableParcelasBosqueNatural():
     rows = []
-    headers = ['Arbol', 'DAP1', 'DAP2', 'Nombre Cientifico', 'Nombre Comun', 'Edad', 'HT', 'Estrato', 'Observaciones', 'Acciones']
+    headers = ['Arbol', 'Nombre Cientifico', 'Nombre Comun', 'Edad', 'HT',  'Observaciones','Estrato','DAP1', 'DAP2',  'Acciones']
     parcelas = db(db.ParcelasBosqueNatural.muestreo==session.muestreoId)(db.ParcelasBosqueNatural.nombreCientifico == db.TipoBNNombreCientifico.id)(db.ParcelasBosqueNatural.estrato==db.TipoEstrato.id)(db.ParcelasBosqueNatural.rangoEdad == db.TipoRangoEdadNativo.id).select()
     for r in parcelas:
         nombreComun = db(db.TipoBNNombreCientifico.id == db.TipoBNNombreComun.nombreCientifico)(db.TipoBNNombreCientifico.id == r.TipoBNNombreCientifico.id).select(db.TipoBNNombreComun.ALL).first()
@@ -2933,7 +3148,9 @@ def _checkHeights(form):
         if form.vars.numArbol == row.numArbol:
             error = True
     if error:
-        form.errors.numArbol = T("Trees can not be duplicates of other trees in other radios")
+        form.errors.numArbol = T("Trees can not be duplicates of other trees in other radios") 
+    if form.vars.distancia > form.vars.radio:
+        form.errors.distancia = "La distancia del árbol al centro de la parcela no puede ser mayor al radio considerado"
     if form.vars.hc > form.vars.ht:
         form.errors.hc = T("This height can not exceed the total height of the tree")
     if form.vars.hPoda > form.vars.ht:
@@ -2942,9 +3159,9 @@ def _checkHeights(form):
     if form.vars.radio == 6:
         if form.vars.ht < 1.30:
             form.errors.ht = T("This tree is to small to be measured")
-        if dap >= 0.10:
-            form.errors.dap1 = T("The average diameter of this tree has to be smaller than 0.10 m")
-            form.errors.dap2 = T("The average diameter of this tree has to be smaller than 0.10 m")
+        if  dap <= 0.03 or dap >= 0.10:
+            form.errors.dap1 = T("The average diameter of this tree has to be between 0.03 and 0.10 m")
+            form.errors.dap2 = T("The average diameter of this tree has to be between 0.03 and 0.10 m")
     if form.vars.radio == 10:
         if dap < 0.10 or dap >= 0.25:
             form.errors.dap1 = T("The average diameter of this tree has to be between 0.10 and 0.25 m")
@@ -3545,10 +3762,15 @@ def completedPercentage(muestreo):
                     pattern = pattern[:-1]
                     prog = re.compile(pattern)
                     for table_name in db.tables():
+			print db[table_name]
                         if prog.match(table_name) == None:
                             table = db[table_name]
+			    print table
                             name = table_name.__str__()
-                            row = db(table.muestreo == muestreo).select().first()
+                            print name
+			    print muestreo
+			    print table.id
+			    row = db(table.muestreo == muestreo).select().first()
                             fields = table.fields()
                             for field in fields:
                                 if not "id" == field:
@@ -4257,4 +4479,3 @@ def toggleFooter():
             session.showFooter = True
         elif request.post_vars['action'] == 'hide':
             session.showFooter = False
-

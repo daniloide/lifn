@@ -183,5 +183,10 @@
         }
     }
 
-    
+function SiPodaControlAltura(){
+	if($("#Plantacion_tienePoda").checked && ( $("#Plantacion_alturaPoda").val() === 0)){
+	alert("Si tiene poda la altura de poda debe ser mayor a 0");
+	}
+}	
+   // $("#Plantacion_alturaPoda").change(SiPodaControlAltura);
 </script>

@@ -6,26 +6,17 @@
 <div class="modified" style="display: none"></div>
 <script src="{{=URL('static','js/tabsValidation.js')}}"></script>
 <script>
-    $("#Fuego_evidenciaFuego").change(function(){
+    function seleccionarTipoPropositoFuego(){
         if ($("#Fuego_evidenciaFuego option:selected").text() == "Sin Evidencias"){
-            $("#Fuego_tipoFuego option").each(function(){
-                if ($(this).text() == 'No Aplicable'){
-                    $(this).attr("selected", true);                
-                } else {
-                    $(this).attr("selected", false);
-                }
-            });
-            //$("#Fuego_tipoFuego").val('6');
-            //$("#Fuego_tipoFuego option[value=6]").attr("selected",true);
-            //$("#Fuego_propositoFuego").val('10');
-            $("#Fuego_propositoFuego option").each(function(){
-                if ($(this).text() == 'No Aplicable'){
-                    $(this).attr("selected", true);                
-                } else {
-                    $(this).attr("selected", false);
-                }
-            })
-            //$("#Fuego_propositoFuego option[value=10]").attr("selected",true);
+            $("#Fuego_tipoFuego").val('6');
+            $( "#Fuego_tipoFuego" ).prop( "disabled", true );
+            $("#Fuego_propositoFuego").val('10');
+            $("#Fuego_propositoFuego").prop( "disabled", true );
+        } else {
+            $( "#Fuego_tipoFuego" ).prop( "disabled", false );
+            $( "#Fuego_propositoFuego" ).prop( "disabled", false );
         }
-    });
+    }
+    $("#Fuego_evidenciaFuego").change(seleccionarTipoPropositoFuego);
+    $(document).ready(seleccionarTipoPropositoFuego);
 </script>

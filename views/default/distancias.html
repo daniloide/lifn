@@ -78,7 +78,10 @@
     }
 
     $("#fakeSave").click(function(){
-    	if($(".qq-upload-file").length > 0)
+        if ($.isNumeric($("#Distancias_puntoGPSCentroParcela").val()) & !$.isNumeric($("#Distancias_rumboCaminoCentroParcela").val())){
+            alert("Rumbo Camino a Centro Parcela no puede ser vacio");
+        }
+    	else if($(".qq-upload-file").length > 0)
     	{
     		$('form').find(':submit').trigger('click');
     	}
@@ -87,6 +90,14 @@
     		alert("El track no puede ser vacio");
     	}
     })
+    function showRumboCaminoCentroParcela(){
+        if ($.isNumeric($("#Distancias_puntoGPSCentroParcela").val())){
+            $("#Distancias_rumboCaminoCentroParcela").prop( "disabled", false );
+        } else {
+            $("#Distancias_rumboCaminoCentroParcela").prop( "disabled", true );
+            $("#Distancias_rumboCaminoCentroParcela").val("");
+        }
+    }
 
     $(document).ready(function (){
         $("#info").click(function(){
@@ -96,6 +107,8 @@
             eraseTrack();
         });
         $('table').find('tr#submit_record__row').hide();
+        showRumboCaminoCentroParcela();
+        $("#Distancias_puntoGPSCentroParcela").keyup(showRumboCaminoCentroParcela);
     })
     window.onload = createUploader;
 </script>

@@ -155,14 +155,7 @@ db.define_table('TipoCoberturaHerbacea',
           label='Descripción', unique=True, notnull=True)
 )
 
-db.define_table('TipoCoberturaResiduosPlantas',
-    Field('tipo', type='string',
-          label='Porcentaje', unique=True, notnull=True),
-    Field('descripcion', type='string',
-          label='Descripción', unique=True, notnull=True)
-)
-
-db.define_table('TipoCoberturaResiduosCultivos',
+db.define_table('TipoCoberturaResiduosPlantasCultivos',
     Field('tipo', type='string',
           label='Porcentaje', unique=True, notnull=True),
     Field('descripcion', type='string',
@@ -194,9 +187,9 @@ db.define_table('TipoRaices',
           label='Tipo de Raices', unique=True, notnull=True)
 )
 
-db.define_table('TipoGanado',
+db.define_table('TipoSilvopastoreo',
     Field('tipo', type='string',
-          label='Tipo de Ganado', unique=True, notnull=True)
+          label='TipoSilvopastoreo', unique=True, notnull=True)
 )
 
 db.define_table('TipoIntensidadPastoreo',
@@ -630,8 +623,6 @@ db.define_table('DatosGenerales',
 
 #RNE
 db.DatosGenerales.fecha.requires = IS_NOT_EMPTY()
-db.DatosGenerales.propietario.requires = IS_NOT_EMPTY()
-db.DatosGenerales.predio.requires = IS_NOT_EMPTY()
 db.DatosGenerales.tipoDeBosque.requires = IS_IN_DB(db, db.TipoBosque.id, '%(tipo)s')
 db.DatosGenerales.subbosque.requires = IS_IN_DB(db, db.TipoSubBosque.id, '%(nombre)s')
 db.DatosGenerales.facilidadProgresion.requires = IS_IN_DB(db, db.TipoFacilidadProgresion.id, '%(tipo)s', orderby=db.TipoFacilidadProgresion.id)
@@ -643,7 +634,7 @@ db.define_table('Distancias',
     Field('muestreo', db.Muestreo,
           label = 'Muestreo', unique=True),
     Field('carreteraCaminoVecinal', type = 'double',
-          label = 'Carretera a Camino Vecinal (km)', comment='Distancia en kilómetros que se recorre desde carretera o ruta hasta el camino vecinal'),
+          label = 'Distancia de Acceso a Camino Vecinal (km)', comment='Distancia en kilómetros recorrida por carretera o ruta hasta el acceso a camino vecinal'),
     Field('caminoVecinalCaminoAcceso', type= 'double',
           label = 'Camino Vecinal a Camino de Acceso (km)', comment='Distancia recorrida en kilómetros transcurridos desde el acceso al camino vecinal al camino de acceso donde se encuentra el punto de muestreo'),
     Field('caminoAccesoPuntoGPS', type = 'double',
@@ -660,8 +651,8 @@ db.Distancias.muestreo.requires = IS_IN_DB(db, db.Muestreo.id, '%(punto)s - %(an
 db.Distancias.carreteraCaminoVecinal.requires = IS_FLOAT_IN_RANGE(0, 300)
 db.Distancias.caminoVecinalCaminoAcceso.requires = IS_FLOAT_IN_RANGE(0, 300)
 db.Distancias.caminoAccesoPuntoGPS.requires = IS_FLOAT_IN_RANGE(0, 30000)
-db.Distancias.puntoGPSCentroParcela.requires = IS_FLOAT_IN_RANGE(0, 30000)
-db.Distancias.rumboCaminoCentroParcela.requires = IS_FLOAT_IN_RANGE(0, 360)
+db.Distancias.puntoGPSCentroParcela.requires = IS_EMPTY_OR(IS_FLOAT_IN_RANGE(0, 30000))
+db.Distancias.rumboCaminoCentroParcela.requires = IS_EMPTY_OR(IS_FLOAT_IN_RANGE(0, 360))
 
 
 db.define_table('CoordenadasParcela',
@@ -730,11 +721,23 @@ db.define_table('EquipoTrabajo',
           label = 'Nombre', comment='Nombre del integrante del equipo de trabajo')
 )
 
-
-
 db.EquipoTrabajo.muestreo.requires = IS_IN_DB(db, db.Muestreo.id, '%(punto)s - %(anioMuestreo)s')
 db.EquipoTrabajo.cargo.requires = IS_NOT_EMPTY()
 db.EquipoTrabajo.nombre.requires = IS_NOT_EMPTY()
+
+db.define_table('Estratos',
+    Field('muestreo', db.Muestreo,
+          label = 'Punto de Muestreo'),
+    Field('nombre', db.TipoEstrato,
+          label = 'Nombre', comment='Nombre del estrato a definir'),
+    Field('altura', type = 'double',
+          label = 'Altura Máxima (m)', comment='Altura máxima del estrato a definir')
+)
+
+db.Estratos.muestreo.requires = IS_IN_DB(db, db.Muestreo.id, '%(punto)s - %(anioMuestreo)s')
+db.Estratos.nombre.requires = IS_IN_DB(db, db.TipoEstrato.id, '%(tipo)s', orderby=db.TipoEstrato.id)
+db.Estratos.altura.requires = IS_FLOAT_IN_RANGE(0,100)
+
 
 db.define_table('Observaciones',
     Field('muestreo', db.Muestreo,
@@ -820,8 +823,8 @@ db.define_table('Plantacion',
           label='Distancia de silvopastoreo (m)', default=0.0, comment='Distancia en metros de silvopastoreo'),
     Field('adaptacionEspecie', db.TipoAdaptacionEspecie,
           label='Adaptacion de la Especie', comment='Aspecto general que puede observarse en los individuos en cuanto a su crecimiento, desarrollo y estado sanitario'),
-    Field('regimen', db.TipoRegimenBosquePlantado,
-          label='Regimen', comment='Régimen de la plantación'),
+   # Field('regimen', db.TipoRegimenBosquePlantado,
+   #     label='Regimen', comment='Régimen de la plantación'),
     Field('estadoGeneral', db.TipoEstadoGeneralBosquePlantado,
           label='Estado General', comment='Describe el estado general en el que se encuentra la plantación en cuanto a mantenimiento de cortafuegos, sotobosque, regeneración, malezas, enfermedades, daños causados por animales, hombre o naturaleza y al manejo silvicultural recibido')
 )
@@ -833,13 +836,13 @@ db.Plantacion.genero.requires = IS_IN_DB(db, db.TipoGenero.id, '%(genero)s', ord
 db.Plantacion.especie.requires = IS_IN_DB(db, db.TipoEspecie.id, '%(especie)s', orderby=db.TipoEspecie.id)
 db.Plantacion.rangoEdad.requires = IS_IN_DB(db, db.TipoRangoEdadPlantado.id, '%(tipo)s', orderby=db.TipoRangoEdadPlantado.id)
 db.Plantacion.raleo.requires = IS_IN_DB(db, db.TipoRaleo.id, '%(tipo)s', orderby=db.TipoRaleo.id)
-db.Plantacion.alturaPoda.requires = IS_FLOAT_IN_RANGE(0, 100)
+db.Plantacion.alturaPoda.requires = [IS_FLOAT_IN_RANGE(0, 100)]
 db.Plantacion.distanciaFila.requires = IS_FLOAT_IN_RANGE(0, None)
 db.Plantacion.distanciaEntreFila.requires = IS_FLOAT_IN_RANGE(0, None)
 db.Plantacion.cantidadFilas.requires = IS_INT_IN_RANGE(0, None)
 db.Plantacion.distanciaSilvopastoreo.requires = IS_FLOAT_IN_RANGE(0, None)
 db.Plantacion.adaptacionEspecie.requires = IS_IN_DB(db, db.TipoAdaptacionEspecie.id, '%(tipo)s', orderby=db.TipoAdaptacionEspecie.id)
-db.Plantacion.regimen.requires = IS_IN_DB(db, db.TipoRegimenBosquePlantado.id, '%(tipo)s', orderby=db.TipoRegimenBosquePlantado.id)
+#db.Plantacion.regimen.requires = IS_IN_DB(db, db.TipoRegimenBosquePlantado.id, '%(tipo)s', orderby=db.TipoRegimenBosquePlantado.id)
 db.Plantacion.estadoGeneral.requires = IS_IN_DB(db, db.TipoEstadoGeneralBosquePlantado.id, '%(tipo)s', orderby=db.TipoEstadoGeneralBosquePlantado.id)
 
 
@@ -871,13 +874,13 @@ db.define_table('NombreAfluentes',
     Field('tipo', db.TipoCaudal,
           label='Tipo de Caudal'),
     Field('distancia', type='double',
-          label='Distancia hasta el afluente (m)')
+          label='Distancia hasta el afluente (m)', comment='Distancia entre 0 y 100 m')
 
 )
 
 db.NombreAfluentes.muestreo.requires = IS_IN_DB(db, db.Muestreo.id, '%(punto)s - %(anioMuestreo)s')
 db.NombreAfluentes.tipo.requires = IS_IN_DB(db, db.TipoCaudal.id, '%(tipo)s', orderby=db.TipoCaudal.id)
-db.NombreAfluentes.distancia.requires = IS_FLOAT_IN_RANGE(0, None)
+db.NombreAfluentes.distancia.requires = IS_FLOAT_IN_RANGE(0, 100)
 
 db.define_table('Relieve',
     Field('muestreo', db.Muestreo,
@@ -979,29 +982,26 @@ db.define_table('CoberturaVegetal',
     Field('muestreo', db.Muestreo,
           label='Muestreo' , unique=True),
     Field('gradoCoberturaCopas', db.TipoGradoCoberturaCopas,
-          label='Grado de Cobertura de Copas', comment='Proyección vertical de las copas de los árboles como porcentaje total del área'),
+          label='Grado de Cobertura de Copas (%)', comment='Proyección vertical de las copas de los árboles como porcentaje total del área'),
     Field('gradoSotobosque', db.TipoGradoSotobosque,
-          label='Grado de Sotobosque', comment='Proyección vertical de las copas del sotobosque como porcentaje total del área'),
+          label='Grado de Sotobosque (%)', comment='Proyección vertical de las copas del sotobosque como porcentaje total del área'),
     Field('coberturaHerbacea',db.TipoCoberturaHerbacea,
-          label='Cobertura Herbacea', comment='Proyección vertical de las plantas herbáceas como porcentaje total del área'),
-    Field('coberturaResiduosPlantas',db.TipoCoberturaResiduosPlantas,
-          label='Cobertura de Residuos de Plantas', comment='Proyección vertical de los residuos de plantas como porcentaje total del área'),
-    Field('coberturaResiduosCultivos',db.TipoCoberturaResiduosCultivos,
-          label='Cobertura de Residuos de Cultivos',comment='Proyección vertical de los residuos de cultivos como porcentaje total del área')
+          label='Cobertura Herbacea (%)', comment='Proyección vertical de las plantas herbáceas como porcentaje total del área'),
+    Field('coberturaResiduosPlantasCultivos',db.TipoCoberturaResiduosPlantasCultivos,
+          label='Cobertura de Residuos de Plantas y Cultivos (%)', comment='Proyección vertical de los residuos de plantas y cultivos como porcentaje total del área')
 )
 
 db.CoberturaVegetal.muestreo.requires = IS_IN_DB(db, db.Muestreo.id, '%(punto)s - %(anioMuestreo)s')
 db.CoberturaVegetal.gradoCoberturaCopas.requires = IS_IN_DB(db, db.TipoGradoCoberturaCopas.id, '%(tipo)s', orderby=db.TipoGradoCoberturaCopas.id)
 db.CoberturaVegetal.gradoSotobosque.requires = IS_IN_DB(db, db.TipoGradoSotobosque.id, '%(tipo)s', orderby=db.TipoGradoSotobosque.id)
 db.CoberturaVegetal.coberturaHerbacea.requires = IS_IN_DB(db, db.TipoCoberturaHerbacea.id, '%(tipo)s', orderby=db.TipoCoberturaHerbacea.id)
-db.CoberturaVegetal.coberturaResiduosPlantas.requires = IS_IN_DB(db, db.TipoCoberturaResiduosPlantas.id, '%(tipo)s', orderby=db.TipoCoberturaResiduosPlantas.id)
-db.CoberturaVegetal.coberturaResiduosCultivos.requires = IS_IN_DB(db, db.TipoCoberturaResiduosCultivos.id, '%(tipo)s', orderby=db.TipoCoberturaResiduosCultivos.id)
+db.CoberturaVegetal.coberturaResiduosPlantasCultivos.requires = IS_IN_DB(db, db.TipoCoberturaResiduosPlantasCultivos.id, '%(tipo)s', orderby=db.TipoCoberturaResiduosPlantasCultivos.id)
 
 db.define_table('ProductosNoMadereros',
     Field('muestreo', db.Muestreo,
           label='Muestreo', unique=True),
-    Field('tipoGanado', 'list:reference db.TipoGanado',
-          label='Tipo de Ganado', comment='Animales domésticos que se encuentran en el bosque'),
+    Field('silvopastoreo', 'list:reference db.TipoSilvopastoreo',
+          label='Silvopastoreo', comment='Animales domésticos que se encuentran en el bosque'),
     Field('intensidadPastoreo', db.TipoIntensidadPastoreo,
           label='Intensidad de Pastoreo', comment='Relación entre la cantidad removida y la cantidad inicial de pasto'),
     Field('sistemasProduccion', 'list:reference db.TipoSistemasProduccion',
@@ -1025,11 +1025,11 @@ db.define_table('ProductosNoMadereros',
     Field('estudiosCientificos', type='boolean',
           label='Estudios Científicos', comment='En el bosque se han instalado ensayos científicos'),
     Field('fijacionCarbono', type='boolean',
-          label='Fijación de Carbono', comment='El bosque puede estar sometido al régimen de fijación de carbono')
+          label='Fijación de Carbono (como objetivo principal)', comment='Fijación de carbono como objetivo principal')
 )
 
 db.ProductosNoMadereros.muestreo.requires = IS_IN_DB(db, db.Muestreo.id, '%(punto)s - %(anioMuestreo)s')
-db.ProductosNoMadereros.tipoGanado.requires = IS_IN_DB(db, db.TipoGanado.id, '%(tipo)s', multiple=True, orderby=db.TipoGanado.id)
+db.ProductosNoMadereros.silvopastoreo.requires = IS_IN_DB(db, db.TipoSilvopastoreo.id, '%(tipo)s', multiple=True, orderby=db.TipoSilvopastoreo.id)
 db.ProductosNoMadereros.intensidadPastoreo.requires = IS_IN_DB(db, db.TipoIntensidadPastoreo.id, '%(tipo)s', orderby=db.TipoIntensidadPastoreo.id)
 db.ProductosNoMadereros.sistemasProduccion.requires = IS_IN_DB(db, db.TipoSistemasProduccion.id, '%(tipo)s', multiple=True, orderby=db.TipoSistemasProduccion.id)
 
@@ -1039,13 +1039,13 @@ db.define_table('Flora',
           label='Muestreo', unique=True),
     Field('tipoSotobosque', "list:reference db.TipoSotobosque",
           label='Tipo de Sotobosque', comment='Tipo de vegetación formada por matas y arbustos que crece bajo los árboles de un bosque'),
-    Field('alturaSotobosque', type='double',
-          label='Altura del Sotobosque (m)', comment='Altura desde el suelo hasta el tope que desarrolla el sotobosque')
+    Field('alturaLenosas', type='double',
+          label='Altura de Leñosas (m)', comment='Altura desde el suelo hasta el tope que desarrollan las especies leñosas')
 )
 
 db.Flora.muestreo.requires = IS_IN_DB(db, db.Muestreo.id, '%(punto)s - %(anioMuestreo)s')
 db.Flora.tipoSotobosque.requires = IS_IN_DB(db, db.TipoSotobosque.id, '%(tipo)s', multiple=True, orderby=db.TipoSotobosque.id)
-db.Flora.alturaSotobosque.requires = IS_FLOAT_IN_RANGE(0, 2)
+db.Flora.alturaLenosas.requires = IS_FLOAT_IN_RANGE(0, 2)
 
 db.define_table('FloraDelSuelo',
     Field('muestreo', db.Muestreo,
@@ -1080,7 +1080,7 @@ db.define_table('ForestacionMantenimientoEstructura',
     Field('muestreo', db.Muestreo,
           label='Muestreo', unique=True),
     Field('origenPlantacion', db.TipoOrigenPlantacion,
-          label='Origen de Plantación', comment='Fuente de origen de los árboles en el lugar de muestreo'),
+          label='Origen del Bosque', comment='Fuente de origen de los árboles en el lugar de muestreo'),
     Field('estructura', db.TipoEstructuraForestacion,
           label='Estructura', comment='Características de los individuos de una plantación'),
     Field('propiedadTierra', type='string',
@@ -1169,9 +1169,9 @@ db.define_table('ParcelasBosquePlantado',
 db.ParcelasBosquePlantado.muestreo.requires = IS_IN_DB(db, db.Muestreo.id, '%(punto)s - %(anioMuestreo)s')
 db.ParcelasBosquePlantado.distancia.requires = IS_FLOAT_IN_RANGE(0, 30000)
 db.ParcelasBosquePlantado.direccionRumbo.requires = IS_FLOAT_IN_RANGE(0, 360)
-db.ParcelasBosquePlantado.hc.requires = IS_FLOAT_IN_RANGE(0, 6)
+db.ParcelasBosquePlantado.hc.requires = IS_FLOAT_IN_RANGE(0, 60)
 db.ParcelasBosquePlantado.ht.requires = IS_FLOAT_IN_RANGE(0, 60)
-db.ParcelasBosquePlantado.hPoda.requires = IS_FLOAT_IN_RANGE(0, 200)
+db.ParcelasBosquePlantado.hPoda.requires = IS_FLOAT_IN_RANGE(0, 60)
 db.ParcelasBosquePlantado.forma.requires = IS_IN_DB(db, db.TipoForma.id, '%(tipo)s', orderby=db.TipoForma.id)
 db.ParcelasBosquePlantado.espesorCorteza.requires = IS_FLOAT_IN_RANGE(0, 8)
 db.ParcelasBosquePlantado.radio.requires = IS_INT_IN_RANGE(0, 20)
@@ -1182,9 +1182,9 @@ db.define_table('ParcelasBosqueNatural',
     Field('numArbol', type = 'integer',
           label = 'Árbol Número', comment='Número del árbol'),
     Field('dap1', type = 'double',
-          label = 'Dap1 (m)', comment='Diámetro del árbol a la altura del pecho'),
+          label = 'Vara 1: Dap1(m)', comment='Diámetro del árbol a la altura del pecho'),
     Field('dap2', type = 'double',
-          label = 'Dap2 (m)', comment='Diámetro del árbol a la altura del pecho'),
+          label = 'Vara 1: Dap2 (m)', comment='Diámetro del árbol a la altura del pecho'),
     Field('nombreCientifico', db.TipoBNNombreCientifico,
           label = 'Especie', comment='Especie del árbol'),
     Field('rangoEdad', db.TipoRangoEdadNativo,
@@ -1192,7 +1192,7 @@ db.define_table('ParcelasBosqueNatural',
     Field('ht', type = 'double',
           label = 'Altura Total (m)', comment='Altura total del árbol'),
     Field('estrato', db.TipoEstrato,
-          label = 'Estrato', comment='Estrato'),
+          label = 'Vara 1: Estrato', comment='Estrato'),
     Field('observaciones', type = 'text',
           label = 'Observaciones', comment='Observaciones no contempladas en el formulario')
 )
@@ -1300,3 +1300,35 @@ db.define_table('EnfermedadesEucalyptus',
 
 db.EnfermedadesEucalyptus.opcion_id.requires = IS_IN_DB(db, db.TipoOpcionParaEnfermedadEucalyptus.id, '%(opcion)s', orderby=db.TipoOpcionParaEnfermedadEucalyptus.id)
 db.EnfermedadesEucalyptus.tipo_enfermedad.requires = IS_IN_DB(db, db.TipoEnfermedadEucalyptus.id, '%(tipo_enfermedad)s', orderby=db.TipoEnfermedadEucalyptus.id)
+
+db.define_table('RegeneracionNatural',
+    Field('muestreo', db.Muestreo,
+          label = 'Muestreo'),
+    Field('numeroA', type = 'integer',
+          label = 'A: Número', comment='Número'),
+    Field('rumboA', type = 'double',
+          label = 'A: Rumbo', comment='Rumbo'),
+    Field('distanciaCentralA', type = 'double',
+          label = 'A: Distancia a Árbol Central (m)', comment='Distancia a Árbol Central'),
+    Field('nombreCientificoA', db.TipoBNNombreComun,
+          label = 'A: Especie', comment='Especie del árbol'),
+    Field('cantidadA',  type = 'integer',
+          label = 'A: Cantidad', comment='Cantidad'),
+   Field('numeroB', type = 'integer',
+          label = 'B: Número', comment='Número'),
+    Field('rumboB', type = 'double',
+          label = 'B: Rumbo', comment='Rumbo'),
+    Field('distanciaCentralB', type = 'double',
+          label = 'B: Distancia a Árbol Central (m)', comment='Distancia a Árbol Central'),
+    Field('nombreCientificoB', db.TipoBNNombreComun,
+          label = 'B: Especie', comment='Especie del árbol'),
+    Field('cantidadB',  type = 'integer',
+          label = 'B: Cantidad', comment='Cantidad')
+)
+
+db.RegeneracionNatural.muestreo.requires = IS_IN_DB(db, db.Muestreo.id, '%(punto)s - %(anioMuestreo)s')
+db.RegeneracionNatural.rumboA.requires = IS_FLOAT_IN_RANGE(0, 360)
+db.RegeneracionNatural.nombreCientificoA.requires = IS_IN_DB(db, db.TipoBNNombreCientifico.id, '%(nombreCientifico)s')
+
+db.RegeneracionNatural.rumboB.requires = IS_FLOAT_IN_RANGE(0, 360)
+db.RegeneracionNatural.nombreCientificoB.requires = IS_IN_DB(db, db.TipoBNNombreCientifico.id, '%(nombreCientifico)s')
