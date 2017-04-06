@@ -5,7 +5,7 @@
 <script src="{{=URL('static','js/tabsValidation.js')}}"></script>
 <script>
     function seleccionarIntensidadPastoreo(){
-        if ($("#ProductosNoMadereros_tipoGanado option:selected").text() == "Ausencia"){
+        if ($("#ProductosNoMadereros_silvopastoreo option:selected").text() == "Ausencia"){
             $("#ProductosNoMadereros_intensidadPastoreo").val('6');
             //$("#ProductosNoMadereros_intensidadPastoreo" ).prop( "disabled", true );
 	  $("#ProductosNoMadereros_intensidadPastoreo__row" ).hide();
@@ -17,6 +17,6 @@
             }
         }
     }
-    $("#ProductosNoMadereros_tipoGanado").change(seleccionarIntensidadPastoreo);
+    $("#ProductosNoMadereros_silvopastoreo").change(seleccionarIntensidadPastoreo);
     $(document).ready(seleccionarIntensidadPastoreo);
 </script>

@@ -836,7 +836,7 @@ db.Plantacion.genero.requires = IS_IN_DB(db, db.TipoGenero.id, '%(genero)s', ord
 db.Plantacion.especie.requires = IS_IN_DB(db, db.TipoEspecie.id, '%(especie)s', orderby=db.TipoEspecie.id)
 db.Plantacion.rangoEdad.requires = IS_IN_DB(db, db.TipoRangoEdadPlantado.id, '%(tipo)s', orderby=db.TipoRangoEdadPlantado.id)
 db.Plantacion.raleo.requires = IS_IN_DB(db, db.TipoRaleo.id, '%(tipo)s', orderby=db.TipoRaleo.id)
-db.Plantacion.alturaPoda.requires = [IS_FLOAT_IN_RANGE(0, 100)]
+db.Plantacion.alturaPoda.requires = [IS_FLOAT_IN_RANGE(0, 15)]
 db.Plantacion.distanciaFila.requires = IS_FLOAT_IN_RANGE(0, None)
 db.Plantacion.distanciaEntreFila.requires = IS_FLOAT_IN_RANGE(0, None)
 db.Plantacion.cantidadFilas.requires = IS_INT_IN_RANGE(0, None)

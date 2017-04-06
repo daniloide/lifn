@@ -826,7 +826,7 @@ def sideMenu():
                     10:['relieve', "Relieve"],
                     11:['suelo',"Suelo"],
                     12:['coberturaVegetal', "Cobertura Vegetal"],
-                    14:['flora', "Flora"],
+                    14:['flora', "Sotobosque"],
                     16:['problemasAmbientales', "Problemas Ambientales"],
                     18:['fuego', "Fuego"]
                 }
@@ -853,7 +853,7 @@ def sideMenu():
 		    tabsNativo = {
 			13:['productosNoMadereros', "Productos No Madereros"],
 			19:['especiesInvasoras', "Especies Invasoras"],
-			30:['estratos', "Estratos"],
+			24:['estratos', "Estratos"],
 			20:['regeneracionNatural', "Regeneracion Natural"],
 			25:['parcelaBosqueNatural', "Parcela (20 x 10 m)"]
 		    }
@@ -3159,7 +3159,7 @@ def _checkHeights(form):
     if form.vars.radio == 6:
         if form.vars.ht < 1.30:
             form.errors.ht = T("This tree is to small to be measured")
-        if  dap <= 0.03 or dap >= 0.10:
+        if  dap < 0.03 or dap >= 0.10:
             form.errors.dap1 = T("The average diameter of this tree has to be between 0.03 and 0.10 m")
             form.errors.dap2 = T("The average diameter of this tree has to be between 0.03 and 0.10 m")
     if form.vars.radio == 10:

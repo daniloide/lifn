@@ -1,6 +1,6 @@
 {{extend 'layout.html'}}
 <div class="custom-header">
-    <h2>Flora</h2>
+    <h2>Sotobosque</h2>
 </div>
 
 <table>
@@ -277,6 +277,20 @@
     $("#comunes").click(function(event) {
         event.stopPropagation();
     });
+
+    function seleccionarAlturaLenosas(){
+    if ($("#Flora_tipoSotobosque option:selected").val() == 5){
+            $("#Flora_alturaLenosas").val("0");
+	  $("#Flora_alturaLenosas__row" ).hide();
+        } else {
+	    $("#Flora_alturaLenosas__row" ).show();
+            if ($("#Flora_alturaLenosas").val() == "0") {
+                $("#Flora_alturaLenosas").val("");
+            }
+        }
+    }
+    $("#Flora_tipoSotobosque").change(seleccionarAlturaLenosas);
+    $(document).ready(seleccionarAlturaLenosas);
 
 </script>
 <div class="modified" style="display: none"></div>
